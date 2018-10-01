@@ -56,7 +56,7 @@ export const Home = (props) => {
            <p style={ {fontSize: "1rem"}}>Contact us for new word lists or <a href="https://goo.gl/forms/riv7kAJXvZQZFAt02" rel="noopener" target="_blank">feedback</a></p>        
            </Header>
            </Banner>
-           <Link to="/hangman" ><Button >GET STARTED</Button></Link>
+           <Link to="/castly" ><Button >GET STARTED</Button></Link>
         </Wrapper>
     );
 };

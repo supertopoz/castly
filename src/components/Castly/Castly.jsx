@@ -2,22 +2,30 @@ import React from "react";
 import {connect} from "react-redux";
 import styled from "styled-components";
 import {NotificationManager} from 'react-notifications';
+import AddFiles from './AddFiles';
+import DisplayImages from './DisplayImages';
 
 
 const Wrapper = styled.div`
+
     display:grid;
-    background: ghostwhite;
     border-radius: 10px;
     grid-gap: 4%;
     cursor:pointer;
+    width:90%;
+    margin:0 auto;
+    padding-top: 10px;
     @media only screen and (min-width: 320px)  { 
       grid-template-columns: repeat(7, 1fr)
+      width:90%;
     }
     @media only screen and (min-width: 768px)  {   
       grid-template-columns: repeat(6, 1fr)
+      width:80%;
     } 
     @media only screen and (min-width: 1024px) { 
       grid-template-columns: repeat(5, 1fr)
+      width:70%;
     }
 `
 
@@ -27,7 +35,8 @@ class Castly extends React.Component {
   render(){
     return (
       <Wrapper>        
-        Hello World
+        <AddFiles/>
+        <DisplayImages/>
       </Wrapper>
     );
   }

@@ -18,14 +18,14 @@ initialize {
             },
             "children": Array [
               Object {
-                "data": "HANGMAN FOR EDUCATION",
+                "data": "CASTLY",
                 "next": Object {
                   "attribs": Object {
                     "style": "font-size:1rem",
                   },
                   "children": Array [
                     Object {
-                      "data": "Here you can play hangman. Add your own words, choose from several themes and word lists. Great to play in class or on your own. Works without internet on modern browsers.",
+                      "data": "This is a simple screen recoreder application. Upload or add images. Record a voice over with or without video then download the video file.",
                       "next": null,
                       "parent": [Circular],
                       "prev": null,
@@ -34,7 +34,101 @@ initialize {
                   ],
                   "name": "p",
                   "namespace": "http://www.w3.org/1999/xhtml",
-                  "next": null,
+                  "next": Object {
+                    "attribs": Object {
+                      "style": "font-size:1rem",
+                    },
+                    "children": Array [
+                      Object {
+                        "data": "Contact us for new word lists or ",
+                        "next": Object {
+                          "attribs": Object {
+                            "href": "https://goo.gl/forms/riv7kAJXvZQZFAt02",
+                            "rel": "noopener",
+                            "target": "_blank",
+                          },
+                          "children": Array [
+                            Object {
+                              "data": "feedback",
+                              "next": null,
+                              "parent": [Circular],
+                              "prev": null,
+                              "type": "text",
+                            },
+                          ],
+                          "name": "a",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "next": null,
+                          "parent": [Circular],
+                          "prev": [Circular],
+                          "type": "tag",
+                          "x-attribsNamespace": Object {
+                            "href": undefined,
+                            "rel": undefined,
+                            "target": undefined,
+                          },
+                          "x-attribsPrefix": Object {
+                            "href": undefined,
+                            "rel": undefined,
+                            "target": undefined,
+                          },
+                        },
+                        "parent": [Circular],
+                        "prev": null,
+                        "type": "text",
+                      },
+                      Object {
+                        "attribs": Object {
+                          "href": "https://goo.gl/forms/riv7kAJXvZQZFAt02",
+                          "rel": "noopener",
+                          "target": "_blank",
+                        },
+                        "children": Array [
+                          Object {
+                            "data": "feedback",
+                            "next": null,
+                            "parent": [Circular],
+                            "prev": null,
+                            "type": "text",
+                          },
+                        ],
+                        "name": "a",
+                        "namespace": "http://www.w3.org/1999/xhtml",
+                        "next": null,
+                        "parent": [Circular],
+                        "prev": Object {
+                          "data": "Contact us for new word lists or ",
+                          "next": [Circular],
+                          "parent": [Circular],
+                          "prev": null,
+                          "type": "text",
+                        },
+                        "type": "tag",
+                        "x-attribsNamespace": Object {
+                          "href": undefined,
+                          "rel": undefined,
+                          "target": undefined,
+                        },
+                        "x-attribsPrefix": Object {
+                          "href": undefined,
+                          "rel": undefined,
+                          "target": undefined,
+                        },
+                      },
+                    ],
+                    "name": "p",
+                    "namespace": "http://www.w3.org/1999/xhtml",
+                    "next": null,
+                    "parent": [Circular],
+                    "prev": [Circular],
+                    "type": "tag",
+                    "x-attribsNamespace": Object {
+                      "style": undefined,
+                    },
+                    "x-attribsPrefix": Object {
+                      "style": undefined,
+                    },
+                  },
                   "parent": [Circular],
                   "prev": [Circular],
                   "type": "tag",
@@ -55,7 +149,7 @@ initialize {
                 },
                 "children": Array [
                   Object {
-                    "data": "Here you can play hangman. Add your own words, choose from several themes and word lists. Great to play in class or on your own. Works without internet on modern browsers.",
+                    "data": "This is a simple screen recoreder application. Upload or add images. Record a voice over with or without video then download the video file.",
                     "next": null,
                     "parent": [Circular],
                     "prev": null,
@@ -64,14 +158,234 @@ initialize {
                 ],
                 "name": "p",
                 "namespace": "http://www.w3.org/1999/xhtml",
-                "next": null,
+                "next": Object {
+                  "attribs": Object {
+                    "style": "font-size:1rem",
+                  },
+                  "children": Array [
+                    Object {
+                      "data": "Contact us for new word lists or ",
+                      "next": Object {
+                        "attribs": Object {
+                          "href": "https://goo.gl/forms/riv7kAJXvZQZFAt02",
+                          "rel": "noopener",
+                          "target": "_blank",
+                        },
+                        "children": Array [
+                          Object {
+                            "data": "feedback",
+                            "next": null,
+                            "parent": [Circular],
+                            "prev": null,
+                            "type": "text",
+                          },
+                        ],
+                        "name": "a",
+                        "namespace": "http://www.w3.org/1999/xhtml",
+                        "next": null,
+                        "parent": [Circular],
+                        "prev": [Circular],
+                        "type": "tag",
+                        "x-attribsNamespace": Object {
+                          "href": undefined,
+                          "rel": undefined,
+                          "target": undefined,
+                        },
+                        "x-attribsPrefix": Object {
+                          "href": undefined,
+                          "rel": undefined,
+                          "target": undefined,
+                        },
+                      },
+                      "parent": [Circular],
+                      "prev": null,
+                      "type": "text",
+                    },
+                    Object {
+                      "attribs": Object {
+                        "href": "https://goo.gl/forms/riv7kAJXvZQZFAt02",
+                        "rel": "noopener",
+                        "target": "_blank",
+                      },
+                      "children": Array [
+                        Object {
+                          "data": "feedback",
+                          "next": null,
+                          "parent": [Circular],
+                          "prev": null,
+                          "type": "text",
+                        },
+                      ],
+                      "name": "a",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "next": null,
+                      "parent": [Circular],
+                      "prev": Object {
+                        "data": "Contact us for new word lists or ",
+                        "next": [Circular],
+                        "parent": [Circular],
+                        "prev": null,
+                        "type": "text",
+                      },
+                      "type": "tag",
+                      "x-attribsNamespace": Object {
+                        "href": undefined,
+                        "rel": undefined,
+                        "target": undefined,
+                      },
+                      "x-attribsPrefix": Object {
+                        "href": undefined,
+                        "rel": undefined,
+                        "target": undefined,
+                      },
+                    },
+                  ],
+                  "name": "p",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "next": null,
+                  "parent": [Circular],
+                  "prev": [Circular],
+                  "type": "tag",
+                  "x-attribsNamespace": Object {
+                    "style": undefined,
+                  },
+                  "x-attribsPrefix": Object {
+                    "style": undefined,
+                  },
+                },
                 "parent": [Circular],
                 "prev": Object {
-                  "data": "HANGMAN FOR EDUCATION",
+                  "data": "CASTLY",
                   "next": [Circular],
                   "parent": [Circular],
                   "prev": null,
                   "type": "text",
+                },
+                "type": "tag",
+                "x-attribsNamespace": Object {
+                  "style": undefined,
+                },
+                "x-attribsPrefix": Object {
+                  "style": undefined,
+                },
+              },
+              Object {
+                "attribs": Object {
+                  "style": "font-size:1rem",
+                },
+                "children": Array [
+                  Object {
+                    "data": "Contact us for new word lists or ",
+                    "next": Object {
+                      "attribs": Object {
+                        "href": "https://goo.gl/forms/riv7kAJXvZQZFAt02",
+                        "rel": "noopener",
+                        "target": "_blank",
+                      },
+                      "children": Array [
+                        Object {
+                          "data": "feedback",
+                          "next": null,
+                          "parent": [Circular],
+                          "prev": null,
+                          "type": "text",
+                        },
+                      ],
+                      "name": "a",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "next": null,
+                      "parent": [Circular],
+                      "prev": [Circular],
+                      "type": "tag",
+                      "x-attribsNamespace": Object {
+                        "href": undefined,
+                        "rel": undefined,
+                        "target": undefined,
+                      },
+                      "x-attribsPrefix": Object {
+                        "href": undefined,
+                        "rel": undefined,
+                        "target": undefined,
+                      },
+                    },
+                    "parent": [Circular],
+                    "prev": null,
+                    "type": "text",
+                  },
+                  Object {
+                    "attribs": Object {
+                      "href": "https://goo.gl/forms/riv7kAJXvZQZFAt02",
+                      "rel": "noopener",
+                      "target": "_blank",
+                    },
+                    "children": Array [
+                      Object {
+                        "data": "feedback",
+                        "next": null,
+                        "parent": [Circular],
+                        "prev": null,
+                        "type": "text",
+                      },
+                    ],
+                    "name": "a",
+                    "namespace": "http://www.w3.org/1999/xhtml",
+                    "next": null,
+                    "parent": [Circular],
+                    "prev": Object {
+                      "data": "Contact us for new word lists or ",
+                      "next": [Circular],
+                      "parent": [Circular],
+                      "prev": null,
+                      "type": "text",
+                    },
+                    "type": "tag",
+                    "x-attribsNamespace": Object {
+                      "href": undefined,
+                      "rel": undefined,
+                      "target": undefined,
+                    },
+                    "x-attribsPrefix": Object {
+                      "href": undefined,
+                      "rel": undefined,
+                      "target": undefined,
+                    },
+                  },
+                ],
+                "name": "p",
+                "namespace": "http://www.w3.org/1999/xhtml",
+                "next": null,
+                "parent": [Circular],
+                "prev": Object {
+                  "attribs": Object {
+                    "style": "font-size:1rem",
+                  },
+                  "children": Array [
+                    Object {
+                      "data": "This is a simple screen recoreder application. Upload or add images. Record a voice over with or without video then download the video file.",
+                      "next": null,
+                      "parent": [Circular],
+                      "prev": null,
+                      "type": "text",
+                    },
+                  ],
+                  "name": "p",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "next": [Circular],
+                  "parent": [Circular],
+                  "prev": Object {
+                    "data": "CASTLY",
+                    "next": [Circular],
+                    "parent": [Circular],
+                    "prev": null,
+                    "type": "text",
+                  },
+                  "type": "tag",
+                  "x-attribsNamespace": Object {
+                    "style": undefined,
+                  },
+                  "x-attribsPrefix": Object {
+                    "style": undefined,
+                  },
                 },
                 "type": "tag",
                 "x-attribsNamespace": Object {
@@ -100,7 +414,7 @@ initialize {
         "namespace": "http://www.w3.org/1999/xhtml",
         "next": Object {
           "attribs": Object {
-            "href": "/hangman",
+            "href": "/castly",
           },
           "children": Array [
             Object {
@@ -109,7 +423,7 @@ initialize {
               },
               "children": Array [
                 Object {
-                  "data": "PLAY HANGMAN",
+                  "data": "GET STARTED",
                   "next": null,
                   "parent": [Circular],
                   "prev": null,
@@ -155,7 +469,7 @@ initialize {
       },
       Object {
         "attribs": Object {
-          "href": "/hangman",
+          "href": "/castly",
         },
         "children": Array [
           Object {
@@ -164,7 +478,7 @@ initialize {
             },
             "children": Array [
               Object {
-                "data": "PLAY HANGMAN",
+                "data": "GET STARTED",
                 "next": null,
                 "parent": [Circular],
                 "prev": null,
@@ -200,14 +514,14 @@ initialize {
               },
               "children": Array [
                 Object {
-                  "data": "HANGMAN FOR EDUCATION",
+                  "data": "CASTLY",
                   "next": Object {
                     "attribs": Object {
                       "style": "font-size:1rem",
                     },
                     "children": Array [
                       Object {
-                        "data": "Here you can play hangman. Add your own words, choose from several themes and word lists. Great to play in class or on your own. Works without internet on modern browsers.",
+                        "data": "This is a simple screen recoreder application. Upload or add images. Record a voice over with or without video then download the video file.",
                         "next": null,
                         "parent": [Circular],
                         "prev": null,
@@ -216,7 +530,101 @@ initialize {
                     ],
                     "name": "p",
                     "namespace": "http://www.w3.org/1999/xhtml",
-                    "next": null,
+                    "next": Object {
+                      "attribs": Object {
+                        "style": "font-size:1rem",
+                      },
+                      "children": Array [
+                        Object {
+                          "data": "Contact us for new word lists or ",
+                          "next": Object {
+                            "attribs": Object {
+                              "href": "https://goo.gl/forms/riv7kAJXvZQZFAt02",
+                              "rel": "noopener",
+                              "target": "_blank",
+                            },
+                            "children": Array [
+                              Object {
+                                "data": "feedback",
+                                "next": null,
+                                "parent": [Circular],
+                                "prev": null,
+                                "type": "text",
+                              },
+                            ],
+                            "name": "a",
+                            "namespace": "http://www.w3.org/1999/xhtml",
+                            "next": null,
+                            "parent": [Circular],
+                            "prev": [Circular],
+                            "type": "tag",
+                            "x-attribsNamespace": Object {
+                              "href": undefined,
+                              "rel": undefined,
+                              "target": undefined,
+                            },
+                            "x-attribsPrefix": Object {
+                              "href": undefined,
+                              "rel": undefined,
+                              "target": undefined,
+                            },
+                          },
+                          "parent": [Circular],
+                          "prev": null,
+                          "type": "text",
+                        },
+                        Object {
+                          "attribs": Object {
+                            "href": "https://goo.gl/forms/riv7kAJXvZQZFAt02",
+                            "rel": "noopener",
+                            "target": "_blank",
+                          },
+                          "children": Array [
+                            Object {
+                              "data": "feedback",
+                              "next": null,
+                              "parent": [Circular],
+                              "prev": null,
+                              "type": "text",
+                            },
+                          ],
+                          "name": "a",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "next": null,
+                          "parent": [Circular],
+                          "prev": Object {
+                            "data": "Contact us for new word lists or ",
+                            "next": [Circular],
+                            "parent": [Circular],
+                            "prev": null,
+                            "type": "text",
+                          },
+                          "type": "tag",
+                          "x-attribsNamespace": Object {
+                            "href": undefined,
+                            "rel": undefined,
+                            "target": undefined,
+                          },
+                          "x-attribsPrefix": Object {
+                            "href": undefined,
+                            "rel": undefined,
+                            "target": undefined,
+                          },
+                        },
+                      ],
+                      "name": "p",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "next": null,
+                      "parent": [Circular],
+                      "prev": [Circular],
+                      "type": "tag",
+                      "x-attribsNamespace": Object {
+                        "style": undefined,
+                      },
+                      "x-attribsPrefix": Object {
+                        "style": undefined,
+                      },
+                    },
                     "parent": [Circular],
                     "prev": [Circular],
                     "type": "tag",
@@ -237,7 +645,7 @@ initialize {
                   },
                   "children": Array [
                     Object {
-                      "data": "Here you can play hangman. Add your own words, choose from several themes and word lists. Great to play in class or on your own. Works without internet on modern browsers.",
+                      "data": "This is a simple screen recoreder application. Upload or add images. Record a voice over with or without video then download the video file.",
                       "next": null,
                       "parent": [Circular],
                       "prev": null,
@@ -246,14 +654,234 @@ initialize {
                   ],
                   "name": "p",
                   "namespace": "http://www.w3.org/1999/xhtml",
-                  "next": null,
+                  "next": Object {
+                    "attribs": Object {
+                      "style": "font-size:1rem",
+                    },
+                    "children": Array [
+                      Object {
+                        "data": "Contact us for new word lists or ",
+                        "next": Object {
+                          "attribs": Object {
+                            "href": "https://goo.gl/forms/riv7kAJXvZQZFAt02",
+                            "rel": "noopener",
+                            "target": "_blank",
+                          },
+                          "children": Array [
+                            Object {
+                              "data": "feedback",
+                              "next": null,
+                              "parent": [Circular],
+                              "prev": null,
+                              "type": "text",
+                            },
+                          ],
+                          "name": "a",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "next": null,
+                          "parent": [Circular],
+                          "prev": [Circular],
+                          "type": "tag",
+                          "x-attribsNamespace": Object {
+                            "href": undefined,
+                            "rel": undefined,
+                            "target": undefined,
+                          },
+                          "x-attribsPrefix": Object {
+                            "href": undefined,
+                            "rel": undefined,
+                            "target": undefined,
+                          },
+                        },
+                        "parent": [Circular],
+                        "prev": null,
+                        "type": "text",
+                      },
+                      Object {
+                        "attribs": Object {
+                          "href": "https://goo.gl/forms/riv7kAJXvZQZFAt02",
+                          "rel": "noopener",
+                          "target": "_blank",
+                        },
+                        "children": Array [
+                          Object {
+                            "data": "feedback",
+                            "next": null,
+                            "parent": [Circular],
+                            "prev": null,
+                            "type": "text",
+                          },
+                        ],
+                        "name": "a",
+                        "namespace": "http://www.w3.org/1999/xhtml",
+                        "next": null,
+                        "parent": [Circular],
+                        "prev": Object {
+                          "data": "Contact us for new word lists or ",
+                          "next": [Circular],
+                          "parent": [Circular],
+                          "prev": null,
+                          "type": "text",
+                        },
+                        "type": "tag",
+                        "x-attribsNamespace": Object {
+                          "href": undefined,
+                          "rel": undefined,
+                          "target": undefined,
+                        },
+                        "x-attribsPrefix": Object {
+                          "href": undefined,
+                          "rel": undefined,
+                          "target": undefined,
+                        },
+                      },
+                    ],
+                    "name": "p",
+                    "namespace": "http://www.w3.org/1999/xhtml",
+                    "next": null,
+                    "parent": [Circular],
+                    "prev": [Circular],
+                    "type": "tag",
+                    "x-attribsNamespace": Object {
+                      "style": undefined,
+                    },
+                    "x-attribsPrefix": Object {
+                      "style": undefined,
+                    },
+                  },
                   "parent": [Circular],
                   "prev": Object {
-                    "data": "HANGMAN FOR EDUCATION",
+                    "data": "CASTLY",
                     "next": [Circular],
                     "parent": [Circular],
                     "prev": null,
                     "type": "text",
+                  },
+                  "type": "tag",
+                  "x-attribsNamespace": Object {
+                    "style": undefined,
+                  },
+                  "x-attribsPrefix": Object {
+                    "style": undefined,
+                  },
+                },
+                Object {
+                  "attribs": Object {
+                    "style": "font-size:1rem",
+                  },
+                  "children": Array [
+                    Object {
+                      "data": "Contact us for new word lists or ",
+                      "next": Object {
+                        "attribs": Object {
+                          "href": "https://goo.gl/forms/riv7kAJXvZQZFAt02",
+                          "rel": "noopener",
+                          "target": "_blank",
+                        },
+                        "children": Array [
+                          Object {
+                            "data": "feedback",
+                            "next": null,
+                            "parent": [Circular],
+                            "prev": null,
+                            "type": "text",
+                          },
+                        ],
+                        "name": "a",
+                        "namespace": "http://www.w3.org/1999/xhtml",
+                        "next": null,
+                        "parent": [Circular],
+                        "prev": [Circular],
+                        "type": "tag",
+                        "x-attribsNamespace": Object {
+                          "href": undefined,
+                          "rel": undefined,
+                          "target": undefined,
+                        },
+                        "x-attribsPrefix": Object {
+                          "href": undefined,
+                          "rel": undefined,
+                          "target": undefined,
+                        },
+                      },
+                      "parent": [Circular],
+                      "prev": null,
+                      "type": "text",
+                    },
+                    Object {
+                      "attribs": Object {
+                        "href": "https://goo.gl/forms/riv7kAJXvZQZFAt02",
+                        "rel": "noopener",
+                        "target": "_blank",
+                      },
+                      "children": Array [
+                        Object {
+                          "data": "feedback",
+                          "next": null,
+                          "parent": [Circular],
+                          "prev": null,
+                          "type": "text",
+                        },
+                      ],
+                      "name": "a",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "next": null,
+                      "parent": [Circular],
+                      "prev": Object {
+                        "data": "Contact us for new word lists or ",
+                        "next": [Circular],
+                        "parent": [Circular],
+                        "prev": null,
+                        "type": "text",
+                      },
+                      "type": "tag",
+                      "x-attribsNamespace": Object {
+                        "href": undefined,
+                        "rel": undefined,
+                        "target": undefined,
+                      },
+                      "x-attribsPrefix": Object {
+                        "href": undefined,
+                        "rel": undefined,
+                        "target": undefined,
+                      },
+                    },
+                  ],
+                  "name": "p",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "next": null,
+                  "parent": [Circular],
+                  "prev": Object {
+                    "attribs": Object {
+                      "style": "font-size:1rem",
+                    },
+                    "children": Array [
+                      Object {
+                        "data": "This is a simple screen recoreder application. Upload or add images. Record a voice over with or without video then download the video file.",
+                        "next": null,
+                        "parent": [Circular],
+                        "prev": null,
+                        "type": "text",
+                      },
+                    ],
+                    "name": "p",
+                    "namespace": "http://www.w3.org/1999/xhtml",
+                    "next": [Circular],
+                    "parent": [Circular],
+                    "prev": Object {
+                      "data": "CASTLY",
+                      "next": [Circular],
+                      "parent": [Circular],
+                      "prev": null,
+                      "type": "text",
+                    },
+                    "type": "tag",
+                    "x-attribsNamespace": Object {
+                      "style": undefined,
+                    },
+                    "x-attribsPrefix": Object {
+                      "style": undefined,
+                    },
                   },
                   "type": "tag",
                   "x-attribsNamespace": Object {
