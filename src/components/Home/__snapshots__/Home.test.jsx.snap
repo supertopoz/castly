@@ -1,0 +1,339 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home is rendered 1`] = `
+initialize {
+  "0": Object {
+    "attribs": Object {
+      "class": "sc-bdVaJa eRJrap",
+    },
+    "children": Array [
+      Object {
+        "attribs": Object {
+          "class": "sc-bwzfXH gIhpRw",
+        },
+        "children": Array [
+          Object {
+            "attribs": Object {
+              "class": "sc-htpNat gzrpQM",
+            },
+            "children": Array [
+              Object {
+                "data": "HANGMAN FOR EDUCATION",
+                "next": Object {
+                  "attribs": Object {
+                    "style": "font-size:1rem",
+                  },
+                  "children": Array [
+                    Object {
+                      "data": "Here you can play hangman. Add your own words, choose from several themes and word lists. Great to play in class or on your own. Works without internet on modern browsers.",
+                      "next": null,
+                      "parent": [Circular],
+                      "prev": null,
+                      "type": "text",
+                    },
+                  ],
+                  "name": "p",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "next": null,
+                  "parent": [Circular],
+                  "prev": [Circular],
+                  "type": "tag",
+                  "x-attribsNamespace": Object {
+                    "style": undefined,
+                  },
+                  "x-attribsPrefix": Object {
+                    "style": undefined,
+                  },
+                },
+                "parent": [Circular],
+                "prev": null,
+                "type": "text",
+              },
+              Object {
+                "attribs": Object {
+                  "style": "font-size:1rem",
+                },
+                "children": Array [
+                  Object {
+                    "data": "Here you can play hangman. Add your own words, choose from several themes and word lists. Great to play in class or on your own. Works without internet on modern browsers.",
+                    "next": null,
+                    "parent": [Circular],
+                    "prev": null,
+                    "type": "text",
+                  },
+                ],
+                "name": "p",
+                "namespace": "http://www.w3.org/1999/xhtml",
+                "next": null,
+                "parent": [Circular],
+                "prev": Object {
+                  "data": "HANGMAN FOR EDUCATION",
+                  "next": [Circular],
+                  "parent": [Circular],
+                  "prev": null,
+                  "type": "text",
+                },
+                "type": "tag",
+                "x-attribsNamespace": Object {
+                  "style": undefined,
+                },
+                "x-attribsPrefix": Object {
+                  "style": undefined,
+                },
+              },
+            ],
+            "name": "div",
+            "namespace": "http://www.w3.org/1999/xhtml",
+            "next": null,
+            "parent": [Circular],
+            "prev": null,
+            "type": "tag",
+            "x-attribsNamespace": Object {
+              "class": undefined,
+            },
+            "x-attribsPrefix": Object {
+              "class": undefined,
+            },
+          },
+        ],
+        "name": "div",
+        "namespace": "http://www.w3.org/1999/xhtml",
+        "next": Object {
+          "attribs": Object {
+            "href": "/hangman",
+          },
+          "children": Array [
+            Object {
+              "attribs": Object {
+                "class": "sc-bxivhb cmilKv",
+              },
+              "children": Array [
+                Object {
+                  "data": "PLAY HANGMAN",
+                  "next": null,
+                  "parent": [Circular],
+                  "prev": null,
+                  "type": "text",
+                },
+              ],
+              "name": "div",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "next": null,
+              "parent": [Circular],
+              "prev": null,
+              "type": "tag",
+              "x-attribsNamespace": Object {
+                "class": undefined,
+              },
+              "x-attribsPrefix": Object {
+                "class": undefined,
+              },
+            },
+          ],
+          "name": "a",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "next": null,
+          "parent": [Circular],
+          "prev": [Circular],
+          "type": "tag",
+          "x-attribsNamespace": Object {
+            "href": undefined,
+          },
+          "x-attribsPrefix": Object {
+            "href": undefined,
+          },
+        },
+        "parent": [Circular],
+        "prev": null,
+        "type": "tag",
+        "x-attribsNamespace": Object {
+          "class": undefined,
+        },
+        "x-attribsPrefix": Object {
+          "class": undefined,
+        },
+      },
+      Object {
+        "attribs": Object {
+          "href": "/hangman",
+        },
+        "children": Array [
+          Object {
+            "attribs": Object {
+              "class": "sc-bxivhb cmilKv",
+            },
+            "children": Array [
+              Object {
+                "data": "PLAY HANGMAN",
+                "next": null,
+                "parent": [Circular],
+                "prev": null,
+                "type": "text",
+              },
+            ],
+            "name": "div",
+            "namespace": "http://www.w3.org/1999/xhtml",
+            "next": null,
+            "parent": [Circular],
+            "prev": null,
+            "type": "tag",
+            "x-attribsNamespace": Object {
+              "class": undefined,
+            },
+            "x-attribsPrefix": Object {
+              "class": undefined,
+            },
+          },
+        ],
+        "name": "a",
+        "namespace": "http://www.w3.org/1999/xhtml",
+        "next": null,
+        "parent": [Circular],
+        "prev": Object {
+          "attribs": Object {
+            "class": "sc-bwzfXH gIhpRw",
+          },
+          "children": Array [
+            Object {
+              "attribs": Object {
+                "class": "sc-htpNat gzrpQM",
+              },
+              "children": Array [
+                Object {
+                  "data": "HANGMAN FOR EDUCATION",
+                  "next": Object {
+                    "attribs": Object {
+                      "style": "font-size:1rem",
+                    },
+                    "children": Array [
+                      Object {
+                        "data": "Here you can play hangman. Add your own words, choose from several themes and word lists. Great to play in class or on your own. Works without internet on modern browsers.",
+                        "next": null,
+                        "parent": [Circular],
+                        "prev": null,
+                        "type": "text",
+                      },
+                    ],
+                    "name": "p",
+                    "namespace": "http://www.w3.org/1999/xhtml",
+                    "next": null,
+                    "parent": [Circular],
+                    "prev": [Circular],
+                    "type": "tag",
+                    "x-attribsNamespace": Object {
+                      "style": undefined,
+                    },
+                    "x-attribsPrefix": Object {
+                      "style": undefined,
+                    },
+                  },
+                  "parent": [Circular],
+                  "prev": null,
+                  "type": "text",
+                },
+                Object {
+                  "attribs": Object {
+                    "style": "font-size:1rem",
+                  },
+                  "children": Array [
+                    Object {
+                      "data": "Here you can play hangman. Add your own words, choose from several themes and word lists. Great to play in class or on your own. Works without internet on modern browsers.",
+                      "next": null,
+                      "parent": [Circular],
+                      "prev": null,
+                      "type": "text",
+                    },
+                  ],
+                  "name": "p",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "next": null,
+                  "parent": [Circular],
+                  "prev": Object {
+                    "data": "HANGMAN FOR EDUCATION",
+                    "next": [Circular],
+                    "parent": [Circular],
+                    "prev": null,
+                    "type": "text",
+                  },
+                  "type": "tag",
+                  "x-attribsNamespace": Object {
+                    "style": undefined,
+                  },
+                  "x-attribsPrefix": Object {
+                    "style": undefined,
+                  },
+                },
+              ],
+              "name": "div",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "next": null,
+              "parent": [Circular],
+              "prev": null,
+              "type": "tag",
+              "x-attribsNamespace": Object {
+                "class": undefined,
+              },
+              "x-attribsPrefix": Object {
+                "class": undefined,
+              },
+            },
+          ],
+          "name": "div",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "next": [Circular],
+          "parent": [Circular],
+          "prev": null,
+          "type": "tag",
+          "x-attribsNamespace": Object {
+            "class": undefined,
+          },
+          "x-attribsPrefix": Object {
+            "class": undefined,
+          },
+        },
+        "type": "tag",
+        "x-attribsNamespace": Object {
+          "href": undefined,
+        },
+        "x-attribsPrefix": Object {
+          "href": undefined,
+        },
+      },
+    ],
+    "name": "div",
+    "namespace": "http://www.w3.org/1999/xhtml",
+    "next": null,
+    "parent": null,
+    "prev": null,
+    "root": Object {
+      "attribs": Object {},
+      "children": Array [
+        [Circular],
+      ],
+      "name": "root",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "next": null,
+      "parent": null,
+      "prev": null,
+      "type": "root",
+      "x-attribsNamespace": Object {},
+      "x-attribsPrefix": Object {},
+    },
+    "type": "tag",
+    "x-attribsNamespace": Object {
+      "class": undefined,
+    },
+    "x-attribsPrefix": Object {
+      "class": undefined,
+    },
+  },
+  "_root": [Circular],
+  "length": 1,
+  "options": Object {
+    "decodeEntities": true,
+    "normalizeWhitespace": false,
+    "withDomLvl1": true,
+    "xml": false,
+  },
+}
+`;

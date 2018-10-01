@@ -1,0 +1,7 @@
+node_modules
+dist
+public/
+public/images
+coverage
+.cache
+
