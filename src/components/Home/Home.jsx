@@ -49,14 +49,14 @@ export const Home = (props) => {
         <Wrapper>
         	<Banner>
         	 <Header>
-           HANGMAN FOR EDUCATION
+           CASTLY
            <p style={ {fontSize: "1rem"}}>
-             Here you can play hangman. Add your own words, choose from several themes and word lists. Great to play in class or on your own. Works without internet on modern browsers.
+             This is a simple screen recoreder application. Upload or add images. Record a voice over with or without video then download the video file.
            </p> 
            <p style={ {fontSize: "1rem"}}>Contact us for new word lists or <a href="https://goo.gl/forms/riv7kAJXvZQZFAt02" rel="noopener" target="_blank">feedback</a></p>        
            </Header>
            </Banner>
-           <Link to="/hangman" ><Button >PLAY HANGMAN</Button></Link>
+           <Link to="/hangman" ><Button >GET STARTED</Button></Link>
         </Wrapper>
     );
 };

@@ -34,7 +34,7 @@ class Header extends React.Component {
         <FixedHeader>
           { console.log('These are props for the header:', this.props)}
           <Menu onClick={()=> this.props.showSideMenu(true)}><i className="material-icons">menu</i></Menu>                
-          <Link to="/"><Heading>HANGMAN FOR EDUCATION</Heading></Link>          
+          <Link to="/"><Heading>CASTLY</Heading></Link>          
         </FixedHeader>
     );
   }

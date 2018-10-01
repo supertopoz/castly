@@ -10,7 +10,7 @@ import * as actions from "../actions/pageAnimations";
 
 import { Home } from "../components/Home/Home";
 import { Disclaimer } from "../components/Disclaimer/Disclaimer";
-import Hangman from "../components/Hangman/Hangman";
+import Castly from "../components/Castly/Castly";
 import SideMenu from "../components/SideMenu/SideMenu";
 import Header from "../components/Header/Header";
 import LoadingBar from "../components/LoadingBar/LoadingBar";
@@ -32,7 +32,7 @@ class App extends React.Component {
 		<Header/>
 		<LoadingBar/>
 		<main>   
-	    <Route path="/hangman" component={Hangman}></Route>
+	    <Route path="/Castly" component={Castly}></Route>
 	    <Route path="/disclaimer" component={Disclaimer}></Route>
 	    <Route exact path="/" component={Home}></Route>
 	    </main>
