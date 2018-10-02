@@ -12,8 +12,7 @@ const Wrapper = styled.div`
 `
 
 const Img = styled.img`
-
-   background: darkgrey;
+     padding: 1px;
    @media only screen and (min-width: 320px)  { 
      width:150px;
      height:75px;
@@ -21,14 +20,14 @@ const Img = styled.img`
      object-fit:scale-up;
    }
     @media only screen and (min-width: 768px)  {   
-      width:200px;
-     height:150px;
+     width:300px;
+     height:200px;
      object-fit:scale-down;
      object-fit:scale-up;
     } 
     @media only screen and (min-width: 1024px) { 
-     width:200px;
-     height:150px;
+     width:300px;
+     height:200px;
      object-fit:scale-down;
      object-fit:scale-up;
     }
@@ -39,14 +38,53 @@ const Gallary = styled.div`
   grid-gap: 10px;
   overflow: auto;
 `
-
-
 const ImageWrapper = styled.div`
+  align-items: center;
+  justify-content: center;
   display: grid;
   color: white;
-  background: red;
-  padding: 10px;
-  padding-bottom: 20px;
+  background-color: #222;
+  padding-bottom: 10px;
+  box-shadow: 1px 1px 1px 1px #9E9E9E;
+  margin-bottom: 10px;
+`
+
+const ImgName = styled.div`
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  padding: 5px;
+  color: #d6d6d6;
+  @media only screen and (min-width: 320px)  { 
+    width:146px;
+  }
+  @media only screen and (min-width: 768px)  {   
+    width:290px;
+  } 
+  @media only screen and (min-width: 1024px) { 
+    width:291px;
+  }
+`
+
+const Controls = styled.div`
+  margin-top: 5px;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+`
+
+const Button = styled.div`
+    padding: 2px;
+    width: 40px;
+    text-align: center
+    background-color: #454545;
+    background-image: -webkit-linear-gradient(top,#3e3e3e,#333);
+    border: 1px solid #141414;
+    box-shadow: 0 1px 0 rgba(255,255,255,.06), 1px 1px 0 rgba(255,255,255,.03), -1px -1px 0 rgba(0,0,0,.02), inset 1px 1px 0 rgba(255,255,255,.05);
+    color: #aaa;
+    cursor: pointer;
+    text-shadow: 0 -1px 0 rgba(0,0,0,.5);
 `
 
 class DisplayImages extends React.Component {
@@ -60,8 +98,11 @@ class DisplayImages extends React.Component {
         {this.props.castly.images.map((image, index)=> {
           return(
           <ImageWrapper key={`image-${index}`} >
+            <ImgName>{image.name}</ImgName>
             <Img src={image.preview} alt="Uploaded Image Preview"/>
-            <div>{image.name}</div>
+            <Controls>
+            <Button>Cast</Button>
+            </Controls>
           </ImageWrapper>
           )
           }

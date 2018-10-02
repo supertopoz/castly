@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import styled from "styled-components";
 import {NotificationManager} from 'react-notifications';
 import AddFiles from './AddFiles';
+import ImageEditing from './ImageEditing';
 import DisplayImages from './DisplayImages';
 
 
@@ -34,6 +35,7 @@ class Castly extends React.Component {
       <Wrapper>        
         <AddFiles/>
         <DisplayImages/>
+        <ImageEditing/>
       </Wrapper>
     );
   }
