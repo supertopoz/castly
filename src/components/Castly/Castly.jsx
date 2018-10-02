@@ -10,21 +10,18 @@ const Wrapper = styled.div`
 
     display:grid;
     border-radius: 10px;
-    grid-gap: 4%;
+    grid-gap: 10px;
     cursor:pointer;
     width:90%;
     margin:0 auto;
     padding-top: 10px;
     @media only screen and (min-width: 320px)  { 
-      grid-template-columns: repeat(7, 1fr)
       width:90%;
     }
     @media only screen and (min-width: 768px)  {   
-      grid-template-columns: repeat(6, 1fr)
       width:80%;
     } 
     @media only screen and (min-width: 1024px) { 
-      grid-template-columns: repeat(5, 1fr)
       width:70%;
     }
 `

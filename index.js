@@ -1,9 +1,10 @@
 import React from 'react';
+import {NotificationManager} from 'react-notifications';
 import { render } from 'react-dom';
 import { Provider } from "react-redux";
 import PropTypes from 'prop-types'
 
-import {NotificationManager} from 'react-notifications';
+
 import "typeface-roboto";
 
 
