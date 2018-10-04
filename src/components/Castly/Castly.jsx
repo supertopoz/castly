@@ -5,6 +5,7 @@ import {NotificationManager} from 'react-notifications';
 import AddFiles from './AddFiles';
 import ImageEditing from './ImageEditing';
 import DisplayImages from './DisplayImages';
+import Video from './Video';
 
 
 const Wrapper = styled.div`
@@ -36,6 +37,7 @@ class Castly extends React.Component {
         <AddFiles/>
         <DisplayImages/>
         <ImageEditing/>
+        <Video />
       </Wrapper>
     );
   }

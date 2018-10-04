@@ -1,6 +1,5 @@
 const initialState = {
     images: [],
-
 }
 
 const addImages = (state, action) => {
