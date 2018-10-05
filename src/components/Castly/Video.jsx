@@ -33,7 +33,7 @@ const Button = styled.div`
 
 const HiddenCanvas = styled.canvas`
    background: #03A9F4;
-   display: none;
+   display:none;
 `
 const DisplayCanvas = styled.canvas`
    background: #03A9F4;
@@ -41,23 +41,46 @@ const DisplayCanvas = styled.canvas`
 
 class Video extends React.Component {
 
-  componentDidMount(){
-     console.log('mounted')
+  startRecording(){
+    this.props.canvasRecording.audioCtx.resume();
+    const stream = this.props.canvasRecording.myRecording
+    this.props.startRecordingStream(stream);
   }
 
-  init(){
-    console.log('clicked')
-    this.props.initializeUserMedia()
+  stopRecording(){
+    this.props.canvasRecording.recorder.stop();
   }
-  
+
+  pauseRecording(){
+    console.log('pause')
+    this.props.canvasRecording.recorder.pause();
+  }  
+  resumeRecording(){
+    console.log('resume')
+    this.props.canvasRecording.recorder.resume();
+  }
+  review(){
+    console.log('review')
+    //this.props.canvasRecording.recorder.resume();
+    const event = this.props.canvasRecording.recordingData
+    this.props.exportVideo(event)
+  }
+
+
+
   render(){
     return (
       <Wrapper>  
-      <Button onClick={() => this.init()}>Initilize System</Button>      
-      <Button>START</Button>      
-      <Button>STOP</Button>   
-      <HiddenCanvas width="1080" height="600" id="canvas"/>   
+      <Button onClick={ this.props.initializeUserMedia }>Initilize System</Button>      
+      <Button onClick={ this.startRecording.bind(this)}>START</Button> 
+      <Button onClick={ this.pauseRecording.bind(this)}>PAUSE</Button>
+      <Button onClick={ this.resumeRecording.bind(this)}>CONTINUE</Button>      
+      <Button onClick={ this.stopRecording.bind(this)}>STOP</Button>
+      <Button onClick={ this.review.bind(this)}>REVIEW</Button>       
+      
+      <HiddenCanvas  width="1080" height="600" id="canvas"/>   
       <DisplayCanvas width="700" height="300" id="canvas2"/>
+      <div id="vid-holder" style={{maxWidth: '300px'}} controls></div>
       </Wrapper>
     );
   }
@@ -65,15 +88,17 @@ class Video extends React.Component {
 
 
 const mapStateToProps = (state) => {
-  return { hangman: state.hangman, pageAnimations: state.pageAnimations };
+  return { canvasRecording: state.canvasRecording };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     setAudioContext:(context) => { dispatch(canvasRecordingActions.setAudioContext(context))},
-    initializeUserMedia:() => {dispatch(canvasRecordingActions.initializeUserMedia())}
-    }
+    initializeUserMedia:() => {dispatch(canvasRecordingActions.initializeUserMedia())},
+    startRecordingStream:(stream) => { dispatch(canvasRecordingActions.startRecordingStream(stream))},
+    exportVideo:(event) => { dispatch(canvasRecordingActions.exportVideo(event))}
   };
+}
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Video);
