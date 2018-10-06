@@ -9,6 +9,8 @@ import * as castlyActions from '../../actions/castlyActions';
 const Wrapper = styled.div``
 
 const dropzone = {
+  width: '130px',
+  height: '83%',
   background: '#f0f0f0',
   color: '#4F4F4F',
   border: '1px dashed #4F4F4F',

@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import styled from "styled-components";
 import Dropzone from 'react-dropzone';
 import {NotificationManager} from 'react-notifications';
-
+import AddFiles from './AddFiles';
 
 import * as castlyActions from '../../actions/castlyActions';
 
@@ -12,27 +12,12 @@ const Wrapper = styled.div`
 `
 
 const Img = styled.img`
-     padding: 1px;
-   @media only screen and (min-width: 320px)  { 
-     width:150px;
-     height:75px;
-     object-fit:scale-down;
-     object-fit:scale-up;
-   }
-    @media only screen and (min-width: 768px)  {   
-     width:300px;
-     height:200px;
-     object-fit:scale-down;
-     object-fit:scale-up;
-    } 
-    @media only screen and (min-width: 1024px) { 
-     width:300px;
-     height:200px;
-     object-fit:scale-down;
-     object-fit:scale-up;
-    }
-`
-
+   padding: 1px;
+   width:150px;
+   height:75px;
+   object-fit:scale-down;
+   object-fit:scale-up;
+  `
 const Gallary = styled.div`
   display: grid;
   grid-gap: 10px;
@@ -56,15 +41,8 @@ const ImgName = styled.div`
   text-align: center;
   padding: 5px;
   color: #d6d6d6;
-  @media only screen and (min-width: 320px)  { 
-    width:146px;
-  }
-  @media only screen and (min-width: 768px)  {   
-    width:290px;
-  } 
-  @media only screen and (min-width: 1024px) { 
-    width:291px;
-  }
+  width:146px;
+
 `
 
 const Controls = styled.div`
@@ -91,10 +69,11 @@ class DisplayImages extends React.Component {
 
   
   render(){
-    const style = {gridTemplateColumns: `repeat(${this.props.castly.images.length}, auto)`}
+    const style = {gridTemplateColumns: `repeat(${this.props.castly.images.length +1}, auto)`}
     return (
       <Wrapper>   
-      <Gallary style={style}>   
+      <Gallary style={style}> 
+      
         {this.props.castly.images.map((image, index)=> {
           return(
           <ImageWrapper key={`image-${index}`} >
@@ -107,6 +86,7 @@ class DisplayImages extends React.Component {
           )
           }
         )}
+        <AddFiles/>
         </Gallary>    
       </Wrapper>
     );

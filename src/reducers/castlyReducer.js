@@ -8,7 +8,7 @@ const addImages = (state, action) => {
 
 const castly = (state = initialState , action) => {
     switch (action.type) {
-        case "ADD_IMAGES": return addImages(state, action)        
+        case "ADD_IMAGES": return addImages(state, action);       
         break;
     }
     return state;

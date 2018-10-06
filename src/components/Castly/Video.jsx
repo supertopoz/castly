@@ -12,23 +12,16 @@ const Wrapper = styled.div`
     cursor:pointer;
     width:90%;
     margin:0 auto;
-    padding-top: 10px;
-    @media only screen and (min-width: 320px)  { 
-      width:90%;
-    }
-    @media only screen and (min-width: 768px)  {   
-      width:80%;
-    } 
-    @media only screen and (min-width: 1024px) { 
-      width:70%;
-    }
+    width:100%;
 `
 
 const Button = styled.div`
   border: 1px solid;
-  padding: 5px;
-  width: 110px;
+  padding-top: 3px;
   cursor: pointer;
+  text-align: center;
+  border-radius: 10px;
+
 `
 
 const HiddenCanvas = styled.canvas`
@@ -39,45 +32,78 @@ const DisplayCanvas = styled.canvas`
    background: #03A9F4;
 `
 
+const Buttons = styled.div`
+  display: grid;
+
+  border-top: 1px solid rgba(1,1,1,0.25);
+  border-bottom: 1px solid rgba(1,1,1,0.25);
+  grid-gap: 20%;
+  align-items: center;
+  justify-content: center;
+  grid-template-columns: 1fr 1fr;
+  @media only screen and (min-width: 320px)  { 
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+  @media only screen and (min-width: 768px)  {   
+    padding-top: 30px;
+    padding-bottom: 30px;
+  } 
+  @media only screen and (min-width: 1024px) { 
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+`
+
 class Video extends React.Component {
 
   startRecording(){
     this.props.canvasRecording.audioCtx.resume();
-    const stream = this.props.canvasRecording.myRecording
+    const stream = this.props.canvasRecording.dataStream
     this.props.startRecordingStream(stream);
+    this.props.addCanvasImage('blank.png')
   }
 
-  stopRecording(){
-    this.props.canvasRecording.recorder.stop();
-  }
-
-  pauseRecording(){
-    console.log('pause')
-    this.props.canvasRecording.recorder.pause();
-  }  
-  resumeRecording(){
-    console.log('resume')
-    this.props.canvasRecording.recorder.resume();
-  }
   review(){
-    console.log('review')
+    console.log('HIT REVIEW')
     //this.props.canvasRecording.recorder.resume();
     const event = this.props.canvasRecording.recordingData
     this.props.exportVideo(event)
   }
 
-
+  handleButtonClick(clickedButton){
+    const state = this.props.canvasRecording;
+    if(clickedButton === 'INITILIZE') this.props.initializeUserMedia();
+    if(this.props.canvasRecording.recordingData === null && clickedButton === 'fiber_manual_record'){
+      this.startRecording();
+    } else if(this.props.canvasRecording.recordingData !== null && clickedButton === 'fiber_manual_record'){
+      this.props.canvasRecording.recorder.resume();
+    }
+    if(clickedButton === 'stop') { 
+      this.props.canvasRecording.recorder.stop();
+      setTimeout(() => {
+        this.review();
+        console.log('DATA', this.props.canvasRecording.recordingData)
+      },1000)
+      
+    };
+    if(clickedButton === 'pause') this.props.canvasRecording.recorder.pause();
+    this.props.changeRecordButton(clickedButton);
+  }
 
   render(){
-    return (
+      const icon = this.props.canvasRecording.recordButtons;
+      console.log(icon)
+     return (
       <Wrapper>  
-      <Button onClick={ this.props.initializeUserMedia }>Initilize System</Button>      
-      <Button onClick={ this.startRecording.bind(this)}>START</Button> 
-      <Button onClick={ this.pauseRecording.bind(this)}>PAUSE</Button>
-      <Button onClick={ this.resumeRecording.bind(this)}>CONTINUE</Button>      
-      <Button onClick={ this.stopRecording.bind(this)}>STOP</Button>
-      <Button onClick={ this.review.bind(this)}>REVIEW</Button>       
-      
+      <Buttons>
+      {    
+       icon.map((item, index)=>{
+         return <Button key={`record${index}`} onClick={()=> this.handleButtonClick(item)}><i className="material-icons">{item}</i></Button>
+        })
+      }  
+           
+      </Buttons>  
       <HiddenCanvas  width="1080" height="600" id="canvas"/>   
       <DisplayCanvas width="700" height="300" id="canvas2"/>
       <div id="vid-holder" style={{maxWidth: '300px'}} controls></div>
@@ -96,7 +122,9 @@ const mapDispatchToProps = (dispatch) => {
     setAudioContext:(context) => { dispatch(canvasRecordingActions.setAudioContext(context))},
     initializeUserMedia:() => {dispatch(canvasRecordingActions.initializeUserMedia())},
     startRecordingStream:(stream) => { dispatch(canvasRecordingActions.startRecordingStream(stream))},
-    exportVideo:(event) => { dispatch(canvasRecordingActions.exportVideo(event))}
+    exportVideo:(event) => { dispatch(canvasRecordingActions.exportVideo(event))},
+    addCanvasImage:(image) => { dispatch(canvasRecordingActions.addCanvasImage(image))},
+    changeRecordButton:(clickedButton) => { dispatch(canvasRecordingActions.changeRecordButton(clickedButton))}
   };
 }
 
