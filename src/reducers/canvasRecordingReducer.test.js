@@ -6,7 +6,9 @@ const initialState = {
   recorder: null,
   recordingData: null,
   canvasImage: null,
-  recordButtons: ['INITILIZE']
+  recordButtons: ['INITILIZE'],
+  newStart: false,
+  videoData: null
 }
 
 
@@ -72,10 +74,42 @@ describe('canvas recording reducer', () => {
       })
     ).toEqual(targetState)
   })  
-  it('should handle UPDATE_RECORD_BUTTONS', () => {
-  	const initialState1 = { recordButtons: ['INITILIZE']}
-    const payload = ['pause','stop'] 
-    const targetState = { recordButtons: ['pause', 'stop']}
+  it('should handle UPDATE_RECORD_BUTTONS after first start', () => {
+  	const initialState1 = { 
+      recordButtons: ['INITILIZE'],
+      newStart: false,
+    }
+    const payload = {
+      icons: ['pause', 'stop'],
+      newStart: false
+    }
+    const targetState = { 
+      recordButtons: ['pause', 'stop'],
+      newStart: false
+    }
+    expect(
+      canvasRecording(initialState1, {
+        type: 'UPDATE_RECORD_BUTTONS',
+        payload: payload
+      })
+    ).toEqual(targetState)
+  })
+  it('should handle UPDATE_RECORD_BUTTONS on a reset', () => {
+    const initialState1 = {
+      audioCtx: {},
+      dataStream: {},
+      recorder: {},
+      recordingData: {},
+      canvasImage: {},
+      recordButtons: ['refresh','cloud_download'],
+      newStart: false
+    }
+    const payload = {
+      icons: ['refresh'],
+      newStart: true
+    }
+    const targetState = initialState
+
     expect(
       canvasRecording(initialState1, {
         type: 'UPDATE_RECORD_BUTTONS',

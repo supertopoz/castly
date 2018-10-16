@@ -1,4 +1,4 @@
-export function setAudioContext(context) {	
+export const setAudioContext = context => {	
     return {
         type: "SET_AUDIO_CONTEXT",
         payload: context
@@ -10,21 +10,18 @@ export const addCanvasImage = (image) => {
   return (dispatch) => {
   // This is the hidden Canvas
   image = 'blank.png';
-  var hiddenCanvas = document.getElementById('canvas');
-  var context = hiddenCanvas.getContext('2d');
+  const hiddenCanvas = window.document.getElementById('canvas');
+  console.log(hiddenCanvas)
+  const context = hiddenCanvas.getContext('2d');
 
-// I have lots of transforms right now
-context.save();
-context.setTransform(1, 0, 0, 1, 0, 0);
-// Will always clear the right space
-context.clearRect(0, 0, canvas.width, canvas.height);
-context.restore();
-// Still have my old transforms
-
-
-
-
-  var img = new Image();          
+  // I have lots of transforms right now
+  context.save();
+  context.setTransform(1, 0, 0, 1, 0, 0);
+  // Will always clear the right space
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  context.restore();
+  // Still have my old transforms
+  const img = new Image();          
     img.src = image;
     context.fillRect(0, 0, context.canvas.width, context.canvas.height); 
     context.fillStyle = '#03A9F4'; 
@@ -45,13 +42,13 @@ context.restore();
 export function initializeUserMedia() {	
 
   return (dispatch) => {
-  var AudioContext = window.AudioContext || window.webkitAudioContext;
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
   const audioCtx = new AudioContext();
 
   const cloneCanvas = (oldCanvas) => {
     // This is the displayed canvas
-    var newCanvas = document.getElementById('canvas2');
-    var context = newCanvas.getContext('2d');
+    const newCanvas = window.document.getElementById('canvas2');
+    const context = newCanvas.getContext('2d');
     newCanvas.width = 700//oldCanvas.width /2;
     newCanvas.height = 394//oldCanvas.height /2;
     context.drawImage(oldCanvas, 0, 0, newCanvas.width, newCanvas.height);
@@ -70,7 +67,7 @@ export function initializeUserMedia() {
   }
 
   const startCanvasVidoeAnimation = (video) => {     
-      const canvas = document.getElementById('canvas');
+      const canvas = window.document.getElementById('canvas');
       const ctx = canvas.getContext('2d'); 
       const draw = () => { 
         window.requestAnimationFrame(draw); 
@@ -100,7 +97,7 @@ export function initializeUserMedia() {
 
 const createVideo = (stream) => {
   return new Promise((resolve,reject)=>{
-    var video = document.createElement('video');
+    const video = window.document.createElement('video');
     video.srcObject = stream;
       try {
         video.srcObject = stream;
@@ -115,7 +112,7 @@ const createVideo = (stream) => {
 
   let getUserStream = () => {
     return new Promise((resolve, reject) => {
-      navigator.mediaDevices.getUserMedia({
+      window.navigator.mediaDevices.getUserMedia({
       audio: true,
       video: true
     })
@@ -154,7 +151,7 @@ intilizeUserMedia()
 
 export const startRecordingStream =(stream) => {
   return (dispatch) => {
-    const canvas = document.getElementById('canvas');
+    const canvas = window.document.getElementById('canvas');
     const recordStream = canvas.captureStream(30);  
     recordStream.addTrack(stream.getAudioTracks()[0]);
     let recorder = null
@@ -188,42 +185,56 @@ export const startRecordingStream =(stream) => {
   }
 
 
-export const exportVideo =(event) =>{
-
-  return (dispatch) => {
-
-    const addVidToDom =(vidURL) => {
-      const vid = document.createElement('video');
+export const addVidToDom =(vidURL) => {
+      return new Promise((resolve,reject) =>{
+      if(vidURL === null) {
+        reject('NO VIDEO CREATED')
+      }
+      const vid = window.document.createElement('video');
+      let videoHolder = window.document.getElementById('vid-holder')
       vid.controls = true;
       //vid.controlsList = "nodownload";
       vid.className = 'recordedVid'
       vid.src = vidURL;
       vid.style.width = '300px';
-      vid.onend = function() { URL.revokeObjectURL(vidURL) }
-      var canva = document.getElementById('vid-holder')
-      canva.appendChild(vid);
+      vid.onend = function() { URL.revokeObjectURL(vidURL)}
+      videoHolder.appendChild(vid);
+      resolve(vid)
+      })
     }
 
-  const exportStream = (event) => {
+
+
+
+export const exportStream = (event = {}) => {
     return new Promise((resolve, reject)=>{
-      if (event.currentTarget.chunks.length) {
+      if (event.currentTarget && event.currentTarget.chunks.length) {
         const blob = new Blob(event.currentTarget.chunks)
         const vidURL = URL.createObjectURL(blob);
+
         resolve(vidURL);
       } else {
-        reject('recording export failed');
+        reject('failed');
       }
     })
   }
-  exportStream(event).then(vidURL => {
-    addVidToDom(vidURL)
-      dispatch({
-        type: "VIDEO_DATA",
-        payload: vidURL
-      }); 
-  })
+
+export const exportVideo =(event) =>{
+  
+  return (dispatch) => {
+    exportStream(event).then(vidURL => {
+      addVidToDom(vidURL).then(result => {
+        dispatch({ type: "VIDEO_DATA", payload: result });       
+      }).catch(e => {
+        dispatch({ type: "VIDEO_DATA", payload: e});         
+      })
+    }).catch(e => {
+      dispatch({ type: "VIDEO_DATA", payload: e});       
+    })
   }
 }
+
+
 
 export const changeRecordButton = (clickedButton = 'begin') => {
     let newStart = false;

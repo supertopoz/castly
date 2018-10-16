@@ -1,48 +1,74 @@
 import * as actions from "./canvasRecordingActions";
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
+import sinon from 'sinon'
 const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)
+import { JSDOM } from "jsdom"
+const dom = new JSDOM()
+
+
+
 
 const initialState = {
   audioCtx: null,
   dataStream: null,
   recorder: null,
   recordingData: null,
-  canvasImage: null
+  canvasImage: null,
+  videoData: null
 }
 
-const store = mockStore({ initialState })
+let store
 
-describe('async actions', () => {
+describe('Adding video to dom after creating it using media stream', () => {
 
-  it('should dispatch actions of set audio context', () => {
+  beforeAll(() => {
+    global.document = dom.window.document
+    global.window = dom.window    
+    let video = document.createElement('video')
+    video.id = 'vid-holder'
+    document.body.appendChild(video)
+    global.Blob = function Blob(params) {return params}
+    const url = 'blob:http://localhost:1234/2fd6e2a0-25c4-4e52-a234-59cfb44b55b4p'
+    window.URL.createObjectURL = sinon.stub().returns(url)
+    window.URL.revokeObjectURL = sinon.stub().returns({})
+  })
+
+  beforeEach(() => store = mockStore({ initialState }))
+
+  it("handles export video stream to a videoURL", async () => {
+    const data = { currentTarget: { chunks:[' '] } };
+    let result =  actions.exportStream(data).then(result => result).catch(e => e)
+     expect(await result).toEqual('blob:http://localhost:1234/2fd6e2a0-25c4-4e52-a234-59cfb44b55b4p')
+    })
+
+  it("handles export video stream when theres no stream", async () => {    
+    let result = actions.exportStream().then(result => result).catch(e => e)
+    expect(await result).toEqual('failed')
+  })  
+  it("handles adding video to the dom", async () => {  
+    let testVideo = document.createElement('video');
+    testVideo.className = 'recordedVid';
+    testVideo.controls = true;
+    testVideo.src = 'blob:http://localhost:1234/2fd6e2a0-25c4-4e52-a234-59cfb44b55b4p';
+    testVideo.style.width = '300px'
+    const vidURL = 'blob:http://localhost:1234/2fd6e2a0-25c4-4e52-a234-59cfb44b55b4p'
+    let result = actions.addVidToDom(vidURL).then(result => result).catch(e => e)
+    expect(await result).toEqual(testVideo)
+  })
+
+    it('should dispatch actions of set audio context', () => {
     const expectedActions = [ {type: "SET_AUDIO_CONTEXT", payload: {}} ]
     const data = {}
     store.dispatch(actions.setAudioContext(data))
     expect(store.getActions()).toEqual(expectedActions)
+  })    
+  it('should dispatch actions to export video', async () => {
+    const expectedActions = [{type: "VIDEO_DATA", payload: {}}]
+    const data = {}
+    store.dispatch(actions.exportExample(data))
+    expect(await store.getActions()).toEqual(expectedActions)
   })
-// it('should create an action to change the canvas image', () => {
-    
-//     const data = 'background.png'
-//     const expectedActions = [{ type: 'SET_AUDIO_CONTEXT', payload: data}]
-//     store.dispatch(actions.addCanvasImage(data))
-//     expect(store.getActions(data)).toEqual(expectedActions)
-//   })  
 })
 
-
-
-describe('canvas recording actions', () => {
-  it('should create an action to set Audio context', () => {
-    const data = { someObject: {}}
-    const expectedAction = { type: 'SET_AUDIO_CONTEXT', payload: {"someObject":{}}}
-    expect(actions.setAudioContext(data)).toEqual(expectedAction)
-  })  
-
-  // it('should create an action to change the canvas image', () => {
-  //   const data = 'background.png'
-  //   const expectedAction = { type: 'SET_AUDIO_CONTEXT', payload: data}
-  //   expect(actions.setAudioContext(data)).toEqual(expectedAction)
-  // })
-})
