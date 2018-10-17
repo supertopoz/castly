@@ -7,14 +7,12 @@ export const setAudioContext = context => {
 
 
 
-export const addCanvasImage = (image) => { 
-
+export const addCanvasImage = (image, left, right) => { 
+  
   return (dispatch) => {
   // This is the hidden Canvas
   //image = 'blank.png';
-  console.log(image)
   const hiddenCanvas = window.document.getElementById('canvas');
-  console.log(hiddenCanvas)
   const context = hiddenCanvas.getContext('2d');
 
   // I have lots of transforms right now
@@ -26,12 +24,13 @@ export const addCanvasImage = (image) => {
   // Still have my old transforms
   const img = new Image();          
     img.src = image;
-    img.isDragging = true;
+    console.log(image)
     context.fillRect(0, 0, context.canvas.width, context.canvas.height); 
-    context.fillStyle = '#03A9F4'; 
+    context.fillStyle = '#03A9F4';
     img.addEventListener('load', function() {
       //   cloneCanvas(hiddenCanvas)
-         context.drawImage(img, 360, 10, img.width, img.height)
+         console.log('Hit load')
+         context.drawImage(img, left, right, img.width, img.height)
          //img.scale(2,2);
     }, false);
   }

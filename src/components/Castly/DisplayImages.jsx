@@ -68,9 +68,9 @@ const Button = styled.div`
 class DisplayImages extends React.Component {
 
   addCanvasImage(image){
-   console.log(image) 
-   this.props.addCanvasImage(image.preview);
-
+   this.props.addCanvasImage(image.preview, 200, 200);
+   this.props.currentImage(image);
+   
   }
   
   render(){
@@ -108,7 +108,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addImages: (images) => { dispatch(castlyActions.addImages(images)) },
-    addCanvasImage:(image) => { dispatch(canvasRecordingActions.addCanvasImage(image))}
+    currentImage: (image) => { dispatch(castlyActions.currentImage(image)) },
+    addCanvasImage:(image, left, top) => { dispatch(canvasRecordingActions.addCanvasImage(image, left, top))}
   };
 };
 

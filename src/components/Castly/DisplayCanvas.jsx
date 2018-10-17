@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import styled from "styled-components";
 import {NotificationManager} from 'react-notifications';
 import * as canvasRecordingActions from '../../actions/canvasRecordingActions';
-
+import * as castlyActions from '../../actions/castlyActions';
 
 
 
@@ -49,11 +49,13 @@ class DisplayCanvas extends React.Component {
   }
 
   onMouseDown(e){
+    this.props.setDragging(true);
     e.preventDefault();
     e.stopPropagation();
     const mouseX = e.clientX - this.offset().left();
     const mouseY = e.clientY - this.offset().top();
     console.log(e)
+    this.props.setMouse([mouseX,mouseY])
     //test to see if mouse is in 1+ images
   //  isDragging = false;
     //   images.forEach(imgToMove => {
@@ -67,16 +69,49 @@ class DisplayCanvas extends React.Component {
     // startY = mouseY;
   }
 
-  
+  onMouseMove(e){
+    // const canvas=document.getElementById("canvas2");
+    // var ctx = canvas.getContext("2d");
+    //if(!isDragging){return;}
+ 
+    e.preventDefault()
+    e.stopPropagation()
+       if(!this.props.images.dragging) return
+    const mouseX = e.clientX - this.offset().left();
+    const mouseY = e.clientY - this.offset().top();
+    console.log(this.props.images.mouse)
+    // images.forEach(image => {
+    //   if(image.isDragging) {
+    //     image.x+= mouseX - startX;
+    //     image.y+= mouseY - startY;
+    //   }
+    //  })
+    //startX = mouseX;
+    //startY = mouseY;
+    let x = mouseX - this.props.images.mouse[0]
+    let y = mouseY - this.props.images.mouse[1]
+    let image = this.props.images.currentImage;
+    // images.forEach(image => {
+     //ctx.drawImage(image.preview, image.x, image.y, image.width , image.height);
+     if(image){
+         this.props.addCanvasImage(image.preview, x, y);
+     }
 
+    // })
+
+}
+    onMouseUp(){
+      this.props.setDragging(false);
+    }
 
   render(){
     return (
       <Wrapper>        
       <Canvas
-        onMouseDown = {(e) => {
-          this.onMouseDown(e)
-        }}
+
+        onMouseDown = {(e) => this.onMouseDown(e)}
+        onMouseMove = {(e) => this.onMouseMove(e)}
+        onMouseUp = {(e) => this.onMouseUp(e)}
         width="700" 
         height="300" 
         id="canvas2"        
@@ -87,12 +122,14 @@ class DisplayCanvas extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return { canvasRecording: state.canvasRecording };
+  return { canvasRecording: state.canvasRecording, images: state.castly };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addCanvasImage:(image) => { dispatch(canvasRecordingActions.addCanvasImage(image))},
+    addCanvasImage:(image, top, left) => { dispatch(canvasRecordingActions.addCanvasImage(image, top,left))},
+    setMouse:(mouse) => { dispatch(castlyActions.setMouse(mouse))},
+    setDragging:(dragging) => { dispatch(castlyActions.setDragging(dragging))},
   };
 }
 
