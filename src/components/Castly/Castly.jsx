@@ -5,7 +5,7 @@ import {NotificationManager} from 'react-notifications';
 
 import DisplayImages from './DisplayImages';
 import Video from './Video';
-
+import DisplayCanvas from './DisplayCanvas';
 
 const Wrapper = styled.div`
 
@@ -26,6 +26,11 @@ const Wrapper = styled.div`
     }
 `
 
+const HiddenCanvas = styled.canvas`
+   background: #03A9F4;
+   display: none;
+`
+
 
 class Castly extends React.Component {
   
@@ -35,6 +40,8 @@ class Castly extends React.Component {
         
         <DisplayImages/>
         <Video />
+        <HiddenCanvas  width="1080" height="600" id="canvas"/>   
+        <DisplayCanvas/>
       </Wrapper>
     );
   }

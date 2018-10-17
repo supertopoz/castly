@@ -24,14 +24,6 @@ const Button = styled.div`
 
 `
 
-const HiddenCanvas = styled.canvas`
-   background: #03A9F4;
-   display:none;
-`
-const DisplayCanvas = styled.canvas`
-   background: #03A9F4;
-`
-
 const Buttons = styled.div`
   display: grid;
 
@@ -61,12 +53,10 @@ class Video extends React.Component {
     this.props.canvasRecording.audioCtx.resume();
     const stream = this.props.canvasRecording.dataStream
     this.props.startRecordingStream(stream);
-    this.props.addCanvasImage('blank.png')
+
   }
 
   review(){
-    console.log('HIT REVIEW')
-    //this.props.canvasRecording.recorder.resume();
     const event = this.props.canvasRecording.recordingData
     this.props.exportVideo(event)
   }
@@ -74,9 +64,10 @@ class Video extends React.Component {
   handleButtonClick(clickedButton){
     const state = this.props.canvasRecording;
     if(clickedButton === 'INITILIZE') this.props.initializeUserMedia();
+
     if(this.props.canvasRecording.recordingData === null && clickedButton === 'fiber_manual_record'){
       this.startRecording();
-    } else if(this.props.canvasRecording.recordingData !== null && clickedButton === 'fiber_manual_record'){
+    } else if (this.props.canvasRecording.recordingData !== null && clickedButton === 'fiber_manual_record'){
       this.props.canvasRecording.recorder.resume();
     }
     if(clickedButton === 'stop') { 
@@ -93,7 +84,6 @@ class Video extends React.Component {
 
   render(){
       const icon = this.props.canvasRecording.recordButtons;
-      console.log(icon)
      return (
       <Wrapper>  
       <Buttons>
@@ -104,8 +94,6 @@ class Video extends React.Component {
       }  
            
       </Buttons>  
-      <HiddenCanvas  width="1080" height="600" id="canvas"/>   
-      <DisplayCanvas width="700" height="300" id="canvas2"/>
       <div id="vid-holder" style={{maxWidth: '300px'}} controls></div>
       </Wrapper>
     );

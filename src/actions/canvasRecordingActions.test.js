@@ -21,7 +21,7 @@ const initialState = {
 
 let store
 
-describe('Adding video to dom after creating it using media stream', () => {
+describe.skip('Adding video to dom after creating it using media stream', () => {
 
   beforeAll(() => {
     global.document = dom.window.document
@@ -40,7 +40,7 @@ describe('Adding video to dom after creating it using media stream', () => {
   it("handles export video stream to a videoURL", async () => {
     const data = { currentTarget: { chunks:[' '] } };
     let result =  actions.exportStream(data).then(result => result).catch(e => e)
-     expect(await result).toEqual('blob:http://localhost:1234/2fd6e2a0-25c4-4e52-a234-59cfb44b55b4p')
+     expect(await result).toEqual('blob:http://localhost:1234/2fd6e2a0-25c4-4e52-a234-59cfb44b55b4p');
     })
 
   it("handles export video stream when theres no stream", async () => {    
@@ -48,12 +48,13 @@ describe('Adding video to dom after creating it using media stream', () => {
     expect(await result).toEqual('failed')
   })  
   it("handles adding video to the dom", async () => {  
+    const vidURL = 'blob:http://localhost:1234/2fd6e2a0-25c4-4e52-a234-59cfb44b55b4p';
     let testVideo = document.createElement('video');
     testVideo.className = 'recordedVid';
     testVideo.controls = true;
-    testVideo.src = 'blob:http://localhost:1234/2fd6e2a0-25c4-4e52-a234-59cfb44b55b4p';
-    testVideo.style.width = '300px'
-    const vidURL = 'blob:http://localhost:1234/2fd6e2a0-25c4-4e52-a234-59cfb44b55b4p'
+    testVideo.src = vidURL;
+    testVideo.style.width = '300px';
+
     let result = actions.addVidToDom(vidURL).then(result => result).catch(e => e)
     expect(await result).toEqual(testVideo)
   })

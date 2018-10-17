@@ -6,7 +6,7 @@ import {NotificationManager} from 'react-notifications';
 import AddFiles from './AddFiles';
 
 import * as castlyActions from '../../actions/castlyActions';
-
+import * as canvasRecordingActions from '../../actions/canvasRecordingActions';
 const Wrapper = styled.div`
    display: grid;
 `
@@ -67,6 +67,11 @@ const Button = styled.div`
 
 class DisplayImages extends React.Component {
 
+  addCanvasImage(image){
+   console.log(image) 
+   this.props.addCanvasImage(image.preview);
+
+  }
   
   render(){
     const style = {gridTemplateColumns: `repeat(${this.props.castly.images.length +1}, auto)`}
@@ -80,7 +85,9 @@ class DisplayImages extends React.Component {
             <ImgName>{image.name}</ImgName>
             <Img src={image.preview} alt="Uploaded Image Preview"/>
             <Controls>
-            <Button>Cast</Button>
+            <Button 
+              onClick={() =>this.addCanvasImage(image)}
+            >Cast</Button>
             </Controls>
           </ImageWrapper>
           )
@@ -101,6 +108,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addImages: (images) => { dispatch(castlyActions.addImages(images)) },
+    addCanvasImage:(image) => { dispatch(canvasRecordingActions.addCanvasImage(image))}
   };
 };
 
