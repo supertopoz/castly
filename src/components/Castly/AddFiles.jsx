@@ -20,22 +20,29 @@ const dropzone = {
 
 class AddFiles extends React.Component {
 
- 
-  addFilesToStore(files){
-    console.log(files)
-  }
-
-
   handleOnDrop(files, rejectedFiles){
+   files.forEach(file =>{
+    console.log(file)
+    var image = new Image();
+    image.src = file.preview;
+    image.onload = function() {
+      file['width'] = this.width; 
+      file['height'] = this.height;    
+   }
+  })
    this.props.addImages(files)
-  }
-
-  
+  }  
   render(){
     return (
-      <Wrapper>    
-        
-        <Dropzone inputProps={{'id':"dropzone"}} style={dropzone} onDrop={this.handleOnDrop.bind(this)} accept='image/*' maxSize={5000000}>Drag and drop an image file here or click <label htmlFor="dropzone" >.</label></Dropzone>
+      <Wrapper>            
+        <Dropzone 
+          inputProps={{'id':"dropzone"}} 
+          style={dropzone} 
+          onDrop={this.handleOnDrop.bind(this)} 
+          accept='image/*' 
+          maxSize={5000000}>
+          Drag and drop an image file here or click <label htmlFor="dropzone" >.</label>
+        </Dropzone>
 
       </Wrapper>
     );

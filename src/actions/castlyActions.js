@@ -18,7 +18,7 @@ export function setMouse(mouse) {
         payload: mouse
     };
 }
-
+            	
 export function setDragging(dragging) {	
     return {
         type: "DRAGGING",

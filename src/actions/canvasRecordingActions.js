@@ -24,12 +24,11 @@ export const addCanvasImage = (image, left, right) => {
   // Still have my old transforms
   const img = new Image();          
     img.src = image;
-    console.log(image)
+
     context.fillRect(0, 0, context.canvas.width, context.canvas.height); 
     context.fillStyle = '#03A9F4';
     img.addEventListener('load', function() {
       //   cloneCanvas(hiddenCanvas)
-         console.log('Hit load')
          context.drawImage(img, left, right, img.width, img.height)
          //img.scale(2,2);
     }, false);

@@ -17,6 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "lodash.throttle": "^4.1.1",
     "material-icons": "^0.2.3",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",

@@ -69,7 +69,10 @@ class DisplayImages extends React.Component {
 
   addCanvasImage(image){
    this.props.addCanvasImage(image.preview, 200, 200);
+   const details = { x: 200, y: 200, width: image.width, height:image.height};
+   image['details'] = details;
    this.props.currentImage(image);
+
    
   }
   

@@ -16,13 +16,11 @@ const Wrapper = styled.div`
     margin:0 auto;
     padding-top: 10px;
     @media only screen and (min-width: 320px)  { 
-      width:98%;
     }
     @media only screen and (min-width: 768px)  {   
-      width:70%;
     } 
     @media only screen and (min-width: 1024px) { 
-      width:70%;
+
     }
 `
 
