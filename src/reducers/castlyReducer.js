@@ -25,7 +25,7 @@ const castly = (state = initialState , action) => {
     switch (action.type) {
         case "ADD_IMAGES": return addImages(state, action);       
         case "CURRENT_IMAGE": return currentImage(state, action);       
-        case "SET_MOUSE": return setMouse(state, action);       
+        case "SET_MOUSE": return setMouse(state, action);     
         case "DRAGGING": return setDragging(state, action);       
         break;
     }

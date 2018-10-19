@@ -5,47 +5,12 @@ export const setAudioContext = context => {
     };
 }
 
-
-
-export const addCanvasImage = (image, left, right) => { 
-  
-  return (dispatch) => {
-  // This is the hidden Canvas
-  //image = 'blank.png';
-  const hiddenCanvas = window.document.getElementById('canvas');
-  const context = hiddenCanvas.getContext('2d');
-
-  // I have lots of transforms right now
-  context.save();
-  context.setTransform(1, 0, 0, 1, 0, 0);
-  // Will always clear the right space
-  context.clearRect(0, 0, canvas.width, canvas.height);
-  context.restore();
-  // Still have my old transforms
-  const img = new Image();          
-    img.src = image;
-
-    context.fillRect(0, 0, context.canvas.width, context.canvas.height); 
-    context.fillStyle = '#03A9F4';
-    img.addEventListener('load', function() {
-      //   cloneCanvas(hiddenCanvas)
-         context.drawImage(img, left, right, img.width, img.height)
-         //img.scale(2,2);
-    }, false);
-  }
-  dispatch({
-          type: "ADD_CANVAS_IMAGE",
-          payload: image
-        });
+export const videoDragging = (dragging) => { 
+    return {
+        type: "VIDEO_DRAGGING",
+        payload: dragging
+    };
 }
-
-
-
-export function initializeUserMedia() {	
-
-  return (dispatch) => {
-  const AudioContext = window.AudioContext || window.webkitAudioContext;
-  const audioCtx = new AudioContext();
 
   const cloneCanvas = (oldCanvas) => {
     // This is the displayed canvas
@@ -56,8 +21,30 @@ export function initializeUserMedia() {
     context.drawImage(oldCanvas, 0, 0, newCanvas.width, newCanvas.height);
     context.scale(0.5,0.5)
   }
+  export const canvasVideoAnimation = (video, image, x, y) => {     
+      const canvas = window.document.getElementById('canvas');
+      const ctx = canvas.getContext('2d'); 
+      if(image) ctx.drawImage(image, x, y, image.width, image.height)
+     //   ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); 
+      ctx.save();
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); 
+      ctx.restore();
+      const draw = () => { 
+        window.requestAnimationFrame(draw); 
+        ctx.fillRect(0, 0, ctx.height, ctx.width); 
+        ctx.fillStyle = '#03A9F4';    
+        ctx.drawImage(video, video.details.x, video.details.y, video.details.width, video.details.height); 
+        cloneCanvas(canvas)
+    };
+    draw();
+  }
 
+export function initializeUserMedia() {	
 
+  return (dispatch) => {
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  const audioCtx = new AudioContext();
 
   const showVideo = (video, stream) => {
     return new Promise((resolve,reject)=>{
@@ -68,20 +55,7 @@ export function initializeUserMedia() {
     })
   }
 
-  const startCanvasVidoeAnimation = (video) => {     
-      const canvas = window.document.getElementById('canvas');
-      const ctx = canvas.getContext('2d'); 
-      const draw = () => { 
-        window.requestAnimationFrame(draw); 
-        ctx.fillRect(0, 0, ctx.height, ctx.width); 
-        ctx.fillStyle = '#03A9F4';       
-        const width = video.videoWidth/1.5;
-        const height = video.videoHeight/1.5;
-        ctx.drawImage(video, 10, 10, width, height); 
-        cloneCanvas(canvas)
-    };
-      draw();
-  }
+
 
   const injectNewAudio = (video, stream) => {
     return new Promise((resolve, reject) => {
@@ -132,15 +106,22 @@ const intilizeUserMedia = () => {
   createVideo(stream).then((video) =>{
     showVideo(video, stream).then((video) => {
       injectNewAudio(video, stream).then(dataStream => {
-        startCanvasVidoeAnimation(video)
+        // Add video to store. then start animation.
+        video.details = {
+          width: video.videoWidth/1.5,
+          height: video.videoHeight/1.5,
+          x: 0,
+          y: 0
+        }
+        canvasVideoAnimation(video)
         dispatch({
           type: "INITILIZE_USER_MEDIA",
-        	payload:[dataStream, audioCtx]
+        	payload:[dataStream, audioCtx, video]
         });
       }).catch(err=>{
        	dispatch({
           type: "INITILIZE_USER_MEDIA",
-        	payload:[error, error]
+        	payload:[error, error, error]
         });
       })
     })

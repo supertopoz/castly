@@ -7,4 +7,4 @@ import canvasRecording from "./src/reducers/canvasRecordingReducer.js";
 
 
 const reducer = combineReducers({ pageAnimations, castly, canvasRecording })
-export default createStore(reducer, applyMiddleware(thunk, createLogger()))
+export default createStore(reducer, applyMiddleware(thunk))

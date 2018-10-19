@@ -2,6 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import styled from "styled-components";
 import throttle from 'lodash.throttle';
+import debounce from 'lodash.debounce';
 import {NotificationManager} from 'react-notifications';
 import * as canvasRecordingActions from '../../actions/canvasRecordingActions';
 import * as castlyActions from '../../actions/castlyActions';
@@ -34,28 +35,12 @@ const Canvas = styled.canvas`
 
 class DisplayCanvas extends React.Component {
 
-  offset(){
-   const canvas=document.getElementById("canvas2");
-   const rect = canvas.getBoundingClientRect();
-    return { 
-      top: rect.top + window.pageYOffset, 
-      left: rect.left + window.pageXOffset,
+  offset(e){
+   const rect = document.getElementById("canvas2").getBoundingClientRect();
+    return {   
+      x: (e.clientX - rect.left) / (rect.right - rect.left) * canvas.width,
+      y: (e.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height
     };
-  }
-
-  onMouseDown(e){
-    this.props.setDragging(true);
-    e.preventDefault();
-    e.stopPropagation();
-    const mouseX = e.clientX - this.offset().left;
-    const mouseY = e.clientY - this.offset().top;
-    const imgToMove = this.props.images.currentImage.details
-    this.props.setDragging(false);
-    if((mouseX > imgToMove.x && mouseX < imgToMove.x + imgToMove.width)){
-      //  imgToMove.isDragging = true;
-      this.props.setDragging(true);
-    }
-    this.props.setMouse([mouseX,mouseY])
   }
 
   debounceEvent(...args) {
@@ -66,38 +51,80 @@ class DisplayCanvas extends React.Component {
     }
   }
 
-  onMouseMove(e){ 
-    if(!this.props.images.dragging) return
-    e.preventDefault()
-    e.stopPropagation()
-    
-    const mouseX = e.clientX - this.offset().left;
-    const mouseY = e.clientY - this.offset().top;
-    const image = this.props.images.currentImage;
-    image.x += Number(mouseX) - Number(this.props.images.mouse[0])
-    image.y += Number(mouseY) - Number(this.props.images.mouse[1])
-    
-    this.props.currentImage(image);
-    this.props.setMouse([mouseX,mouseY])
-     if(image){
-         this.props.addCanvasImage(image.preview, mouseX, mouseY);
-     }
+  onMouseDown(e){
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.setDragging(false);
+    this.props.videoDragging(false);
+    const mouseX = this.offset(e).x; // Scaled from hidden canvas
+    const mouseY = this.offset(e).y * 1.05; // Scaled from hidden canvas
+    const imgToMove = this.props.images.currentImage.details
 
-    // })
-
-}
-    onMouseUp(){
-      if(!this.props.images.dragging) return
-      this.props.setDragging(false);
+    if((mouseX > imgToMove.x && mouseX < imgToMove.x + imgToMove.width *1.05)&&
+      (mouseY > imgToMove.y && mouseY < imgToMove.y + imgToMove.height *1.05)){
+      console.log('Hit image')
+      this.props.setDragging(true);
+      this.props.setMouse([mouseX,mouseY])
     }
+    const vidToMove = this.props.canvasRecording.video.details
+    if((mouseX > vidToMove.x && mouseX < vidToMove.x + vidToMove.width)&&
+      (mouseY > vidToMove.y && mouseY < vidToMove.y + vidToMove.height *1.05)){
+      console.log('Hit vid')
+      this.props.videoDragging(true);
+      this.props.setMouse([mouseX,mouseY])
+    }
+
+    }
+
+  onMouseMove(e){ 
+
+    //if(!this.props.images.dragging) return
+    
+
+
+    e.preventDefault()
+    e.stopPropagation()   
+    const mouseX = this.offset(e).x; // Scaled from hidden canvas
+    const mouseY = this.offset(e).y *1.05; // Scaled from hidden canvas
+    const image = this.props.images.currentImage;
+    if(this.props.images.dragging){
+
+      image.details.x += Number(mouseX) - Number(this.props.images.mouse[0])
+      image.details.y += Number(mouseY) - Number(this.props.images.mouse[1])  
+      this.props.currentImage(image);
+      this.props.addCanvasImage(image.img, image.details.x, image.details.y);
+      this.props.setMouse([mouseX,mouseY])
+    } 
+    else if(this.props.canvasRecording.videoDragging){
+    
+      const video = this.props.canvasRecording.video;
+      video.details.x += Number(mouseX) - Number(this.props.images.mouse[0])
+      video.details.y += Number(mouseY) - Number(this.props.images.mouse[1])      
+      canvasRecordingActions.canvasVideoAnimation(video, image.img, image.details.x, image.details.y )
+      this.props.setMouse([mouseX,mouseY]);
+    } else {
+      return
+    }
+    
+
+  }
+  onMouseUp(){
+    if(this.props.images.dragging){
+    this.props.setDragging(false);
+    } else if(this.props.canvasRecording.videoDragging){
+    this.props.videoDragging(false);
+    } else {
+      return
+    }
+    
+  }
 
   render(){
     return (
       <Wrapper>        
       <Canvas
-
         onMouseDown = {(e) => this.onMouseDown(e)}
-        onMouseMove = { this.debounceEvent(this.onMouseMove, 200)}
+        onMouseMove = { this.debounceEvent(this.onMouseMove, 100)}
         onMouseUp = {(e) => this.onMouseUp(e)}
         onMouseOut = {(e) => this.onMouseUp(e)}
         width="700" 
@@ -115,10 +142,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addCanvasImage:(image, top, left) => { dispatch(canvasRecordingActions.addCanvasImage(image, top,left))},
+    addCanvasImage:(image, top, left) => { dispatch(castlyActions.addCanvasImage(image, top,left))},
     setMouse:(mouse) => { dispatch(castlyActions.setMouse(mouse))},
     currentImage: (image) => { dispatch(castlyActions.currentImage(image)) },
     setDragging:(dragging) => { dispatch(castlyActions.setDragging(dragging))},
+    videoDragging:(dragging) => { dispatch(canvasRecordingActions.videoDragging(dragging))},  
   };
 }
 

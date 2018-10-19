@@ -10,7 +10,7 @@ const initialState = {
 }
 
 const intilizeUserMedia = (state, action) => {
-  return { ...state, dataStream: action.payload[0], audioCtx: action.payload[1]}
+  return { ...state, dataStream: action.payload[0], audioCtx: action.payload[1], video: action.payload[2]}
 }
 
 const startRecording = (state, action) => {
@@ -35,6 +35,10 @@ const exportVideo = (state, action) => {
   return { ...state, videoData: action.payload}
 }
 
+const videoDragging = (state, action) => {
+  return { ...state, videoDragging: action.payload}
+}
+
 const canvasRecording = (state = initialState , action) => {
     switch (action.type) {
         case "INITILIZE_USER_MEDIA": return intilizeUserMedia(state, action);
@@ -43,6 +47,7 @@ const canvasRecording = (state = initialState , action) => {
         case "ADD_CANVAS_IMAGE": return addCanvasImage(state, action);                            
         case "UPDATE_RECORD_BUTTONS": return updateRecordButtons(state, action);                            
         case "VIDEO_DATA": return exportVideo(state, action);                            
+        case "VIDEO_DRAGGING": return videoDragging(state, action);                            
         break;
     }
     return state;

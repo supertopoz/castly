@@ -67,13 +67,25 @@ const Button = styled.div`
 
 class DisplayImages extends React.Component {
 
-  addCanvasImage(image){
-   this.props.addCanvasImage(image.preview, 200, 200);
-   const details = { x: 200, y: 200, width: image.width, height:image.height};
-   image['details'] = details;
-   this.props.currentImage(image);
 
-   
+  createNewImage(image){
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.src = image.preview;
+        img.addEventListener('load', function(){
+          resolve(img);
+        })
+    })
+  }
+
+  addCanvasImage(image){
+   const details = { x: 500, y: 10, width: image.width, height:image.height};
+   image['details'] = details;
+    this.createNewImage(image).then(img => {
+      image['img'] = img;
+      this.props.currentImage(image);
+      this.props.addCanvasImage(image.img, 500, 10);
+    })    
   }
   
   render(){
@@ -112,7 +124,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addImages: (images) => { dispatch(castlyActions.addImages(images)) },
     currentImage: (image) => { dispatch(castlyActions.currentImage(image)) },
-    addCanvasImage:(image, left, top) => { dispatch(canvasRecordingActions.addCanvasImage(image, left, top))}
+    addCanvasImage:(image, left, top) => { dispatch(castlyActions.addCanvasImage(image, left, top))}
   };
 };
 

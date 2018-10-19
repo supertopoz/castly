@@ -53,7 +53,6 @@ class Video extends React.Component {
     this.props.canvasRecording.audioCtx.resume();
     const stream = this.props.canvasRecording.dataStream
     this.props.startRecordingStream(stream);
-
   }
 
   review(){
