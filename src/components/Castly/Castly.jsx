@@ -38,7 +38,7 @@ class Castly extends React.Component {
         
         <DisplayImages/>
         <Video />
-        <HiddenCanvas  width="1080" height="600" id="canvas"/>   
+        <HiddenCanvas  width="1920" height="1080" id="canvas"/>   
         <DisplayCanvas/>
       </Wrapper>
     );

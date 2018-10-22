@@ -42,14 +42,38 @@ class DisplayCanvas extends React.Component {
       videoDragging: false,
       imageDragging: false,
       resizeImage: false,
+      canvasWidth: 768,
+      canvasHeight: 432
     };
+  }
+
+  componentDidMount(){
+
+    var that = this
+    function t(){
+      var w = window,
+      d = document,
+      e = d.documentElement,
+      g = d.getElementsByTagName('body')[0],
+      x = w.innerWidth || e.clientWidth || g.clientWidth,
+      y = w.innerHeight|| e.clientHeight|| g.clientHeight;
+      that.setState({canvasWidth: x-20})
+      that.setState({canvasHeight: (x-20)*0.5625})
+    }
+    window.onload = t;
+  //  window.onresize = t;
   }
 
   offset(e){
    const rect = document.getElementById("canvas2").getBoundingClientRect();
+    let x = e.clientX;
+    let y = e.clientY;
+    if(e.touches) x = e.touches[0].clientX;
+    if(e.touches) y = e.touches[0].clientY;
+
     return {   
-      x: (e.clientX - rect.left) / (rect.right - rect.left) * canvas.width,
-      y: (e.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height
+      x: (x - rect.left) / (rect.right - rect.left) * canvas.width,
+      y: (y - rect.top) / (rect.bottom - rect.top) * canvas.height
     };
   }
 
@@ -67,17 +91,21 @@ class DisplayCanvas extends React.Component {
     this.setState({imageDragging: false})
     this.setState({videoDragging: false})
     const mouseX = this.offset(e).x; // Scaled from hidden canvas
-    const mouseY = this.offset(e).y * 1.05; // Scaled from hidden canvas
+    const mouseY = this.offset(e).y; // Scaled from hidden canvas
+    console.log(mouseX)
+    console.log(mouseY)
     if(this.props.images.currentImage !== null){
+
       const imgToMove = this.props.images.currentImage.details
-      if((mouseX > imgToMove.x && mouseX < imgToMove.x + imgToMove.width *1.05)&&
-        (mouseY > imgToMove.y && mouseY < imgToMove.y + imgToMove.height *1.05)){
+      if((mouseX > imgToMove.x && mouseX < imgToMove.x + imgToMove.width)&&
+        (mouseY > imgToMove.y && mouseY < imgToMove.y + imgToMove.height)){
+          console.log('in current image')
         this.setState({imageDragging: true})
         this.setState({mouse: [mouseX,mouseY]})
       }
-    if (Math.abs(mouseX - (imgToMove.x + imgToMove.width *1.05)) <20 && 
-      Math.abs(mouseY - (imgToMove.y + imgToMove.height *1.05)) <20)  {
-      console.log('resize1')
+    if (Math.abs(mouseX - (imgToMove.x + imgToMove.width)) <40 && 
+      Math.abs(mouseY - (imgToMove.y + imgToMove.height)) <40)  {
+      console.log('hit corner')
       this.setState({resizeImage: true})
       this.setState({mouse: [mouseX,mouseY]})
       // dragBR = true;
@@ -87,7 +115,7 @@ class DisplayCanvas extends React.Component {
     }
     const vidToMove = this.props.canvasRecording.video.details
     if((mouseX > vidToMove.x && mouseX < vidToMove.x + vidToMove.width)&&
-      (mouseY > vidToMove.y && mouseY < vidToMove.y + vidToMove.height *1.05)){
+      (mouseY > vidToMove.y && mouseY < vidToMove.y + vidToMove.height)){
       this.setState({videoDragging: true})
       this.setState({mouse: [mouseX,mouseY]})
     }
@@ -100,7 +128,6 @@ class DisplayCanvas extends React.Component {
       image.details.x += Number(mouseX) - Number(this.state.mouse[0])
       image.details.y += Number(mouseY) - Number(this.state.mouse[1])  
       this.setState({image})
-      console.log('from Move Image',this.state.image.details)
       this.props.addCanvasImage(image.img, image.details.x, image.details.y, image.corner);
       this.setState({mouse: [mouseX,mouseY]})
     }
@@ -118,7 +145,6 @@ class DisplayCanvas extends React.Component {
     }
 
     cornerMove(mouseX, mouseY){
-        console.log('RESIZE 2')
         const image = this.props.images.currentImage;
 
         // TO DO - CHANGE THE CURENT IMAGE NOT THE UNDERLYING IMAGE. 
@@ -127,7 +153,6 @@ class DisplayCanvas extends React.Component {
         image.img.height = image.img.width * this.props.images.images[0].height/this.props.images.images[0].width
         image.details.width = Math.abs(image.details.x - 1 - mouseX );
         image.details.height = image.img.width * this.props.images.images[0].height/this.props.images.images[0].width
-        console.log('Image from moving corner',this.state.image.details)
         this.props.addCanvasImage(image.img, image.details.x, image.details.y, image.corner);
         this.setState({image})
         this.setState({mouse: [mouseX,mouseY]})
@@ -145,7 +170,6 @@ class DisplayCanvas extends React.Component {
 
   onMouseUp(){
     this.props.currentImage(this.state.image);
-    console.log('hit Mouse up')
     this.setState({resizeImage: false})
     this.setState({imageDragging: false})
     this.setState({videoDragging: false})
@@ -158,9 +182,10 @@ class DisplayCanvas extends React.Component {
         onMouseDown = {(e) => this.onMouseDown(e)}
         onMouseMove = { this.debounceEvent(this.onMouseMove, 100)}
         onMouseUp = {(e) => this.onMouseUp(e)}
-        onMouseOut = {(e) => this.onMouseUp(e)}
-        width="700" 
-        height="300" 
+        onMouseOut = {(e) => this.onMouseUp(e)}        
+        onTouchStart = {(e) => this.onMouseDown(e)}
+        width={this.state.canvasWidth} 
+        height={this.state.canvasHeight} 
         id="canvas2"        
       />
       </Wrapper>

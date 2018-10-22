@@ -12,17 +12,30 @@ export const videoDragging = (dragging) => {
     };
 }
 
-  const cloneCanvas = (oldCanvas) => {
+  const cloneCanvas = (oldCanvas, x, y) => {
     // This is the displayed canvas
     const newCanvas = window.document.getElementById('canvas2');
     const context = newCanvas.getContext('2d');
-    newCanvas.width = 700//oldCanvas.width /2;
-    newCanvas.height = 394//oldCanvas.height /2;
+    newCanvas.width = x// 700//oldCanvas.width /2;
+    newCanvas.height = y//394//oldCanvas.height /2;
     context.drawImage(oldCanvas, 0, 0, newCanvas.width, newCanvas.height);
-    context.scale(0.5,0.5)
+//context.scale(0.5,0.5)
   }
 
-export const canvasVideoAnimation = (video) => {     
+export const canvasVideoAnimation = (video) => {    
+
+
+    var w = window,
+    d = document,
+    e = d.documentElement,
+    g = d.getElementsByTagName('body')[0],
+    x = w.innerWidth || e.clientWidth || g.clientWidth,
+    y = w.innerHeight|| e.clientHeight|| g.clientHeight;
+    console.log(x)
+    const width = x-20//oldCanvas.width /2;
+    const height = (width)*0.5625394//oldCanvas.height /2;
+
+
       const canvas = window.document.getElementById('canvas');
       const ctx = canvas.getContext('2d'); 
       ctx.save();
@@ -34,7 +47,7 @@ export const canvasVideoAnimation = (video) => {
         ctx.fillRect(0, 0, ctx.height, ctx.width); 
         ctx.fillStyle = '#03A9F4';    
         ctx.drawImage(video, video.details.x, video.details.y, video.details.width, video.details.height); 
-        cloneCanvas(canvas)
+        cloneCanvas(canvas, width, height)
     };
     draw();
   }
