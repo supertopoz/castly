@@ -78,13 +78,27 @@ class DisplayImages extends React.Component {
     })
   }
 
+  createCorner(){
+    return new Promise((resolve, reject) => {
+      const corner = new Image()
+      corner.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAACiSURBVDiN5dQxCsMwDIXhpNcSOkfIZHLi4CwxOYVHTf47mzppLTIU8sYH+kAgNAIMN+Z1J/Z/YEppCCHUJc4cx4Gqsq5r1bvAM8wFXmHdYAsrpfjAFhZjZJqmfrCFbduGiLDvex/Yg30Fe7FL0IOdgl6sCf6KlVLIOZNzrk5n8GAAZoaIICKYWRtcloUYYzU4zzMppY/VzAxVRVUrcISnPdg3D5nIVm+mB9cAAAAASUVORK5CYII=';
+      corner.addEventListener('load', function(){
+        resolve(corner)
+      })
+    }).catch(e => reject(e))
+  }
+
   addCanvasImage(image){
    const details = { x: 500, y: 10, width: image.width, height:image.height};
    image['details'] = details;
     this.createNewImage(image).then(img => {
-      image['img'] = img;
-      this.props.currentImage(image);
-      this.props.addCanvasImage(image.img, 500, 10);
+      this.createCorner().then( corner =>{
+        image['img'] = img;
+        image['corner'] = corner
+          console.log(corner)
+        this.props.currentImage(image);             
+        this.props.addCanvasImage(image.img, 500, 10, corner);        
+      })
     })    
   }
   
@@ -123,8 +137,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addImages: (images) => { dispatch(castlyActions.addImages(images)) },
-    currentImage: (image) => { dispatch(castlyActions.currentImage(image)) },
-    addCanvasImage:(image, left, top) => { dispatch(castlyActions.addCanvasImage(image, left, top))}
+    currentImage: (image, corner) => { dispatch(castlyActions.currentImage(image, corner)) },
+    addCanvasImage:(image, left, top, corner) => { dispatch(castlyActions.addCanvasImage(image, left, top, corner))}
   };
 };
 

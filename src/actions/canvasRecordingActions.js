@@ -21,11 +21,10 @@ export const videoDragging = (dragging) => {
     context.drawImage(oldCanvas, 0, 0, newCanvas.width, newCanvas.height);
     context.scale(0.5,0.5)
   }
-  export const canvasVideoAnimation = (video, image, x, y) => {     
+
+export const canvasVideoAnimation = (video) => {     
       const canvas = window.document.getElementById('canvas');
       const ctx = canvas.getContext('2d'); 
-      if(image) ctx.drawImage(image, x, y, image.width, image.height)
-     //   ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); 
       ctx.save();
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); 

@@ -26,7 +26,7 @@ export function setDragging(dragging) {
     };
 }
 
-export const addCanvasImage = (image, x, y) => { 
+export const addCanvasImage = (image, x, y, corner) => {
   return (dispatch) => {
   // This is the hidden Canvas
   const hiddenCanvas = window.document.getElementById('canvas');
@@ -38,6 +38,11 @@ export const addCanvasImage = (image, x, y) => {
   context.fillRect(0, 0, context.canvas.width, context.canvas.height); 
   context.fillStyle = '#03A9F4';
   context.drawImage(image, x, y, image.width, image.height)
+  if(corner){
+    context.drawImage(corner, (x + image.width), (y + image.height), 20, 20)
+  }
+
+
   }
   dispatch({
           type: "CURRENT_IMAGE",
