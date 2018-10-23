@@ -55,10 +55,14 @@ class DisplayCanvas extends React.Component {
       d = document,
       e = d.documentElement,
       g = d.getElementsByTagName('body')[0],
-      x = w.innerWidth || e.clientWidth || g.clientWidth,
-      y = w.innerHeight|| e.clientHeight|| g.clientHeight;
-      that.setState({canvasWidth: x-20})
-      that.setState({canvasHeight: (x-20)*0.5625})
+      x = w.innerWidth || e.clientWidth || g.clientWidth
+      if(x < 700){
+      that.setState({canvasWidth: x-40})
+      that.setState({canvasHeight: (x-40)*0.5625})
+      } else {
+          that.setState({canvasWidth: 700})
+          that.setState({canvasHeight: (x-40)*0.5625})
+      }
     }
     window.onload = t;
   //  window.onresize = t;

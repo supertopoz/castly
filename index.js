@@ -35,7 +35,7 @@ if ('serviceWorker' in navigator) {
               if (navigator.serviceWorker.controller) {
                 console.log('New or updated content is available.');
               } else {
-                NotificationManager.info('Yey! Hangman will work offline!');
+                NotificationManager.info('Yey! Castly will work offline!');
                 console.log('Content is now available offline!');
               }
               break;

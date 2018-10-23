@@ -57,7 +57,7 @@ export const addCanvasImage = (image, x, y, corner) => {
   ctx.strokeRect(x, y, image.width,image.height);
   ctx.stroke();
   if(corner){
-  ctx.drawImage(corner, (x + image.width), (y + image.height), 40, 40)
+    ctx.drawImage(corner, (x + image.width), (y + image.height), 40, 40)
   }
 
 
