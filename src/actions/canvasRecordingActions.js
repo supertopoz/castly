@@ -5,13 +5,6 @@ export const setAudioContext = context => {
     };
 }
 
-export const videoDragging = (dragging) => { 
-    return {
-        type: "VIDEO_DRAGGING",
-        payload: dragging
-    };
-}
-
   const cloneCanvas = (oldCanvas, x, y) => {
     // This is the displayed canvas
     const newCanvas = window.document.getElementById('canvas2');
@@ -22,8 +15,7 @@ export const videoDragging = (dragging) => {
 //context.scale(0.5,0.5)
   }
 
-export const canvasVideoAnimation = (video) => {    
-
+export const canvasVideoAnimation = (video, resize) => {    
 
     var w = window,
     d = document,
@@ -31,8 +23,7 @@ export const canvasVideoAnimation = (video) => {
     g = d.getElementsByTagName('body')[0],
     x = w.innerWidth || e.clientWidth || g.clientWidth,
     y = w.innerHeight|| e.clientHeight|| g.clientHeight;
-    console.log(x)
-    const width = x-20//oldCanvas.width /2;
+    const width = (x/100)*90//oldCanvas.width /2;
     const height = (width)*0.5625394//oldCanvas.height /2;
 
 
@@ -47,6 +38,9 @@ export const canvasVideoAnimation = (video) => {
         ctx.fillRect(0, 0, ctx.height, ctx.width); 
         ctx.fillStyle = '#03A9F4';    
         ctx.drawImage(video, video.details.x, video.details.y, video.details.width, video.details.height); 
+        if(resize){
+          ctx.drawImage(resize, (video.details.x + video.details.width), (video.details.y + video.details.height), 40, 40)
+        }      
         cloneCanvas(canvas, width, height)
     };
     draw();
@@ -113,27 +107,44 @@ const createVideo = (stream) => {
    })
 }
 
+const createCorner =() =>{
+    return new Promise((resolve, reject) => {
+      const corner = new Image()
+      corner.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAACiSURBVDiN5dQxCsMwDIXhpNcSOkfIZHLi4CwxOYVHTf47mzppLTIU8sYH+kAgNAIMN+Z1J/Z/YEppCCHUJc4cx4Gqsq5r1bvAM8wFXmHdYAsrpfjAFhZjZJqmfrCFbduGiLDvex/Yg30Fe7FL0IOdgl6sCf6KlVLIOZNzrk5n8GAAZoaIICKYWRtcloUYYzU4zzMppY/VzAxVRVUrcISnPdg3D5nIVm+mB9cAAAAASUVORK5CYII=';
+      corner.addEventListener('load', function(){
+        resolve(corner)
+      })
+    }).catch(e => reject(e))
+  }
+
+
 const intilizeUserMedia = () => {
  getUserStream().then(stream => {
   createVideo(stream).then((video) =>{
     showVideo(video, stream).then((video) => {
       injectNewAudio(video, stream).then(dataStream => {
         // Add video to store. then start animation.
-        video.details = {
-          width: video.videoWidth/1.5,
-          height: video.videoHeight/1.5,
+        createCorner().then(corner => {
+          video.details = {
+          width: video.videoWidth/1.3,
+          height:video.videoHeight/1.3,
+          originalWidth: video.videoWidth/1.3,
+          originalHeight: video.videoHeight/1.3,
+          ratio: ()=> this.originalHeight/this.originalWidth,
           x: 0,
           y: 0
         }
-        canvasVideoAnimation(video)
+ 
+        canvasVideoAnimation(video, corner)
         dispatch({
           type: "INITILIZE_USER_MEDIA",
-        	payload:[dataStream, audioCtx, video]
+          payload:[dataStream, audioCtx, video]
         });
+        })
       }).catch(err=>{
        	dispatch({
           type: "INITILIZE_USER_MEDIA",
-        	payload:[error, error, error]
+        	payload:[err, err, err]
         });
       })
     })

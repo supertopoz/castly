@@ -1,6 +1,6 @@
 {
-  "name": "hangman.education",
-  "short_name": "hangman",
+  "name": "castly",
+  "short_name": "castly",
   "theme_color": "#aa00ff",
   "background_color": "white",
   "display": "fullscreen",

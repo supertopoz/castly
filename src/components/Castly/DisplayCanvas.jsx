@@ -39,11 +39,14 @@ class DisplayCanvas extends React.Component {
     this.state = {
       mouse: [],
       image: {},
+      video: {},
       videoDragging: false,
       imageDragging: false,
       resizeImage: false,
+      resizeVideo: false,
       canvasWidth: 768,
-      canvasHeight: 432
+      canvasHeight: 432, 
+      imageStage: {x: 10, y:10, width: 1280, height: 720}
     };
   }
 
@@ -65,7 +68,6 @@ class DisplayCanvas extends React.Component {
       }
     }
     window.onload = t;
-  //  window.onresize = t;
   }
 
   offset(e){
@@ -89,6 +91,7 @@ class DisplayCanvas extends React.Component {
     }
   }
 
+
   onMouseDown(e){
     e.preventDefault();
     e.stopPropagation();
@@ -96,26 +99,20 @@ class DisplayCanvas extends React.Component {
     this.setState({videoDragging: false})
     const mouseX = this.offset(e).x; // Scaled from hidden canvas
     const mouseY = this.offset(e).y; // Scaled from hidden canvas
-    console.log(mouseX)
-    console.log(mouseY)
+    const imageStage = this.state.imageStage;
     if(this.props.images.currentImage !== null){
 
-      const imgToMove = this.props.images.currentImage.details
-      if((mouseX > imgToMove.x && mouseX < imgToMove.x + imgToMove.width)&&
-        (mouseY > imgToMove.y && mouseY < imgToMove.y + imgToMove.height)){
-          console.log('in current image')
+    if (Math.abs(mouseX - (imageStage.x + imageStage.width)) <40 && 
+      Math.abs(mouseY - (imageStage.y + imageStage.height)) <40)  {
+      this.setState({resizeImage: true})
+      this.setState({mouse: [mouseX,mouseY]})
+    }
+    if((mouseX > imageStage.x && mouseX < imageStage.x + imageStage.width)&&
+      (mouseY > imageStage.y && mouseY < imageStage.y + imageStage.height)){
         this.setState({imageDragging: true})
         this.setState({mouse: [mouseX,mouseY]})
       }
-    if (Math.abs(mouseX - (imgToMove.x + imgToMove.width)) <40 && 
-      Math.abs(mouseY - (imgToMove.y + imgToMove.height)) <40)  {
-      console.log('hit corner')
-      this.setState({resizeImage: true})
-      this.setState({mouse: [mouseX,mouseY]})
-      // dragBR = true;
-      // ctx.clearRect(0, 0, canvas.width, canvas.height);
-      // draw(rect, rect2);
-    }
+
     }
     const vidToMove = this.props.canvasRecording.video.details
     if((mouseX > vidToMove.x && mouseX < vidToMove.x + vidToMove.width)&&
@@ -124,15 +121,23 @@ class DisplayCanvas extends React.Component {
       this.setState({mouse: [mouseX,mouseY]})
     }
 
+    if (Math.abs(mouseX - (vidToMove.x + vidToMove.width)) <40 && 
+      Math.abs(mouseY - (vidToMove.y + vidToMove.height)) <40)  {
+      this.setState({resizeVideo: true})
+      this.setState({mouse: [mouseX,mouseY]})
+    }
+
 
     }
 
     moveImage(mouseX, mouseY){
+      const imageStage = this.state.imageStage;
       const image = this.props.images.currentImage;
-      image.details.x += Number(mouseX) - Number(this.state.mouse[0])
-      image.details.y += Number(mouseY) - Number(this.state.mouse[1])  
-      this.setState({image})
-      this.props.addCanvasImage(image.img, image.details.x, image.details.y, image.corner);
+      const resize = this.props.images.resize;
+      imageStage.x += Number(mouseX) - Number(this.state.mouse[0])
+      imageStage.y += Number(mouseY) - Number(this.state.mouse[1])  
+      this.setState({imageStage})
+      this.props.addCanvasImage(image.img, imageStage, resize);
       this.setState({mouse: [mouseX,mouseY]})
     }
 
@@ -142,23 +147,36 @@ class DisplayCanvas extends React.Component {
       video.details.y += Number(mouseY) - Number(this.state.mouse[1])    
       const image = this.props.images.currentImage;
       canvasRecordingActions.canvasVideoAnimation(video)
+      const imageStage = this.state.imageStage;
+      const resize = this.props.images.resize;
       if(image){
-        this.props.addCanvasImage(image.img, image.details.x, image.details.y, image.corner);   
+        this.props.addCanvasImage(image.img, imageStage, resize);   
       }
       this.setState({mouse: [mouseX,mouseY]})
     }
 
-    cornerMove(mouseX, mouseY){
+    resizeStage(mouseX, mouseY){
         const image = this.props.images.currentImage;
+        const imageStage = this.state.imageStage;
+        const resize = ''// this.props.images.resize;
+        imageStage.width = Math.abs(imageStage.x - 1 - mouseX );
+        imageStage.height = imageStage.width * 0.5625
+        this.props.addCanvasImage(image.img, imageStage, resize);
+        this.setState({imageStage})
+        this.setState({mouse: [mouseX,mouseY]})
+    }    
 
-        // TO DO - CHANGE THE CURENT IMAGE NOT THE UNDERLYING IMAGE. 
-
-        image.img.width = Math.abs(image.details.x - 1 - mouseX );
-        image.img.height = image.img.width * this.props.images.images[0].height/this.props.images.images[0].width
-        image.details.width = Math.abs(image.details.x - 1 - mouseX );
-        image.details.height = image.img.width * this.props.images.images[0].height/this.props.images.images[0].width
-        this.props.addCanvasImage(image.img, image.details.x, image.details.y, image.corner);
-        this.setState({image})
+    resizeVideo(mouseX, mouseY){
+        const video = this.props.canvasRecording.video
+        const resize = this.props.images.resize;        
+        video.details.width = Math.abs(Number(video.details.x) - 1 - Number(mouseX));
+        video.details.height = video.details.width * (video.details.originalHeight/video.details.originalWidth)
+        canvasRecordingActions.canvasVideoAnimation(video, resize)
+        const imageStage = this.state.imageStage;
+        const image = this.props.images.currentImage;
+        if(image){
+          this.props.addCanvasImage(image.img, imageStage, resize);   
+        }
         this.setState({mouse: [mouseX,mouseY]})
     }
  
@@ -169,12 +187,15 @@ class DisplayCanvas extends React.Component {
       const mouseY = this.offset(e).y *1.05; // Scaled from hidden canvas
       if(this.state.imageDragging)this.moveImage(mouseX, mouseY)
       if(this.state.videoDragging)this.moveVideo(mouseX, mouseY)
-      if(this.state.resizeImage) this.cornerMove(mouseX, mouseY)
+      if(this.state.resizeImage) this.resizeStage(mouseX, mouseY)
+      if(this.state.resizeVideo) this.resizeVideo(mouseX, mouseY)
     }
 
   onMouseUp(){
-    this.props.currentImage(this.state.image);
+  //  this.props.currentImage(this.state.image);
+    this.props.imageStageDetails(this.state.imageStage)
     this.setState({resizeImage: false})
+    this.setState({resizeVideo: false})
     this.setState({imageDragging: false})
     this.setState({videoDragging: false})
   }
@@ -184,7 +205,7 @@ class DisplayCanvas extends React.Component {
       <Wrapper>        
       <Canvas
         onMouseDown = {(e) => this.onMouseDown(e)}
-        onMouseMove = { this.debounceEvent(this.onMouseMove, 100)}
+        onMouseMove = { this.debounceEvent(this.onMouseMove, 50)}
         onMouseUp = {(e) => this.onMouseUp(e)}
         onMouseOut = {(e) => this.onMouseUp(e)}        
         onTouchStart = {(e) => this.onMouseDown(e)}
@@ -203,11 +224,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addCanvasImage:(image, top, left, corner) => { dispatch(castlyActions.addCanvasImage(image, top,left, corner))},
+    addCanvasImage:(image, imageStage, resize) => { dispatch(castlyActions.addCanvasImage(image, imageStage, resize))},
+    imageStageDetails: (details) => { dispatch(castlyActions.imageStageDetails(details)) },
     setMouse:(mouse) => { dispatch(castlyActions.setMouse(mouse))},
     currentImage: (image) => { dispatch(castlyActions.currentImage(image)) },
     setDragging:(dragging) => { dispatch(castlyActions.setDragging(dragging))},
-    videoDragging:(dragging) => { dispatch(canvasRecordingActions.videoDragging(dragging))},  
   };
 }
 

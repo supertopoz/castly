@@ -2,7 +2,9 @@ const initialState = {
     images: [],
     currentImage: null,
     mouse: [],
-    dragging: false
+    dragging: false,
+    resize: null,
+    imageStage: {x: 10, y: 10, width: 1280, height: 720}
 }
 
 const addImages = (state, action) => {
@@ -13,20 +15,20 @@ const currentImage = (state, action) => {
   return { ...state, currentImage: action.payload}
 }
 
-const setMouse = (state, action) => {
-  return { ...state, mouse: action.payload}
+const imageStageDetails = (state, action) => {
+  return { ...state, imageStage: action.payload}
 }
 
-const setDragging = (state, action) => {
-  return { ...state, dragging: action.payload}
+const resize = (state, action) => {
+  return { ...state, resize: action.payload}
 }
 
 const castly = (state = initialState , action) => {
     switch (action.type) {
         case "ADD_IMAGES": return addImages(state, action);       
         case "CURRENT_IMAGE": return currentImage(state, action);       
-        case "SET_MOUSE": return setMouse(state, action);     
-        case "DRAGGING": return setDragging(state, action);       
+        case "IMAGE_STAGE_DETAILS": return imageStageDetails(state, action);       
+        case "RESIZE": return resize(state, action);               
         break;
     }
     return state;

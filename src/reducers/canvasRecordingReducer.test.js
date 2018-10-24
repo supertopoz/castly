@@ -116,5 +116,16 @@ describe('canvas recording reducer', () => {
         payload: payload
       })
     ).toEqual(targetState)
+  })  
+  it('should handle VIDEO_DATA', () => {
+    const initialState1 = {videoData: null}
+    const payload = {};
+    const targetState = {videoData: {}}
+    expect(
+      canvasRecording(initialState1, {
+        type: 'VIDEO_DATA',
+        payload: payload
+      })
+    ).toEqual(targetState)
   })
 })

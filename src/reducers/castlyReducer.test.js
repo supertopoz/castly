@@ -2,9 +2,13 @@ import castly from './castlyReducer';
 
 
 const initialState = {
-        images: [],
-
-      }
+    images: [],
+    currentImage: null,
+    mouse: [],
+    dragging: false,
+    resize: null,
+    imageStage: {x: 10, y: 10, width: 1280, height: 720}
+}
 
  const targetStateAddWords = {
         images: [],
@@ -39,15 +43,29 @@ describe('castly reducer', () => {
     expect(castly(undefined, {})).toEqual(initialState)
   })
   it('should handle ADD_IMAGES', () => {
-
-    const targetState = {
-      images: images
-    }
-    expect(
-      castly(initialState, {
-        type: 'ADD_IMAGES',
-        payload: images
-      })
-    ).toEqual(targetState)
-  })
+    const initialState = { images: [] }
+    const targetState = { images: images}
+    expect(castly(initialState, { type: 'ADD_IMAGES', payload: images }))
+    .toEqual(targetState)
+  })  
+  it('should handle CURRENT_IMAGE', () => {
+    const initialState = { currentImage: null}
+    const targetState = { currentImage: image1}
+    expect(castly(initialState, { type: 'CURRENT_IMAGE', payload: image1 }))
+    .toEqual(targetState)
+  })  
+  it('should handle IMAGE_STAGE_DETAILS', () => {
+    const payload = {x: 20, y: 20, width: 1280, height: 720}
+    const initialState = { imageStage: {x: 10, y: 10, width: 1280, height: 720}}
+    const targetState = { imageStage: {x: 20, y: 20, width: 1280, height: 720}}
+    expect(castly(initialState, { type: 'IMAGE_STAGE_DETAILS', payload}))
+    .toEqual(targetState)
+  })  
+  it('should handle RESIZE', () => {
+    const payload = {image:''}
+    const initialState = { resize: null}
+    const targetState = { resize: {image: ''}}
+    expect(castly(initialState, { type: 'RESIZE', payload}))
+    .toEqual(targetState)
+  })  
 })

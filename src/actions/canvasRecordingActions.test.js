@@ -1,4 +1,3 @@
-import * as actions from "./canvasRecordingActions";
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import sinon from 'sinon'
@@ -7,6 +6,7 @@ const mockStore = configureMockStore(middlewares)
 import { JSDOM } from "jsdom"
 const dom = new JSDOM()
 
+import * as actions from "./canvasRecordingActions";
 
 
 

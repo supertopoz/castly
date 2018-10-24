@@ -5,24 +5,24 @@ export function addImages(images = []) {
     };
 }
 
-export function currentImage(image) {	
+export function currentImage(image) { 
     return {
         type: "CURRENT_IMAGE",
         payload: image
     };
 }
 
-export function setMouse(mouse) {	
+export function imageStageDetails(details) { 
     return {
-        type: "SET_MOUSE",
-        payload: mouse
+        type: "IMAGE_STAGE_DETAILS",
+        payload: details
     };
 }
-            	
-export function setDragging(dragging) {	
+
+export function resize(resize) {	
     return {
-        type: "DRAGGING",
-        payload: dragging
+        type: "RESIZE",
+        payload: resize
     };
 }
 
@@ -39,25 +39,26 @@ export function setDragging(dragging) {
 
 
 
-export const addCanvasImage = (image, x, y, corner) => {
+export const addCanvasImage = (image, imageStage, resize) => {
   return (dispatch) => {
   // This is the hidden Canvas
   const hiddenCanvas = window.document.getElementById('canvas');
   const ctx = hiddenCanvas.getContext('2d');
+  var newImageHeight = imageStage.height;
+  var newImageWidth = image.width * (imageStage.height/image.height)
   // ctx.save();
   // ctx.setTransform(1, 0, 0, 1, 0, 0);
   // ctx.clearRect(0, 0, canvas.width, canvas.height);
   // ctx.restore();
   ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); 
-  ctx.fillStyle = '#03A9F4';
-
-  ctx.drawImage(image, x, y, image.width, image.height)
+  //ctx.fillStyle = '#03A9F4';
   ctx.beginPath();
-  ctx.setLineDash([5, 3]);
-  ctx.strokeRect(x, y, image.width,image.height);
+    ctx.fillStyle = 'red';
+    ctx.fillRect(imageStage.x, imageStage.y, imageStage.width, imageStage.height)
+    ctx.drawImage(image, imageStage.x+ imageStage.width/2 - newImageWidth/2, imageStage.y, (newImageWidth), newImageHeight)
   ctx.stroke();
-  if(corner){
-    ctx.drawImage(corner, (x + image.width), (y + image.height), 40, 40)
+  if(resize){
+    ctx.drawImage(resize, (imageStage.x + imageStage.width), (imageStage.y + imageStage.height), 40, 40)
   }
 
 
