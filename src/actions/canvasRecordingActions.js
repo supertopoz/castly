@@ -23,8 +23,8 @@ export const canvasVideoAnimation = (video, resize) => {
     g = d.getElementsByTagName('body')[0],
     x = w.innerWidth || e.clientWidth || g.clientWidth,
     y = w.innerHeight|| e.clientHeight|| g.clientHeight;
-    const width = (x/100)*90//oldCanvas.width /2;
-    const height = (width)*0.5625394//oldCanvas.height /2;
+    const width = Math.floor((x/100)*90)//oldCanvas.width /2;
+    const height = Math.floor((width)*0.5625394)//oldCanvas.height /2;
 
 
       const canvas = window.document.getElementById('canvas');
@@ -34,14 +34,16 @@ export const canvasVideoAnimation = (video, resize) => {
       ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); 
       ctx.restore();
       const draw = () => { 
-        window.requestAnimationFrame(draw); 
+        
         ctx.fillRect(0, 0, ctx.height, ctx.width); 
         ctx.fillStyle = '#03A9F4';    
         ctx.drawImage(video, video.details.x, video.details.y, video.details.width, video.details.height); 
         if(resize){
           ctx.drawImage(resize, (video.details.x + video.details.width), (video.details.y + video.details.height), 40, 40)
-        }      
+        }   
+        window.requestAnimationFrame(draw);    
         cloneCanvas(canvas, width, height)
+
     };
     draw();
   }
@@ -126,11 +128,10 @@ const intilizeUserMedia = () => {
         // Add video to store. then start animation.
         createCorner().then(corner => {
           video.details = {
-          width: video.videoWidth/1.3,
-          height:video.videoHeight/1.3,
-          originalWidth: video.videoWidth/1.3,
-          originalHeight: video.videoHeight/1.3,
-          ratio: ()=> this.originalHeight/this.originalWidth,
+          width: Math.floor(video.videoWidth/1.3),
+          height: Math.floor(video.videoHeight/1.3),
+          originalWidth: Math.floor(video.videoWidth/1.3),
+          originalHeight: Math.floor(video.videoHeight/1.3),
           x: 0,
           y: 0
         }
