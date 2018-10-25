@@ -4,13 +4,14 @@ const initialState = {
   recorder: null,
   recordingData: null,
   canvasImage: null,
-  recordButtons: ['INITILIZE'],
+  recordButtons: ['fiber_manual_record'],
   newStart: false,
-  videoData: null
+  videoData: null, 
+  initialized: false
 }
 
 const intilizeUserMedia = (state, action) => {
-  return { ...state, dataStream: action.payload[0], audioCtx: action.payload[1], video: action.payload[2]}
+  return { ...state, dataStream: action.payload[0], audioCtx: action.payload[1], video: action.payload[2], initialized: true}
 }
 
 const startRecording = (state, action) => {

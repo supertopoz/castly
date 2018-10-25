@@ -5,18 +5,8 @@ export const setAudioContext = context => {
     };
 }
 
-  const cloneCanvas = (oldCanvas, x, y) => {
+  const cloneCanvas = (oldCanvas) => {
     // This is the displayed canvas
-    const newCanvas = window.document.getElementById('canvas2');
-    const context = newCanvas.getContext('2d');
-    newCanvas.width = x// 700//oldCanvas.width /2;
-    newCanvas.height = y//394//oldCanvas.height /2;
-    context.drawImage(oldCanvas, 0, 0, newCanvas.width, newCanvas.height);
-//context.scale(0.5,0.5)
-  }
-
-export const canvasVideoAnimation = (video, resize) => {    
-
     var w = window,
     d = document,
     e = d.documentElement,
@@ -26,23 +16,37 @@ export const canvasVideoAnimation = (video, resize) => {
     const width = Math.floor((x/100)*90)//oldCanvas.width /2;
     const height = Math.floor((width)*0.5625394)//oldCanvas.height /2;
 
+      if(x < 700){ 
+        x = x-15 
+        y = (x-15)*0.5625 
+      } else {
+          x = 700
+          y =  x*0.5625
+      }
 
+    const newCanvas = window.document.getElementById('canvas2');
+    const context = newCanvas.getContext('2d');
+    newCanvas.width = x// 700//oldCanvas.width /2;
+    newCanvas.height = y//394//oldCanvas.height /2;
+    context.drawImage(oldCanvas, 0, 0, newCanvas.width, newCanvas.height);
+//context.scale(0.5,0.5)
+  }
+
+export const canvasVideoAnimation = (video, resize) => {    
       const canvas = window.document.getElementById('canvas');
       const ctx = canvas.getContext('2d'); 
       ctx.save();
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); 
       ctx.restore();
-      const draw = () => { 
-        
+      const draw = () => {         
         ctx.fillRect(0, 0, ctx.height, ctx.width); 
-        ctx.fillStyle = '#03A9F4';    
         ctx.drawImage(video, video.details.x, video.details.y, video.details.width, video.details.height); 
         if(resize){
           ctx.drawImage(resize, (video.details.x + video.details.width), (video.details.y + video.details.height), 40, 40)
         }   
         window.requestAnimationFrame(draw);    
-        cloneCanvas(canvas, width, height)
+        cloneCanvas(canvas)
 
     };
     draw();
@@ -120,40 +124,39 @@ const createCorner =() =>{
   }
 
 
-const intilizeUserMedia = () => {
- getUserStream().then(stream => {
-  createVideo(stream).then((video) =>{
-    showVideo(video, stream).then((video) => {
-      injectNewAudio(video, stream).then(dataStream => {
-        // Add video to store. then start animation.
-        createCorner().then(corner => {
-          video.details = {
-          width: Math.floor(video.videoWidth/1.3),
-          height: Math.floor(video.videoHeight/1.3),
-          originalWidth: Math.floor(video.videoWidth/1.3),
-          originalHeight: Math.floor(video.videoHeight/1.3),
-          x: 0,
-          y: 0
-        }
- 
-        canvasVideoAnimation(video, corner)
-        dispatch({
-          type: "INITILIZE_USER_MEDIA",
-          payload:[dataStream, audioCtx, video]
-        });
+
+   getUserStream().then(stream => {
+    createVideo(stream).then((video) =>{
+      showVideo(video, stream).then((video) => {
+        injectNewAudio(video, stream).then(dataStream => {
+          // Add video to store. then start animation.
+          createCorner().then(corner => {
+            video.details = {
+            width: Math.floor(video.videoWidth/1.3),
+            height: Math.floor(video.videoHeight/1.3),
+            originalWidth: Math.floor(video.videoWidth/1.3),
+            originalHeight: Math.floor(video.videoHeight/1.3),
+            x: 0,
+            y: 0
+          }
+          canvasVideoAnimation(video, corner)
+
+          dispatch({
+            type: "INITILIZE_USER_MEDIA",
+            payload:[dataStream, audioCtx, video]
+          });
+          })
+        }).catch(err=>{
+         	dispatch({
+            type: "INITILIZE_USER_MEDIA",
+          	payload:[err, err, err]
+          });
         })
-      }).catch(err=>{
-       	dispatch({
-          type: "INITILIZE_USER_MEDIA",
-        	payload:[err, err, err]
-        });
       })
     })
-  })
- })
-}
-intilizeUserMedia()
-}
+   })
+  }
+
 }
 
 export const startRecordingStream =(stream) => {
@@ -246,7 +249,6 @@ export const exportVideo =(event) =>{
 export const changeRecordButton = (clickedButton = 'begin') => {
     let newStart = false;
     let icons = []
-    if(clickedButton === 'INITILIZE') icons = ['fiber_manual_record']
     if(clickedButton === 'fiber_manual_record') icons = ['pause','stop']
     if(clickedButton === 'pause') icons = ['fiber_manual_record','stop']
     if(clickedButton === 'stop') icons = ['refresh','cloud_download']

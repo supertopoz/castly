@@ -22,6 +22,7 @@ const Gallary = styled.div`
   display: grid;
   grid-gap: 10px;
   overflow: auto;
+  max-width: 700px;
 `
 const ImageWrapper = styled.div`
   align-items: center;
@@ -32,6 +33,7 @@ const ImageWrapper = styled.div`
   padding-bottom: 10px;
   box-shadow: 1px 1px 1px 1px #9E9E9E;
   margin-bottom: 10px;
+  max-width: 500px;
 `
 
 const ImgName = styled.div`
@@ -88,7 +90,10 @@ class DisplayImages extends React.Component {
     }).catch(e => reject(e))
   }
 
+  componendDidRev
+
   addCanvasImage(image){
+
     this.createNewImage(image).then(img => {
       this.createCorner().then( corner =>{
         image['img'] = img;
@@ -100,10 +105,16 @@ class DisplayImages extends React.Component {
     })    
   }
   
+  shouldComponentUpdate(nextProps, nextState, nextContext){
+    console.log("next Props", nextProps)
+    return true;
+  }
+
   render(){
-    const style = {gridTemplateColumns: `repeat(${this.props.castly.images.length +1}, auto)`}
+    const style = {gridTemplateColumns: `repeat(${this.props.castly.images.length}, auto)`}
     return (
-      <Wrapper>   
+      <Wrapper> 
+      <AddFiles/>  
       <Gallary style={style}> 
       
         {this.props.castly.images.map((image, index)=> {
@@ -120,7 +131,7 @@ class DisplayImages extends React.Component {
           )
           }
         )}
-        <AddFiles/>
+
         </Gallary>    
       </Wrapper>
     );
@@ -129,7 +140,7 @@ class DisplayImages extends React.Component {
 
 
 const mapStateToProps = (state) => {
-  return { castly: state.castly };
+  return { castly: state.castly, canvasRecording: state.canvasRecording };
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -138,7 +149,8 @@ const mapDispatchToProps = (dispatch) => {
     imageStageDetails: (details) => { dispatch(castlyActions.imageStageDetails(details)) },
     currentImage: (image) => { dispatch(castlyActions.currentImage(image)) },
     resize: (corner) => { dispatch(castlyActions.resize(corner)) },
-    addCanvasImage:(image, imageStage, corner) => { dispatch(castlyActions.addCanvasImage(image, imageStage, corner))}
+    addCanvasImage:(image, imageStage, corner) => { dispatch(castlyActions.addCanvasImage(image, imageStage, corner))},
+
   };
 };
 

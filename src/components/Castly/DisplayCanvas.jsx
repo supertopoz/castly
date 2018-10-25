@@ -30,7 +30,7 @@ const Wrapper = styled.div`
 `
 
 const Canvas = styled.canvas`
-   background: #03A9F4;
+   box-shadow: 2px 2px 5px 1px #9E9E9E;
 `
 
 class DisplayCanvas extends React.Component {
@@ -44,30 +44,10 @@ class DisplayCanvas extends React.Component {
       imageDragging: false,
       resizeImage: false,
       resizeVideo: false,
-      canvasWidth: 768,
-      canvasHeight: 432, 
+      canvasWidth: 0,
+      canvasHeight: 0, 
       imageStage: {x: 10, y:10, width: 1280, height: 720}
     };
-  }
-
-  componentDidMount(){
-
-    var that = this
-    function t(){
-      var w = window,
-      d = document,
-      e = d.documentElement,
-      g = d.getElementsByTagName('body')[0],
-      x = w.innerWidth || e.clientWidth || g.clientWidth
-      if(x < 700){
-      that.setState({canvasWidth: x-40})
-      that.setState({canvasHeight: (x-40)*0.5625})
-      } else {
-          that.setState({canvasWidth: 700})
-          that.setState({canvasHeight: (x-40)*0.5625})
-      }
-    }
-    window.onload = t;
   }
 
   offset(e){
@@ -92,9 +72,11 @@ class DisplayCanvas extends React.Component {
   }
 
 
-  onMouseDown(e){
-    e.preventDefault();
-    e.stopPropagation();
+  onMouseDown(e, touch){
+    if(!touch){
+      e.preventDefault();
+      e.stopPropagation();   
+    }
     this.setState({imageDragging: false})
     this.setState({videoDragging: false})
     const mouseX = this.offset(e).x; // Scaled from hidden canvas
@@ -181,8 +163,6 @@ class DisplayCanvas extends React.Component {
     }
  
     onMouseMove(e){ 
-      e.preventDefault()
-      e.stopPropagation()   
       const mouseX = this.offset(e).x; // Scaled from hidden canvas
       const mouseY = this.offset(e).y *1.05; // Scaled from hidden canvas
       if(this.state.imageDragging)this.moveImage(mouseX, mouseY)
@@ -200,6 +180,10 @@ class DisplayCanvas extends React.Component {
     this.setState({videoDragging: false})
   }
 
+  onMouseTouch(e){
+    console.log(this.offset(e).x)
+  }
+
   render(){
     return (
       <Wrapper>        
@@ -208,7 +192,9 @@ class DisplayCanvas extends React.Component {
         onMouseMove = { this.debounceEvent(this.onMouseMove, 50)}
         onMouseUp = {(e) => this.onMouseUp(e)}
         onMouseOut = {(e) => this.onMouseUp(e)}        
-        onTouchStart = {(e) => this.onMouseDown(e)}
+        onTouchStart = {(e) => this.onMouseDown(e, true)}
+        onTouchMove = { this.debounceEvent(this.onMouseMove, 50)}
+        onTouchEnd = {(e) => this.onMouseUp(e)}
         width={this.state.canvasWidth} 
         height={this.state.canvasHeight} 
         id="canvas2"        

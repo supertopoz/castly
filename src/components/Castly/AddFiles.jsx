@@ -5,24 +5,46 @@ import Dropzone from 'react-dropzone';
 import {NotificationManager} from 'react-notifications';
 
 import * as castlyActions from '../../actions/castlyActions';
+import * as canvasRecordingActions from '../../actions/canvasRecordingActions';
+
+
 
 const Wrapper = styled.div``
 
+const Span = styled.span`
+    position: absolute;
+    left: 0;
+    top: 50%;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    margin-top: -19px;
+    color: #FFF;
+    cursor: pointer;
+`
+
 const dropzone = {
-  width: '130px',
-  height: '83%',
-  background: '#f0f0f0',
-  color: '#4F4F4F',
-  border: '1px dashed #4F4F4F',
-  padding: '5%',
-  textAlign: 'center',
+    display: "grid",
+    alignTtems: "center",
+    justifyContent: "center",
+    backgroundColor: "#b818ff",
+    borderRadius: "999em",
+    width: "56px",
+    height: "56px",
+    boxShadow: "0 2px 5px 0 rgba(0, 0, 0, 0.26)",
+    lineHeight: "1",
+    fontSize: "36px",
+    position: "absolute",
+    top: "25px",
+    right: "30px",
+    color: "white",
+    cursor: "pointer"
 }
 
 class AddFiles extends React.Component {
 
   handleOnDrop(files, rejectedFiles){
    files.forEach(file =>{
-    console.log(file)
     var image = new Image();
     image.src = file.preview;
     image.onload = function() {
@@ -31,32 +53,37 @@ class AddFiles extends React.Component {
    }
   })
    this.props.addImages(files)
+   if(this.props.canvasRecording.initialized === false){
+      this.props.initializeUserMedia()
+    }
   }  
   render(){
-    return (
-      <Wrapper>            
+    return (         
         <Dropzone 
-          inputProps={{'id':"dropzone"}} 
+          inputProps={{'id':"droppedzone", "style":{width: "1px"}}} 
           style={dropzone} 
           onDrop={this.handleOnDrop.bind(this)} 
           accept='image/*' 
-          maxSize={5000000}>
-          Drag and drop an image file here or click <label htmlFor="dropzone" >.</label>
+          maxSize={5000000}
+        >
+        <Span><i className="material-icons">add</i></Span>
+        {/* <label htmlFor="droppedzone" >   
+          
+        </label>*/}
         </Dropzone>
-
-      </Wrapper>
     );
   }
 }
 
 
 const mapStateToProps = (state) => {
-  return { castly: state.castly };
+  return { castly: state.castly, canvasRecording: state.canvasRecording};
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     addImages: (images) => { dispatch(castlyActions.addImages(images)) },
+    initializeUserMedia:() => {dispatch(canvasRecordingActions.initializeUserMedia())}
   };
 };
 

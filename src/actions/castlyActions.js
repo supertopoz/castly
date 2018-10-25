@@ -53,7 +53,6 @@ export const addCanvasImage = (image, imageStage, resize) => {
   ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); 
   //ctx.fillStyle = '#03A9F4';
   ctx.beginPath();
-    ctx.fillStyle = 'red';
     ctx.fillRect(imageStage.x, imageStage.y, imageStage.width, imageStage.height)
     ctx.drawImage(image, imageStage.x+ imageStage.width/2 - newImageWidth/2, imageStage.y, (newImageWidth), newImageHeight)
   ctx.stroke();

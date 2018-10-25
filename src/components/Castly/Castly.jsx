@@ -7,14 +7,16 @@ import DisplayImages from './DisplayImages';
 import Video from './Video';
 import DisplayCanvas from './DisplayCanvas';
 
+import * as castlyActions from '../../actions/castlyActions';
+
 const Wrapper = styled.div`
 
     display:grid;
-    border-radius: 10px;
     grid-gap: 10px;
     cursor:pointer;
     margin:0 auto;
-    padding-top: 10px;
+    padding-top: 5px;
+    max-width: 700px;
     @media only screen and (min-width: 320px)  { 
     }
     @media only screen and (min-width: 768px)  {   
@@ -33,13 +35,22 @@ const HiddenCanvas = styled.canvas`
 class Castly extends React.Component {
   
   render(){
+    let display = <div></div>
+    let displayCanvas = <DisplayCanvas/>
+    let displayVideo = <Video />
+    if(this.props.castly.images.length === 0){
+      display = <div>Add picture files of a PDF document</div> 
+      displayCanvas = <div></div>
+      displayVideo = <div></div>
+    }
     return (
-      <Wrapper>        
-        
+      <Wrapper>
+        {display}             
         <DisplayImages/>
-        <Video />
+   
         <HiddenCanvas  width="1920" height="1080" id="canvas"/>   
-        <DisplayCanvas/>
+        {displayCanvas}
+             {displayVideo}
       </Wrapper>
     );
   }
@@ -47,20 +58,11 @@ class Castly extends React.Component {
 
 
 const mapStateToProps = (state) => {
-  return { hangman: state.hangman, pageAnimations: state.pageAnimations };
+  return { castly: state.castly, pageAnimations: state.pageAnimations };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addWords: (word) => { dispatch(hangmanActions.addWords(word)) },
-    reset: (options) => { dispatch(hangmanActions.reset(options)) },    
-    wordFromList: (wordIndex) => { dispatch(hangmanActions.wordFromList(wordIndex)) },    
-    wordListCategory: (wordListCategory) => { dispatch(hangmanActions.wordListCategory(wordListCategory)) },    
-    convertWordToDashes: (currentWord) => { dispatch(hangmanActions.convertWordToDashes(currentWord)) },    
-    getLetter: (letter) => { dispatch(hangmanActions.getLetter(letter)) },   
-    letterCheckInsert: () => { dispatch(hangmanActions.letterCheckInsert()) },   
-    reachedEnd: () => { dispatch(hangmanActions.reachedEnd()) },  
-    hideWordList:(display) => { dispatch(pageAnimations.hideWordList(display))}
   };
 };
 

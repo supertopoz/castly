@@ -26,25 +26,11 @@ const Button = styled.div`
 
 const Buttons = styled.div`
   display: grid;
-
-  border-top: 1px solid rgba(1,1,1,0.25);
-  border-bottom: 1px solid rgba(1,1,1,0.25);
   grid-gap: 20%;
   align-items: center;
   justify-content: center;
   grid-template-columns: 1fr 1fr;
-  @media only screen and (min-width: 320px)  { 
-    padding-top: 15px;
-    padding-bottom: 15px;
-  }
-  @media only screen and (min-width: 768px)  {   
-    padding-top: 30px;
-    padding-bottom: 30px;
-  } 
-  @media only screen and (min-width: 1024px) { 
-    padding-top: 30px;
-    padding-bottom: 30px;
-  }
+
 `
 
 class Video extends React.Component {
@@ -62,8 +48,6 @@ class Video extends React.Component {
 
   handleButtonClick(clickedButton){
     const state = this.props.canvasRecording;
-    if(clickedButton === 'INITILIZE') this.props.initializeUserMedia();
-
     if(this.props.canvasRecording.recordingData === null && clickedButton === 'fiber_manual_record'){
       this.startRecording();
     } else if (this.props.canvasRecording.recordingData !== null && clickedButton === 'fiber_manual_record'){
@@ -82,7 +66,10 @@ class Video extends React.Component {
   }
 
   render(){
-      const icon = this.props.canvasRecording.recordButtons;
+      let icon = [];
+      if(this.props.canvasRecording.initialized){
+        icon = this.props.canvasRecording.recordButtons;
+      } 
      return (
       <Wrapper>  
       <Buttons>
