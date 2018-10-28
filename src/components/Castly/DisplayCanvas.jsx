@@ -128,12 +128,12 @@ class DisplayCanvas extends React.Component {
       video.details.x += Number(mouseX) - Number(this.state.mouse[0])
       video.details.y += Number(mouseY) - Number(this.state.mouse[1])    
       const image = this.props.images.currentImage;
-      canvasRecordingActions.canvasVideoAnimation(video)
+     // canvasRecordingActions.canvasVideoAnimation(video)
       const imageStage = this.state.imageStage;
       const resize = this.props.images.resize;
-      if(image){
-        this.props.addCanvasImage(image.img, imageStage, resize);   
-      }
+      // if(image){
+      //   this.props.addCanvasImage(image.img, imageStage, resize);   
+      // }
       this.setState({mouse: [mouseX,mouseY]})
     }
 
@@ -153,12 +153,11 @@ class DisplayCanvas extends React.Component {
         const resize = this.props.images.resize;        
         video.details.width = Math.abs(Number(video.details.x) - 1 - Number(mouseX));
         video.details.height = video.details.width * (video.details.originalHeight/video.details.originalWidth)
-        canvasRecordingActions.canvasVideoAnimation(video, resize)
         const imageStage = this.state.imageStage;
-        const image = this.props.images.currentImage;
-        if(image){
-          this.props.addCanvasImage(image.img, imageStage, resize);   
-        }
+        // const image = this.props.images.currentImage;
+        // if(image){
+        //   this.props.addCanvasImage(image.img, imageStage, resize);   
+        // }
         this.setState({mouse: [mouseX,mouseY]})
     }
  

@@ -52,9 +52,10 @@ class AddFiles extends React.Component {
       file['height'] = this.height;    
    }
   })
-   this.props.addImages(files)
+   this.props.addImages(files);   
+   const currentCanvasObjects = this.props.castly.currentCanvasObjects
    if(this.props.canvasRecording.initialized === false){
-      this.props.initializeUserMedia()
+      this.props.initializeUserMedia(currentCanvasObjects)
     }
   }  
   render(){
@@ -83,7 +84,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addImages: (images) => { dispatch(castlyActions.addImages(images)) },
-    initializeUserMedia:() => {dispatch(canvasRecordingActions.initializeUserMedia())}
+    initializeUserMedia:(currentCanvasObjects) => {dispatch(canvasRecordingActions.initializeUserMedia(currentCanvasObjects))}
   };
 };
 

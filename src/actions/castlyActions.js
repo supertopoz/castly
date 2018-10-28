@@ -40,6 +40,7 @@ export function resize(resize) {
 
 
 export const addCanvasImage = (image, imageStage, resize) => {
+  console.log('added image')
   return (dispatch) => {
   // This is the hidden Canvas
   const hiddenCanvas = window.document.getElementById('canvas');

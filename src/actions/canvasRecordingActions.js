@@ -5,55 +5,57 @@ export const setAudioContext = context => {
     };
 }
 
-  const cloneCanvas = (oldCanvas) => {
-    // This is the displayed canvas
+  const cloneCanvas = (oldCanvas, newCanvas, context) => {
+    context.drawImage(oldCanvas, 0, 0, newCanvas.width, newCanvas.height);
+  }
+
+
+  const setVisibleCanvasSize = (visibleCanvas) => {
     var w = window,
     d = document,
     e = d.documentElement,
     g = d.getElementsByTagName('body')[0],
-    x = w.innerWidth || e.clientWidth || g.clientWidth,
-    y = w.innerHeight|| e.clientHeight|| g.clientHeight;
-    const width = Math.floor((x/100)*90)//oldCanvas.width /2;
-    const height = Math.floor((width)*0.5625394)//oldCanvas.height /2;
-
-      if(x < 700){ 
+    x = Math.floor(w.innerWidth || e.clientWidth || g.clientWidth),
+    y = Math.floor(w.innerHeight|| e.clientHeight|| g.clientHeight);
+    if(x < 700){ 
         x = x-15 
-        y = (x-15)*0.5625 
+        y = Math.floor((x-15)*0.5625)
       } else {
-          x = 700
-          y =  x*0.5625
+          x = 768
+          y =  432
       }
-
-    const newCanvas = window.document.getElementById('canvas2');
-    const context = newCanvas.getContext('2d');
-    newCanvas.width = x// 700//oldCanvas.width /2;
-    newCanvas.height = y//394//oldCanvas.height /2;
-    context.drawImage(oldCanvas, 0, 0, newCanvas.width, newCanvas.height);
-//context.scale(0.5,0.5)
+    visibleCanvas.width = x
+    visibleCanvas.height = y
+    return visibleCanvas;
   }
 
-export const canvasVideoAnimation = (video, resize) => {    
+export const canvasVideoAnimation = (currentCanvasObjects) => {  
+
       const canvas = window.document.getElementById('canvas');
       const ctx = canvas.getContext('2d'); 
-      ctx.save();
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-      ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); 
-      ctx.restore();
-      const draw = () => {         
-        ctx.fillRect(0, 0, ctx.height, ctx.width); 
-        ctx.drawImage(video, video.details.x, video.details.y, video.details.width, video.details.height); 
-        if(resize){
-          ctx.drawImage(resize, (video.details.x + video.details.width), (video.details.y + video.details.height), 40, 40)
-        }   
-        window.requestAnimationFrame(draw);    
-        cloneCanvas(canvas)
+      const visibleCanvas = window.document.getElementById('canvas2');
+      const context = visibleCanvas.getContext('2d');
+      const newCanvas = setVisibleCanvasSize(visibleCanvas);
+      var toggle = false;
 
-    };
-    draw();
+      (function loop() {
+        toggle = !toggle;
+
+        if (toggle) { 
+        // insert a place holder image.        
+          ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); 
+          ctx.drawImage(currentCanvasObjects.video, currentCanvasObjects.video.details.x, currentCanvasObjects.video.details.y, currentCanvasObjects.video.details.width, currentCanvasObjects.video.details.height); 
+          ctx.drawImage(currentCanvasObjects.resizeCorner, (currentCanvasObjects.video.details.x + currentCanvasObjects.video.details.width), (currentCanvasObjects.video.details.y + currentCanvasObjects.video.details.height), 40, 40)
+        /* draw frame here */ 
+        
+      }
+      window.requestAnimationFrame(loop);    
+        cloneCanvas(canvas, newCanvas, context)
+    })();
   }
 
-export function initializeUserMedia() {	
-
+export function initializeUserMedia(currentCanvasObjects) {	
+console.log('current canvas', currentCanvasObjects)
   return (dispatch) => {
   const AudioContext = window.AudioContext || window.webkitAudioContext;
   const audioCtx = new AudioContext();
@@ -139,7 +141,10 @@ const createCorner =() =>{
             x: 0,
             y: 0
           }
-          canvasVideoAnimation(video, corner)
+
+          currentCanvasObjects.video = video;
+          currentCanvasObjects.resizeCorner = corner
+          canvasVideoAnimation(currentCanvasObjects)
 
           dispatch({
             type: "INITILIZE_USER_MEDIA",

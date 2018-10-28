@@ -4,7 +4,8 @@ const initialState = {
     mouse: [],
     dragging: false,
     resize: null,
-    imageStage: {x: 10, y: 10, width: 1280, height: 720}
+    imageStage: {x: 10, y: 10, width: 1280, height: 720},
+    currentCanvasObjects: { video: {}, resizeCorner : {}}
 }
 
 const addImages = (state, action) => {
