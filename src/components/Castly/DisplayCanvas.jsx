@@ -77,30 +77,38 @@ class DisplayCanvas extends React.Component {
     const mouseX = this.offset(e).x; // Scaled from hidden canvas
     const mouseY = this.offset(e).y; // Scaled from hidden canvas
     const imageStage = this.props.castly.currentCanvasObjects.imageStage;
-
+    const vidToMove = this.props.canvasRecording.video.details
+    this.props.castly.currentCanvasObjects.imageStageHighlight = false;
+    this.props.castly.currentCanvasObjects.videoHighlight = false;
     if(this.props.castly.currentImage !== null){
 
       if (Math.abs(mouseX - (imageStage.x + imageStage.width)) <80 && 
         Math.abs(mouseY - (imageStage.y + imageStage.height)) <80)  {
+        this.props.castly.currentCanvasObjects.imageStageHighlight = true;
         this.setState({resizeImage: true})
         this.setState({mouse: [mouseX,mouseY]})
       }
       if((mouseX > imageStage.x && mouseX < imageStage.x + imageStage.width)&&
         (mouseY > imageStage.y && mouseY < imageStage.y + imageStage.height)){
+          // highlight Image
+          this.props.castly.currentCanvasObjects.imageStageHighlight = true;
           this.setState({imageDragging: true})
           this.setState({mouse: [mouseX,mouseY]})
         }
 
       }
-    const vidToMove = this.props.canvasRecording.video.details
+
       if((mouseX > vidToMove.x && mouseX < vidToMove.x + vidToMove.width)&&
         (mouseY > vidToMove.y && mouseY < vidToMove.y + vidToMove.height)){
+        // highlight video
+      this.props.castly.currentCanvasObjects.videoHighlight = true;
         this.setState({videoDragging: true})
         this.setState({mouse: [mouseX,mouseY]})
       }
 
       if (Math.abs(mouseX - (vidToMove.x + vidToMove.width)) <80 && 
         Math.abs(mouseY - (vidToMove.y + vidToMove.height)) <80)  {
+        this.props.castly.currentCanvasObjects.videoHighlight = true;
         this.setState({resizeVideo: true})
         this.setState({mouse: [mouseX,mouseY]})
       }

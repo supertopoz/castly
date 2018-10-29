@@ -8,6 +8,7 @@ import Video from './Video';
 import DisplayCanvas from './DisplayCanvas';
 
 import * as castlyActions from '../../actions/castlyActions';
+import * as loading from '../images/loading';
 
 const Wrapper = styled.div`
 
@@ -33,7 +34,7 @@ const HiddenCanvas = styled.canvas`
 
 
 class Castly extends React.Component {
-  
+
   render(){
     let display = <div></div>
     let displayCanvas = <DisplayCanvas/>
@@ -44,13 +45,15 @@ class Castly extends React.Component {
       displayVideo = <div></div>
     }
     return (
+
       <Wrapper>
         {display}             
         <DisplayImages/>
    
         <HiddenCanvas  width="1920" height="1080" id="canvas"/>   
         {displayCanvas}
-             {displayVideo}
+        {displayVideo}
+        {/*<img src={loading.loading()} />*/}
       </Wrapper>
     );
   }

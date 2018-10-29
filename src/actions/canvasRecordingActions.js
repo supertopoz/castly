@@ -49,11 +49,30 @@ export const canvasVideoAnimation = (current) => {
                ctx.fillRect(current.imageStage.x, current.imageStage.y, current.imageStage.width, current.imageStage.height)
                //ctx.drawImage(current.currentImage, currenCanvasObjects.imageStage.x+ currenCanvasObjects.imageStage.width/2 - newImageWidth/2, currenCanvasObjects.imageStage.y, (newImageWidth), newImageHeight)
                ctx.drawImage(current.currentImage, current.imageStage.x, current.imageStage.y, (current.currentImage.width *(current.imageStage.height/current.currentImage.height)), current.imageStage.height )
+              if(current.imageStageHighlight){
                ctx.drawImage(current.resizeCorner, (current.imageStage.x + current.imageStage.width), (current.imageStage.y + current.imageStage.height), 80, 80)
-            }            
+             }
+            }  
+       
           ctx.stroke();
+           if(current.currentImage && current.imageStageHighlight){
+            ctx.beginPath();
+              ctx.lineWidth = 10;
+              ctx.strokeStyle ="white"; 
+              ctx.setLineDash([10, 10]);
+              ctx.strokeRect(current.imageStage.x, current.imageStage.y, current.imageStage.width, current.imageStage.height);  
+            ctx.stroke();  
+          }
           ctx.drawImage(current.video, current.video.details.x, current.video.details.y, current.video.details.width, current.video.details.height); 
-          ctx.drawImage(current.resizeCorner, (current.video.details.x + current.video.details.width), (current.video.details.y + current.video.details.height), 80, 80)
+          if(current.videoHighlight){
+            ctx.beginPath();
+              ctx.lineWidth = 10;
+              ctx.strokeStyle ="white"; 
+              ctx.setLineDash([10, 10]);
+              ctx.strokeRect(current.video.details.x, current.video.details.y, current.video.details.width, current.video.details.height);  
+            ctx.stroke();  
+            ctx.drawImage(current.resizeCorner, (current.video.details.x + current.video.details.width), (current.video.details.y + current.video.details.height), 80, 80)
+          }
       }
       window.requestAnimationFrame(loop);    
         cloneCanvas(canvas, newCanvas, context)

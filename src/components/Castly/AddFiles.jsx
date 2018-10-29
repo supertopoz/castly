@@ -44,6 +44,7 @@ const dropzone = {
 class AddFiles extends React.Component {
 
   handleOnDrop(files, rejectedFiles){
+   // show loader 
    files.forEach(file =>{
     var image = new Image();
     image.src = file.preview;

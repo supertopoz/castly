@@ -8,7 +8,9 @@ const initialState = {
       video: {}, 
       resizeCorner : {},
       currentImage: null,
-      imageStage: {x: 10, y: 10, width: 1280, height: 720}
+      imageStage: {x: 10, y: 10, width: 1280, height: 720},
+      imageStageHighlight: false,
+      videoHighlight: false
     }
 }
 
