@@ -4,8 +4,12 @@ const initialState = {
     mouse: [],
     dragging: false,
     resize: null,
-    imageStage: {x: 10, y: 10, width: 1280, height: 720},
-    currentCanvasObjects: { video: {}, resizeCorner : {}}
+    currentCanvasObjects: { 
+      video: {}, 
+      resizeCorner : {},
+      currentImage: null,
+      imageStage: {x: 10, y: 10, width: 1280, height: 720}
+    }
 }
 
 const addImages = (state, action) => {
@@ -13,7 +17,9 @@ const addImages = (state, action) => {
 }
 
 const currentImage = (state, action) => {
-  return { ...state, currentImage: action.payload}
+  let currentCanvasObjects = state.currentCanvasObjects;
+  currentCanvasObjects.currentImage = action.payload;
+  return { ...state, currentImage: action.payload, currentCanvasObjects}
 }
 
 const imageStageDetails = (state, action) => {

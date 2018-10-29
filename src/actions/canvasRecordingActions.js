@@ -29,7 +29,7 @@ export const setAudioContext = context => {
     return visibleCanvas;
   }
 
-export const canvasVideoAnimation = (currentCanvasObjects) => {  
+export const canvasVideoAnimation = (current) => {  
 
       const canvas = window.document.getElementById('canvas');
       const ctx = canvas.getContext('2d'); 
@@ -37,25 +37,31 @@ export const canvasVideoAnimation = (currentCanvasObjects) => {
       const context = visibleCanvas.getContext('2d');
       const newCanvas = setVisibleCanvasSize(visibleCanvas);
       var toggle = false;
-
+  // var newImageHeight = imageStage.height;
+  // var newImageWidth = image.width * (imageStage.height/image.height)
       (function loop() {
         toggle = !toggle;
 
         if (toggle) { 
-        // insert a place holder image.        
           ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); 
-          ctx.drawImage(currentCanvasObjects.video, currentCanvasObjects.video.details.x, currentCanvasObjects.video.details.y, currentCanvasObjects.video.details.width, currentCanvasObjects.video.details.height); 
-          ctx.drawImage(currentCanvasObjects.resizeCorner, (currentCanvasObjects.video.details.x + currentCanvasObjects.video.details.width), (currentCanvasObjects.video.details.y + currentCanvasObjects.video.details.height), 40, 40)
-        /* draw frame here */ 
-        
+          ctx.beginPath();
+            if(current.currentImage){
+               ctx.fillRect(current.imageStage.x, current.imageStage.y, current.imageStage.width, current.imageStage.height)
+               //ctx.drawImage(current.currentImage, currenCanvasObjects.imageStage.x+ currenCanvasObjects.imageStage.width/2 - newImageWidth/2, currenCanvasObjects.imageStage.y, (newImageWidth), newImageHeight)
+               ctx.drawImage(current.currentImage, current.imageStage.x, current.imageStage.y, (current.currentImage.width *(current.imageStage.height/current.currentImage.height)), current.imageStage.height )
+               ctx.drawImage(current.resizeCorner, (current.imageStage.x + current.imageStage.width), (current.imageStage.y + current.imageStage.height), 80, 80)
+            }            
+          ctx.stroke();
+          ctx.drawImage(current.video, current.video.details.x, current.video.details.y, current.video.details.width, current.video.details.height); 
+          ctx.drawImage(current.resizeCorner, (current.video.details.x + current.video.details.width), (current.video.details.y + current.video.details.height), 80, 80)
       }
       window.requestAnimationFrame(loop);    
         cloneCanvas(canvas, newCanvas, context)
     })();
   }
 
-export function initializeUserMedia(currentCanvasObjects) {	
-console.log('current canvas', currentCanvasObjects)
+export function initializeUserMedia(current) {	
+console.log('current canvas', current)
   return (dispatch) => {
   const AudioContext = window.AudioContext || window.webkitAudioContext;
   const audioCtx = new AudioContext();
@@ -142,9 +148,9 @@ const createCorner =() =>{
             y: 0
           }
 
-          currentCanvasObjects.video = video;
-          currentCanvasObjects.resizeCorner = corner
-          canvasVideoAnimation(currentCanvasObjects)
+          current.video = video;
+          current.resizeCorner = corner
+          canvasVideoAnimation(current)
 
           dispatch({
             type: "INITILIZE_USER_MEDIA",
