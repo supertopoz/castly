@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Dropzone from 'react-dropzone';
 import {NotificationManager} from 'react-notifications';
 import AddFiles from './AddFiles';
+import HandlePdf from './HandlePdf';
 import { Document, Page } from 'react-pdf/dist/entry.parcel';
 
 import * as castlyActions from '../../actions/castlyActions';
@@ -69,9 +70,14 @@ const Button = styled.div`
 `
 
 class DisplayImages extends React.Component {
-
-  onDocumentComplete(pages){
-   console.log('loaded');
+  constructor(props){
+    super(props)
+    this.state = {
+      images: {},
+      numPages: 0,
+      imgArr: [], 
+      completedImages: [],      
+    }
   }
 
   createNewImage(image){
@@ -108,22 +114,14 @@ class DisplayImages extends React.Component {
       })
     })    
   }
-  
-  shouldComponentUpdate(nextProps, nextState, nextContext){
-    console.log("next Props", nextProps)
-    return true;
-  }
 
   render(){
-    let PDF = <div></div>
-    if(this.props.castly.images[0]){
-      PDF = <div></div>
-    }
     const style = {gridTemplateColumns: `repeat(${this.props.castly.images.length}, auto)`}
+
     return (
       <Wrapper> 
       <AddFiles/>  
-      {/*<Gallary style={style}> 
+      <Gallary style={style}> 
       
         {this.props.castly.images.map((image, index)=> {
           return(
@@ -140,8 +138,10 @@ class DisplayImages extends React.Component {
           }
         )}
 
-        </Gallary>*/  }
-        <Document file={this.props.castly.images[0]} >  <Page pageNumber={1} /></Document>
+    
+
+      </Gallary>
+      <HandlePdf/>
       </Wrapper>
     );
   }

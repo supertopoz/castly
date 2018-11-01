@@ -58,7 +58,7 @@ class AddFiles extends React.Component {
    this.props.addImages(files);   
    const currentCanvasObjects = this.props.castly.currentCanvasObjects
    if(this.props.canvasRecording.initialized === false){
-      this.props.initializeUserMedia(currentCanvasObjects)
+     this.props.initializeUserMedia(currentCanvasObjects)
     }
   }  
   render(){
@@ -68,6 +68,7 @@ class AddFiles extends React.Component {
           style={dropzone} 
           onDrop={this.handleOnDrop.bind(this)} 
           maxSize={5000000}
+          accept={['application/pdf', 'image/*']}
         >
         <Span><i className="material-icons">add</i></Span>
         {/* <label htmlFor="droppedzone" >   

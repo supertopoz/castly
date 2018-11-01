@@ -127,12 +127,11 @@ const createVideo = (stream) => {
 
   let getUserStream = () => {
     return new Promise((resolve, reject) => {
-      window.navigator.mediaDevices.getUserMedia({
+      navigator.mediaDevices.getUserMedia({
       audio: true,
       video: true
-    })
-    .then(function (stream) {
-       console.log('WORKING 1.3');
+    }).then(function (stream) {
+       console.log('Stream Came online');
       resolve(stream)
     }).catch(function(err) {
 //log to console first
