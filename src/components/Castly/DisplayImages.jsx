@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Dropzone from 'react-dropzone';
 import {NotificationManager} from 'react-notifications';
 import AddFiles from './AddFiles';
+import { Document, Page } from 'react-pdf/dist/entry.parcel';
 
 import * as castlyActions from '../../actions/castlyActions';
 import * as canvasRecordingActions from '../../actions/canvasRecordingActions';
@@ -69,6 +70,9 @@ const Button = styled.div`
 
 class DisplayImages extends React.Component {
 
+  onDocumentComplete(pages){
+   console.log('loaded');
+  }
 
   createNewImage(image){
     return new Promise((resolve, reject) => {
@@ -111,11 +115,15 @@ class DisplayImages extends React.Component {
   }
 
   render(){
+    let PDF = <div></div>
+    if(this.props.castly.images[0]){
+      PDF = <div></div>
+    }
     const style = {gridTemplateColumns: `repeat(${this.props.castly.images.length}, auto)`}
     return (
       <Wrapper> 
       <AddFiles/>  
-      <Gallary style={style}> 
+      {/*<Gallary style={style}> 
       
         {this.props.castly.images.map((image, index)=> {
           return(
@@ -132,7 +140,8 @@ class DisplayImages extends React.Component {
           }
         )}
 
-        </Gallary>    
+        </Gallary>*/  }
+        <Document file={this.props.castly.images[0]} >  <Page pageNumber={1} /></Document>
       </Wrapper>
     );
   }

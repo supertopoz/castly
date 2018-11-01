@@ -22,7 +22,7 @@ export const Disclaimer = (props) => {
 
       
       <Section>
-        Last updated: September 29th 2018<br /><br />
+        Last updated: September 30th 2018<br /><br />
         By using Castly.app, you accept these terms of use in full.<br />
         If you disagree with these terms of use or any part of them, you cannot use this site, and you should exit immediately.<br />
         Castly.app owners, webmasters and staff are collectively referred to herein as "Castly.app", "the service", "us" or "we". <br />

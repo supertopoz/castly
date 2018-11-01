@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Dropzone from 'react-dropzone';
 import {NotificationManager} from 'react-notifications';
 
+
 import * as castlyActions from '../../actions/castlyActions';
 import * as canvasRecordingActions from '../../actions/canvasRecordingActions';
 
@@ -45,6 +46,7 @@ class AddFiles extends React.Component {
 
   handleOnDrop(files, rejectedFiles){
    // show loader 
+  //  console.log(files)
    files.forEach(file =>{
     var image = new Image();
     image.src = file.preview;
@@ -65,7 +67,6 @@ class AddFiles extends React.Component {
           inputProps={{'id':"droppedzone", "style":{width: "1px"}}} 
           style={dropzone} 
           onDrop={this.handleOnDrop.bind(this)} 
-          accept='image/*' 
           maxSize={5000000}
         >
         <Span><i className="material-icons">add</i></Span>

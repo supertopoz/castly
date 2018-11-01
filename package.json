@@ -10,25 +10,25 @@
   },
   "scripts": {
     "start": "parcel index.html",
-    "build": "parcel build index.js --out-dir public",
+    "build": "parcel build index.js --public-url ./ public --out-dir public workbox injectManifest",
     "test": "jest --watch"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
     "material-icons": "^0.2.3",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-dropzone": "^6.2.4",
     "react-notifications": "^1.4.3",
+    "react-pdf": "^3.0.5",
+    "react-pdf-js": "^4.0.0-alpha.6",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
-    "styled-components": "^3.4.10",
-    "typeface-roboto": "0.0.54"
+    "styled-components": "^3.4.10"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -41,15 +41,11 @@
     "enzyme-adapter-react-16": "^1.6.0",
     "jest": "^23.6.0",
     "jsdom": "^12.2.0",
+    "node-ensure": "0.0.0",
     "parcel-bundler": "^1.10.3",
-    "parcel-plugin-sw-cache": "^0.2.6",
     "redux-logger": "^3.0.6",
     "redux-mock-store": "^1.5.3",
     "sinon": "^7.0.0"
-  },
-  "cache": {
-    "inDev": true,
-    "strategy": "default"
   },
   "headers": [
     {

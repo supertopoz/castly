@@ -2,13 +2,9 @@ import React from "react";
 import {connect} from "react-redux";
 import styled from "styled-components";
 import throttle from 'lodash.throttle';
-import debounce from 'lodash.debounce';
 import {NotificationManager} from 'react-notifications';
 import * as canvasRecordingActions from '../../actions/canvasRecordingActions';
 import * as castlyActions from '../../actions/castlyActions';
-
-
-
 
 const Wrapper = styled.div`
 

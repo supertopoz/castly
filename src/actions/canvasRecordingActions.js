@@ -132,10 +132,32 @@ const createVideo = (stream) => {
       video: true
     })
     .then(function (stream) {
+       console.log('WORKING 1.3');
       resolve(stream)
-    }).catch(function(error) {
-      reject(error)
-      console.log('error', error);
+    }).catch(function(err) {
+//log to console first
+    console.log(err);
+   
+    /* handle the error */
+    if (err.name=="NotFoundError" || err.name == "DevicesNotFoundError" ){
+        console.log('required track is missing')
+        reject(err)
+    } else if (err.name=="NotReadableError" || err.name == "TrackStartError" ){
+          console.log('webcam or mic are already in use')
+          reject(err)
+    } else if (err.name=="OverconstrainedError" || err.name == "ConstraintNotSatisfiedError" ){
+        console.log('constraints can not be satisfied by avb. devices')
+        reject(err)
+    } else if (err.name=="NotAllowedError" || err.name == "PermissionDeniedError" ){
+        console.log('permission denied in browser')
+        reject(err)
+    } else if (err.name=="TypeError" || err.name == "TypeError" ){
+        console.log('empty constraints')
+        reject(err)
+    } else {
+         console.log('other errors')
+         reject(err)
+    }
     })
    })
 }
