@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "parcel index.html",
-    "build": "parcel build index.js --public-url ./ public --out-dir public workbox injectManifest",
+    "build": "parcel build index.html --public-url ./ --out-dir public workbox injectManifest",
     "test": "jest --watch"
   },
   "author": "",

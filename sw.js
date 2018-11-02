@@ -19,12 +19,12 @@ workbox.clientsClaim();
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute([
   {
-    "url": "castly.e31bb0bc.css",
-    "revision": "0a67942b18840484c088d7be9c9140ed"
+    "url": "castly.01f90b7a.js",
+    "revision": "471dc60c2380a4884d26332b73fe0b11"
   },
   {
-    "url": "castly.e31bb0bc.js",
-    "revision": "aecef70a8b502f1038e13155fb1d3468"
+    "url": "castly.f4a8b73d.css",
+    "revision": "0fea66c17ad473096b8176e7f20c9cef"
   },
   {
     "url": "images/icons/icon-128x128.png",
@@ -60,54 +60,68 @@ workbox.precaching.precacheAndRoute([
   },
   {
     "url": "index.html",
-    "revision": "216989f80b42154cdf0334f9ae228f1b"
+    "revision": "01a337bd559233183169b1711d1ee0b5"
   },
   {
-    "url": "index.js",
-    "revision": "5315870673e610b62c4531c58334f20e"
-  },
-  {
-    "url": "MaterialIcons-Regular.11799939.woff2",
+    "url": "MaterialIcons-Regular.042e3246.woff2",
     "revision": "570eb83859dc23dd0eec423a49e147fe"
   },
   {
-    "url": "MaterialIcons-Regular.6924d4ac.woff",
-    "revision": "012cf6a10129e2275d79d6adac7f3b02"
-  },
-  {
-    "url": "MaterialIcons-Regular.a71f6b9a.ttf",
+    "url": "MaterialIcons-Regular.7f257eac.ttf",
     "revision": "a37b0c01c0baf1888ca812cc0508f6e2"
   },
   {
-    "url": "MaterialIcons-Regular.bcffbc15.eot",
+    "url": "MaterialIcons-Regular.b2dfdb43.eot",
     "revision": "e79bfd88537def476913f3ed52f4f4b3"
   },
   {
-    "url": "notification.53191d93.ttf",
-    "revision": "0b4ac1dc75df35e169b70d7719afe4cc"
+    "url": "MaterialIcons-Regular.cc4a9352.woff",
+    "revision": "012cf6a10129e2275d79d6adac7f3b02"
   },
   {
-    "url": "notification.80e500ee.eot",
+    "url": "notification.76c0c572.eot",
     "revision": "c0d3c94cd6112550c51d7d1ed13b9da1"
   },
   {
-    "url": "notification.9dad18e7.woff",
+    "url": "notification.a1894c55.ttf",
+    "revision": "0b4ac1dc75df35e169b70d7719afe4cc"
+  },
+  {
+    "url": "notification.b48c6de9.woff",
     "revision": "651771e1df95c807c99608188d0a4287"
   },
   {
-    "url": "notification.a4d4c64c.svg",
+    "url": "notification.b5315025.svg",
     "revision": "5bee74caefdf9d0a834915f6c8eeb259"
   },
   {
-    "url": "pdf.worker.entry.7ce4fb6a.js",
-    "revision": "83482e4d11a89fe3b2f950281ce2b50e"
+    "url": "pdf.worker.entry.9f721a0b.js",
+    "revision": "9c5a0d669a4dd387bbb03659149418e3"
   },
   {
-    "url": "workbox-config.js",
-    "revision": "fc4205d4d9223d61322e33367b3efa06"
+    "url": "pdf.worker.entry.a87d9f0e.js",
+    "revision": "ebd892aacaa7cc1850f6b4c5c299ae30"
   }
 ]);
 workbox.routing.registerNavigationRoute("/index.html");
+
+self.addEventListener('activate', function(event) {
+  event.waitUntil(
+    caches.keys().then(function(cacheNames) {
+      return Promise.all(
+        cacheNames.filter(function(cacheName) {
+          // Return true if you want to remove this cache,
+          // but remember that caches are shared across
+          // the whole origin
+        }).map(function(cacheName) {
+          console.log('deleted cache')
+          return caches.delete(cacheName);
+        })
+      );
+    })
+  );
+});
+
 } else {
   console.log(`Boo! Workbox didn't load 😬`);
 }

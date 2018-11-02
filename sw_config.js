@@ -19,6 +19,24 @@ workbox.clientsClaim();
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute([]);
 workbox.routing.registerNavigationRoute("/index.html");
+
+self.addEventListener('activate', function(event) {
+  event.waitUntil(
+    caches.keys().then(function(cacheNames) {
+      return Promise.all(
+        cacheNames.filter(function(cacheName) {
+          // Return true if you want to remove this cache,
+          // but remember that caches are shared across
+          // the whole origin
+        }).map(function(cacheName) {
+          console.log('deleted cache')
+          return caches.delete(cacheName);
+        })
+      );
+    })
+  );
+});
+
 } else {
   console.log(`Boo! Workbox didn't load 😬`);
 }
