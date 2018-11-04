@@ -1,13 +1,25 @@
 import React from "react";
 import styled from "styled-components"
 import { Link } from 'react-router-dom'
+import * as loading from '../images/loading';
+
 
 const Wrapper = styled.div`
-		width: 90%;
+
 		display: grid;
 		margin: 0 auto;
-		grid-gap:20px;
-		margin-top: 5%;
+		grid-gap:10px;
+    margin-top: 10px;
+    @media only screen and (min-width: 320px)  { 
+      width: 90%;
+    }
+    @media only screen and (min-width: 768px)  {  
+      width: 70%;
+    } 
+    @media only screen and (min-width: 1024px) { 
+      width: 70%;
+    }
+
 `
 
 const Banner = styled.div`
@@ -43,6 +55,44 @@ const Button = styled.div`
       cursor:pointer;
     }
  `
+ const Header2 = styled.div`
+  display:grid;
+  color: #6b6b6b;
+  font-size: 2em;
+  text-align: center; 
+`
+
+const Image = styled.img`
+  padding-top: 20px;
+  margin: 0 auto;
+`
+
+ const InfoBlock = styled.div`
+  align-items: center;
+  justify-content: center;
+  display: grid;
+  border-radius: 10px;
+  border: 1px solid lightgrey;
+  padding: 10px;
+  @media only screen and (min-width: 320px)  { 
+    grid-template-columns: 1fr;     
+  }
+  @media only screen and (min-width: 768px)  {  
+    grid-template-columns: 1fr 1fr; 
+  } 
+  @media only screen and (min-width: 1024px) { 
+  }
+
+`
+
+const Info = styled.div`
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 1.3em
+  color: #6b6b6b;
+
+`
 
 export const Home = (props) => {
     return (
@@ -51,12 +101,27 @@ export const Home = (props) => {
         	 <Header>
            CASTLY
            <p style={ {fontSize: "1rem"}}>
-             This is a simple screen recoreder application. Upload or add images. Record a voice over with or without video then download the video file.
+             Castly is a simple video with PDF or image recording application. 
            </p> 
-           <p style={ {fontSize: "1rem"}}>Contact us for new word lists or <a href="https://goo.gl/forms/riv7kAJXvZQZFAt02" rel="noopener" target="_blank">feedback</a></p>        
+          
            </Header>
-           </Banner>
            <Link to="/castly" ><Button >GET STARTED</Button></Link>
+           </Banner>
+          <InfoBlock>
+            <div>
+            <Header2>Good for homework</Header2>
+            <Info>Record a presentation, narative, or story.</Info>
+            </div>
+            <Image src={loading.homework()}/>
+          </InfoBlock>
+            <InfoBlock>
+            <Image src={loading.presentation()}/>
+            <div>
+            <Header2>Great for presentations</Header2>
+            <Info>No more blurry projected screen.</Info>
+            </div>
+            
+          </InfoBlock>
         </Wrapper>
     );
 };

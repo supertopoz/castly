@@ -5,6 +5,7 @@ import {NotificationManager} from 'react-notifications';
 
 import DisplayImages from './DisplayImages';
 import Video from './Video';
+import HowTo from './HowTo';
 import DisplayCanvas from './DisplayCanvas';
 
 import * as castlyActions from '../../actions/castlyActions';
@@ -23,7 +24,6 @@ const Wrapper = styled.div`
     @media only screen and (min-width: 768px)  {   
     } 
     @media only screen and (min-width: 1024px) { 
-
     }
 `
 
@@ -32,33 +32,6 @@ const HiddenCanvas = styled.canvas`
    display: none;
 `
 
-const InfoGraphics = styled.div`
-  display:grid;
-  grid-gap: 20px;
-  border: 1px lightgrey solid;
-  border-radius: 10px;
-  box-shadow: 1px 1px 5px 1px lightgrey;
-  padding: 20px;
-`
-
-const Header = styled.div`
-  display:grid;
-  color: #6b6b6b;
-  font-size: 2em;
-  text-align: center; 
-`
-
-const Image = styled.img`
-  margin: 0 auto;
-`
-
-const Info = styled.div`
-  text-align: center;
-  font-size: 1.3em
-  color: #6b6b6b;
-`
-
-
 class Castly extends React.Component {
 
   render(){
@@ -66,13 +39,7 @@ class Castly extends React.Component {
     let displayCanvas = <DisplayCanvas/>
     let displayVideo = <Video />
     if(this.props.castly.images.length === 0){
-      display = <InfoGraphics>
-      <Header>Simple Tool for Screen Casting Presentations</Header>
-      <Info>Don't forget all popular presentation tools export to PDF.</Info>
-      <Image src={loading.uploadDiagram()}/>
-      </InfoGraphics> 
-      displayCanvas = <div></div>
-      displayVideo = <div></div>
+      display =  <HowTo/>
     }
     return (
 
