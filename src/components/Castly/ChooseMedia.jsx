@@ -3,15 +3,13 @@ import {connect} from "react-redux";
 import { Link } from 'react-router-dom'
 import styled from "styled-components";
 import {NotificationManager} from 'react-notifications';
-
+import AddFilesSquare from './AddFilesSquare';
 
 import * as castlyActions from '../../actions/castlyActions';
 import * as canvasRecordingActions from '../../actions/canvasRecordingActions';
 import * as images from '../images/images';
 
-const Wrapper = styled.div`
-    display:grid;
-`
+const Wrapper = styled.div``
 
 const Media = styled.div`
   background: black;
@@ -31,7 +29,6 @@ const InfoPanel = styled.div`
   max-width: 700px;
   margin: 0 auto;
   margin-top: 10%;
-  height: 400px;
   border-radius: 10px;
   padding: 10px;
   text-align: center;
@@ -49,49 +46,42 @@ const Loader = styled.div`
 const Error = styled.div`
   display: grid;
   text-align: center;
+  color: #6b6b6b;
 `
-const Button = styled.div`
-    display:flex;
-    width: 100px;
-    margin: 0 auto;
+
+
+const PlusButton = styled.div`
+    display: grid;
     align-items: center;
     justify-content: center;
-    border: 1px solid;
-    background: #aa00ff;
-    padding: 10px;
+    background-color: #b818ff;
+    border-radius: 999em;
+    width: 56px;
+    height: 56px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    line-height: 1;
+    font-size: 36px;
+    position: absolute;
+    top: 25px;
+    right: 30px;
     color: white;
-    border-radius: 10px;
+    cursor: pointer
+`
+const Span = styled.span`
     text-align: center;
-    max-height: 25px;
-    &:hover{
-      background: white;
-      color:#aa00ff;
-      border: 1px solid;
-      cursor:pointer;
-    }
- `
-
-const MediaChoice = styled.div`
-  display: grid;
-  padding: 2%;
-`
-const Form = styled.form`
-  display: grid;
-  border: 1px solid;
-  padding: 2%;
-  border-radius: 10px;
+    cursor: pointer;
 `
 
-const Option = styled.option`
-  max-width: 100px;
-  white-space: nowrap; 
-  overflow: hidden;
-  text-overflow: ellipsis;
+const Warning = styled.div`
+  background: #FFB6C1;
+  padding: 20px;
+  color: #6b6b6b;
 
 `
-const Buttons = styled.div`
+const ErrorHeading = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 10fr 1fr;
+  color: #6b6b6b;
 `
 
 class ChooseMedia extends React.Component {
@@ -99,168 +89,78 @@ class ChooseMedia extends React.Component {
     super(props)
     this.state = {
       mediaOptions: [],
-      hasMedia: false,
+      hasMedia: true,
       mic: {},
       camera: {},
       mediaMessage: 'Checking your media options...',
       error: false,
-      display: true
+      display: false
     }
-    this.handleModelClose = this.handleModelClose.bind(this)
-    this.handleModelOkay = this.handleModelOkay.bind(this)
-    this.handleCameraChange = this.handleCameraChange.bind(this)
-    this.handleMicChange = this.handleMicChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-  }
-
-  handleCameraChange(e){
-    this.setState({camera:e.target.value})
-  } 
-
-  handleMicChange(e){
-    this.setState({mic:e.target.value})
+   this.handlePlusButtonClick =   this.handlePlusButtonClick.bind(this)
+   this.handleModelClose =   this.handleModelClose.bind(this)
   }
 
   handleModelClose(){
-    this.setState({display: false})
-  }
-
-  handleSubmit() {
-    console.log(this.state)
-  }
-  componentDidMount(){
-    let that = this;
-
-
-
-    navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(error);
-
-    const error = (e) =>{
-      this.setState({mediaMessage: `Opps something is not right: ${e}`})
-      this.setState({error: true})
+      this.setState({display: false})
     }
 
-
-    function gotDevices(deviceInfos) {
-      let mediaOptions = []
-      let deviceOption = {
-        audioInput: null,
-        audioOutputSelect: null,
-        videoSelect: 0,
-        value: null
-      }
-      for (var i = 0; i !== deviceInfos.length; ++i) {
-        var deviceInfo = deviceInfos[i];
-        if (deviceInfo.kind === 'audioinput') {
-          deviceOption.audioInput = deviceInfo.label //|| 'Microphone ' + (audioInputSelect.length + 1);
-        } else if (deviceInfo.kind === 'audiooutput') {
-          deviceOption.audioOutputSelect = deviceInfo.label //|| 'Speaker ' + (audioOutputSelect.length + 1);
-        } else if (deviceInfo.kind === 'videoinput') {
-          deviceOption.videoSelect = deviceInfo.label || 'Camera ' + (Number(deviceOption.videoSelect) + 1);
-
-        }
-        deviceOption.value = deviceInfo.deviceId;
-        mediaOptions.push(deviceOption)
-        deviceOption = {
-        audioInput: null,
-        audioOutputSelect: null,
-        videoSelect: 0,
-        value: null
-      }
-    }
-    that.setState({mediaOptions})
-    that.setState({hasMedia: true})
-  }
-  
-   // const currentCanvasObjects = this.props.castly.currentCanvasObjects
-   // if(this.props.canvasRecording.initialized === false){
-   // // this.props.initializeUserMedia(currentCanvasObjects);
-   //  }
+  handlePlusButtonClick(){
+    this.setState({display:true})
+    const currentCanvasObjects = this.props.castly.currentCanvasObjects
+    this.props.initializeUserMedia(currentCanvasObjects);
    // Show loader until media options are captures
   }
 
-  handleModelOkay(){
-    console.log('working')
-    //this.setState({display: false})
-    const currentCanvasObjects = this.props.castly.currentCanvasObjects
-    this.props.initializeUserMedia(currentCanvasObjects);
-  }
+  
 
   render(){
     let loader =  <Loader><Img src={images.loading()}/>{this.state.mediaMessage}</Loader>
     let error = '';
-    if(this.state.hasMedia) loader ='';
-    if(this.state.error){
-      error = 
-      <Error>
-        <h1>Opps! That's an error</h1>
-        <div>
-          We can't get your video and/or audio input. Below is the error message: 
-        </div>
-        <div>
-          {this.state.mediaMessage}
-        </div>
-          <Button onClick={() => this.handleModelClose()}>Close</Button>
-      </Error>
-    }
-    let mediaChoice = '';
-    let startMedia = '';
-    if(!this.state.error && this.state.hasMedia){
-      startMedia = <div>
-        <h3>Castly want's to start your camera and mic. Then upload content</h3>
-        <Buttons>
-          <Button onClick={() => this.handleModelOkay()}>Okay</Button>
-          <Button onClick={() => this.handleModelClose()}>Cancel</Button>
-        </Buttons>
+    let sucess = ''
+    if(this.props.canvasRecording.initialized ){
+      loader = ''
+      sucess = <div>
+      Your camera and mircophone are now working. Please select files to add to your castly.
+      <AddFilesSquare/>
       </div>
     }
-    if(!this.state.error && this.state.hasMedia){
-      mediaChoice = 
-      <MediaChoice>
-        <h3>Select Prefered Camera and Microphone</h3>
-        <label>
-          Camera:
-          <select value={this.state.value} onChange={this.handleCameraChange}>
-          {this.state.mediaOptions.map((item, index)=>{
-            if(item.videoSelect){
-            return  <Option key={`camera-${index}`} value={item.value}>{item.videoSelect}</Option>
-            }
-          })}           
-          }
-          </select>
-        </label>
-        <label>
-          Microphone:
-          <select type="" value={this.state.value} onChange={this.handleMicChange}>
-          {this.state.mediaOptions.map((item, index)=>{
-            if(item.audioInput){
-            return  <Option key={`mic-${index}`} value={item.value}>{item.audioInput}</Option>
-            }
-          })}           
-          }
-          </select>
-        </label>
-        <Button onClick={this.handleSubmit}>Save</Button>
-      </MediaChoice>
+    let dataStream = this.props.canvasRecording.dataStream;
+    if(dataStream === null) dataStream = 0;
+    if(typeof dataStream === 'string'){
+      sucess = '';
+      error = 
+      <Error>
+        <ErrorHeading>
+        <h1>Opps! That's an error</h1>
+        <i onClick={this.handleModelClose} className="material-icons">close</i>
+        </ErrorHeading>
+        <Warning>
+          {this.props.canvasRecording.dataStream}
+        </Warning>
+      </Error>
     }
-    let wrapper = <div></div>
+    
+    let mainContent = <div></div>
       if(this.state.display){
-        wrapper = (
+        mainContent = (
 
             <Media >
             <InfoPanel>
             {error}
             {loader}
-            {startMedia}
-            {mediaChoice}
+            {sucess}
             </InfoPanel>
             </Media>
-
         )    
     }
     return (  
-      <Wrapper>   
-      {wrapper}
+      <Wrapper> 
+      <div>
+      <PlusButton onClick={this.handlePlusButtonClick}>
+      <Span><i className="material-icons">add</i></Span>
+      </PlusButton>
+      </div>  
+      {mainContent}
       </Wrapper>
     );
   }
@@ -268,7 +168,7 @@ class ChooseMedia extends React.Component {
 
 
 const mapStateToProps = (state) => {
-  return { castly: state.castly, pageAnimations: state.pageAnimations };
+  return { castly: state.castly, pageAnimations: state.pageAnimations, canvasRecording: state.canvasRecording };
 };
 
 const mapDispatchToProps = (dispatch) => {

@@ -3,7 +3,6 @@ import {connect} from "react-redux";
 import styled from "styled-components";
 import {NotificationManager} from 'react-notifications';
 
-import ChooseMedia from './ChooseMedia'
 import * as castlyActions from '../../actions/castlyActions';
 import * as loading from '../images/images';
 
@@ -94,7 +93,6 @@ class HowTo extends React.Component {
         <Info>Upload your PDF document to Castly (images are also possible).</Info>
         </div>
         <Image src={loading.step2()}/>
-
       </InfoBlock>
       <InfoBlock>
         <div>
@@ -103,8 +101,7 @@ class HowTo extends React.Component {
         </div>
         <Image src={loading.step3()}/>
       </InfoBlock>
-      </Wrapper>
-      
+      </Wrapper>  
     );
   }
 }

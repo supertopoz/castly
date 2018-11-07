@@ -2,7 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import styled from "styled-components";
 import {NotificationManager} from 'react-notifications';
-import AddFiles from './AddFiles';
+
 import HandlePdf from './HandlePdf';
 import * as images from '../images/images.js';
 
@@ -117,7 +117,7 @@ class DisplayImages extends React.Component {
     const style = {gridTemplateColumns: `repeat(${this.props.castly.images.length}, auto)`}
     return (
       <Wrapper> 
-      <AddFiles/>  
+      
         <Gallary style={style}> 
         {this.props.castly.images.map((image, index)=> {
           return(

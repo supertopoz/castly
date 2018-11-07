@@ -126,37 +126,29 @@ const createVideo = (stream) => {
 
   let getUserStream = () => {
     return new Promise((resolve, reject) => {
-       navigator.mediaDevices.enumerateDevices().then(devices=> {
-        console.log(devices)
-       }).catch(err => {
-        console.log(err)
-       })
       navigator.mediaDevices.getUserMedia({ audio: true,video: true}).then(function(stream) {
        console.log('Stream Came online');
       resolve(stream)
     }).catch(function(err) {
-//log to console first
-    console.log(err);
-   
     /* handle the error */
     if (err.name=="NotFoundError" || err.name == "DevicesNotFoundError" ){
         console.log('required track is missing')
-        reject(err)
+        reject(`We didn't find both a mic and a camera. You need both a camera and a mic to for castly to work.`)
     } else if (err.name=="NotReadableError" || err.name == "TrackStartError" ){
           console.log('webcam or mic are already in use')
-          reject(err)
+          reject(`webcam or mic are already in use. Please close them in other tabs or browsers, and reload this page.`)
     } else if (err.name=="OverconstrainedError" || err.name == "ConstraintNotSatisfiedError" ){
         console.log('constraints can not be satisfied by avb. devices')
-        reject(err)
+        reject(`${err}`)
     } else if (err.name=="NotAllowedError" || err.name == "PermissionDeniedError" ){
         console.log('permission denied in browser')
-        reject(err)
+        reject(`You have denied Castly access to use the camera and mic. Please allow access, and if needed reload this page.`)
     } else if (err.name=="TypeError" || err.name == "TypeError" ){
         console.log('empty constraints')
-        reject(err)
+        reject(`${err}`)
     } else {
          console.log('other errors')
-         reject(err)
+         reject(`${err}`)
     }
     })
    })
@@ -175,7 +167,7 @@ const createCorner =() =>{
 
 
    getUserStream().then(stream => {
-
+    
     createVideo(stream).then((video) =>{
       showVideo(video, stream).then((video) => {
         injectNewAudio(video, stream).then(dataStream => {
@@ -199,14 +191,19 @@ const createCorner =() =>{
             payload:[dataStream, audioCtx, video]
           });
           })
-        }).catch(err=>{
+        }).catch(error=>{
          	dispatch({
             type: "INITILIZE_USER_MEDIA",
-          	payload:[err, err, err]
+          	payload:[error, error, error]
           });
         })
       })
     })
+   }).catch(error => {
+    dispatch({
+            type: "INITILIZE_USER_MEDIA",
+            payload:[error, error, error]
+          });
    })
   }
 

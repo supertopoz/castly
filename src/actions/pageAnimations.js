@@ -12,6 +12,13 @@ export function showSideMenu(display = false) {
     };
 }
 
+export function setFileUpLoadStyle(styles = {}) {
+    return {
+        type: "SET_FILE_UPLOAD_STYLES",
+        payload: styles
+    };
+}
+
 export function isMobile(isMobile = false) {
     return {
         type: "IS_MOBILE",
