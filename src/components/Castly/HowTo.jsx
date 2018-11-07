@@ -3,12 +3,9 @@ import {connect} from "react-redux";
 import styled from "styled-components";
 import {NotificationManager} from 'react-notifications';
 
-import DisplayImages from './DisplayImages';
-import Video from './Video';
-import DisplayCanvas from './DisplayCanvas';
-
+import ChooseMedia from './ChooseMedia'
 import * as castlyActions from '../../actions/castlyActions';
-import * as loading from '../images/loading';
+import * as loading from '../images/images';
 
 const Wrapper = styled.div`
 
@@ -36,7 +33,7 @@ const InfoGraphics = styled.div`
   grid-gap: 5px;
   border: 1px lightgrey solid;
   border-radius: 10px;
-  padding: 20px;
+  padding: 5%;
 `
 
 const Header = styled.div`
@@ -47,7 +44,8 @@ const Header = styled.div`
 `
 
 const Image = styled.img`
-  padding-top: 20px;
+  padding-top: 2%;
+  padding-bottom: 2%;
   margin: 0 auto;
 `
 
@@ -75,9 +73,7 @@ const Info = styled.div`
   text-align: center;
   font-size: 1.3em
   color: #6b6b6b;
-
 `
-
 
 class HowTo extends React.Component {
 
@@ -108,6 +104,7 @@ class HowTo extends React.Component {
         <Image src={loading.step3()}/>
       </InfoBlock>
       </Wrapper>
+      
     );
   }
 }

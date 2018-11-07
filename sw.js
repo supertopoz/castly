@@ -19,8 +19,8 @@ workbox.clientsClaim();
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute([
   {
-    "url": "castly.01f90b7a.js",
-    "revision": "471dc60c2380a4884d26332b73fe0b11"
+    "url": "castly.6af8f2f5.js",
+    "revision": "3268703b3d62b97388c57326eb7a7dbb"
   },
   {
     "url": "castly.f4a8b73d.css",
@@ -60,7 +60,7 @@ workbox.precaching.precacheAndRoute([
   },
   {
     "url": "index.html",
-    "revision": "01a337bd559233183169b1711d1ee0b5"
+    "revision": "6cfa5a10c4d923605643cbd39a91959d"
   },
   {
     "url": "MaterialIcons-Regular.042e3246.woff2",
@@ -97,10 +97,6 @@ workbox.precaching.precacheAndRoute([
   {
     "url": "pdf.worker.entry.9f721a0b.js",
     "revision": "9c5a0d669a4dd387bbb03659149418e3"
-  },
-  {
-    "url": "pdf.worker.entry.a87d9f0e.js",
-    "revision": "ebd892aacaa7cc1850f6b4c5c299ae30"
   }
 ]);
 workbox.routing.registerNavigationRoute("/index.html");

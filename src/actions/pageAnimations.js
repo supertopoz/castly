@@ -11,28 +11,30 @@ export function showSideMenu(display = false) {
         payload: display
     };
 }
-export function setTabs(tab = 'game') {
-    return {
-        type: "SET_TABS",
-        payload: tab
-    };
-}
+
 export function isMobile(isMobile = false) {
     return {
         type: "IS_MOBILE",
         payload: isMobile
     };
 }
-export function displayMobileInputs(display = false) {
+
+export function showLoader(loader = false) {
     return {
-        type: "DISPLAY_MOBILE_INPUTS",
-        payload: display
+        type: "SHOW_LOADER",
+        payload: loader
     };
 }
 
-export function hideWordList(display = false) {
+export function isPDF(pdf = false) {
     return {
-        type: "HIDE_WORD_LIST",
-        payload: display
+        type: "IS_PDF",
+        payload: pdf
     };
 }
+
+
+
+
+
+

@@ -80,7 +80,6 @@ export const canvasVideoAnimation = (current) => {
   }
 
 export function initializeUserMedia(current) {	
-console.log('current canvas', current)
   return (dispatch) => {
   const AudioContext = window.AudioContext || window.webkitAudioContext;
   const audioCtx = new AudioContext();
@@ -127,10 +126,12 @@ const createVideo = (stream) => {
 
   let getUserStream = () => {
     return new Promise((resolve, reject) => {
-      navigator.mediaDevices.getUserMedia({
-      audio: true,
-      video: true
-    }).then(function (stream) {
+       navigator.mediaDevices.enumerateDevices().then(devices=> {
+        console.log(devices)
+       }).catch(err => {
+        console.log(err)
+       })
+      navigator.mediaDevices.getUserMedia({ audio: true,video: true}).then(function(stream) {
        console.log('Stream Came online');
       resolve(stream)
     }).catch(function(err) {
@@ -174,6 +175,7 @@ const createCorner =() =>{
 
 
    getUserStream().then(stream => {
+
     createVideo(stream).then((video) =>{
       showVideo(video, stream).then((video) => {
         injectNewAudio(video, stream).then(dataStream => {

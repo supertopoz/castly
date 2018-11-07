@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components"
 import { Link } from 'react-router-dom'
-import * as loading from '../images/loading';
+import * as loading from '../images/images';
 
 
 const Wrapper = styled.div`

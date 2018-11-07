@@ -1,14 +1,14 @@
 import React from "react";
 import {connect} from "react-redux";
 import styled from "styled-components";
-import Dropzone from 'react-dropzone';
 import {NotificationManager} from 'react-notifications';
 import AddFiles from './AddFiles';
 import HandlePdf from './HandlePdf';
-import { Document, Page } from 'react-pdf/dist/entry.parcel';
+import * as images from '../images/images.js';
 
 import * as castlyActions from '../../actions/castlyActions';
 import * as canvasRecordingActions from '../../actions/canvasRecordingActions';
+import * as pageAnimations from '../../actions/pageAnimations';
 const Wrapper = styled.div`
    display: grid;
 `
@@ -99,9 +99,6 @@ class DisplayImages extends React.Component {
       })
     }).catch(e => reject(e))
   }
-
-  componendDidRev
-
   addCanvasImage(image){
 
     this.createNewImage(image).then(img => {
@@ -116,31 +113,27 @@ class DisplayImages extends React.Component {
   }
 
   render(){
+   
     const style = {gridTemplateColumns: `repeat(${this.props.castly.images.length}, auto)`}
-
     return (
       <Wrapper> 
       <AddFiles/>  
-      <Gallary style={style}> 
-      
+        <Gallary style={style}> 
         {this.props.castly.images.map((image, index)=> {
           return(
-          <ImageWrapper key={`image-${index}`} >
-            <ImgName>{image.name}</ImgName>
-            <Img src={image.preview} alt="Uploaded Image Preview"/>
-            <Controls>
-            <Button 
-              onClick={() =>this.addCanvasImage(image)}
-            >Cast</Button>
-            </Controls>
-          </ImageWrapper>
+            <ImageWrapper key={`image-${index}`} >
+              <ImgName>{image.name}</ImgName>
+              <Img src={image.preview} alt="Uploaded Image Preview"/>
+              <Controls>
+                <Button 
+                  onClick={() =>this.addCanvasImage(image)}
+                >Cast</Button>
+              </Controls>
+            </ImageWrapper>
           )
           }
         )}
-
-    
-
-      </Gallary>
+        </Gallary>
       <HandlePdf/>
       </Wrapper>
     );
@@ -149,7 +142,11 @@ class DisplayImages extends React.Component {
 
 
 const mapStateToProps = (state) => {
-  return { castly: state.castly, canvasRecording: state.canvasRecording };
+  return { 
+    castly: state.castly, 
+    canvasRecording: state.canvasRecording,
+    pageAnimations: state.pageAnimations
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -159,7 +156,7 @@ const mapDispatchToProps = (dispatch) => {
     currentImage: (image) => { dispatch(castlyActions.currentImage(image)) },
     resize: (corner) => { dispatch(castlyActions.resize(corner)) },
     addCanvasImage:(image, imageStage, corner) => { dispatch(castlyActions.addCanvasImage(image, imageStage, corner))},
-
+    showLoader: (loader) => { dispatch(pageAnimations.showLoader(loader)) },     
   };
 };
 

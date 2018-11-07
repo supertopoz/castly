@@ -6,6 +6,7 @@ import {NotificationManager} from 'react-notifications';
 
 import AddFiles from './AddFiles';
 import * as castlyActions from '../../actions/castlyActions';
+import * as pageAnimations from '../../actions/pageAnimations';
 
 
 const HiddenCanvas = styled.div`
@@ -28,7 +29,6 @@ class HandlePdf extends React.Component {
     this.setState({imgArr: [...Array(e.numPages).keys()]})
   }
   
-
   createImages(index){
 
     return new Promise((resolve, reject) => {
@@ -45,6 +45,7 @@ class HandlePdf extends React.Component {
   }
 
   initiateCreateImagesFromPDF(){
+    this.props.showLoader(false)
     let proms = this.state.imgArr.map((item, index) =>{
       return this.createImages(index)
     })
@@ -63,10 +64,7 @@ class HandlePdf extends React.Component {
     }
   }
   render(){
-
-
     let page = <div></div>
-
     if(this.props.castly.images[0]){
       if(this.props.castly.images[0].type === 'application/pdf'){
         page = (
@@ -102,6 +100,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addImages: (images) => { dispatch(castlyActions.addImages(images)) },      
+    showLoader: (loader) => { dispatch(pageAnimations.showLoader(loader)) },      
   };
 };
 

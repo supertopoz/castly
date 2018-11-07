@@ -1,10 +1,8 @@
 const pageAnimations = (state = {
     loadingBar: false,
     sideMenu: false,
-    tab: '',
     isMobile: false,
-    displayMobileInputs: false,
-    hideWordList: true
+    showLoader: false
 }, action) => {
     switch (action.type) {
         case "SHOW_LOADING_BAR":
@@ -19,30 +17,18 @@ const pageAnimations = (state = {
                 sideMenu: action.payload,
             }
             break;
-        case "SET_TABS":
-        state = {
-            ...state, 
-            tab: action.payload,
-        }
-        break;
         case "IS_MOBILE":
         state = {
             ...state, 
             isMobile: action.payload,
         }
-        break;
-        case "DISPLAY_MOBILE_INPUTS":
+        break;           
+        case "SHOW_LOADER":
         state = {
             ...state, 
-            displayMobileInputs: action.payload,
+            showLoader: action.payload,
         }
-        break;       
-        case "HIDE_WORD_LIST":
-        state = {
-            ...state, 
-            hideWordList: action.payload,
-        }
-        break;
+        break;     
     }
     return state;
 };

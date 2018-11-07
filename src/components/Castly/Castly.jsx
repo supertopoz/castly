@@ -8,8 +8,9 @@ import Video from './Video';
 import HowTo from './HowTo';
 import DisplayCanvas from './DisplayCanvas';
 
+import * as images from '../images/images.js';
 import * as castlyActions from '../../actions/castlyActions';
-import * as loading from '../images/loading';
+import * as loading from '../images/images';
 
 const Wrapper = styled.div`
 
@@ -32,11 +33,22 @@ const HiddenCanvas = styled.canvas`
    display: none;
 `
 
+const Loader = styled.div`
+  margin: 0 auto;
+`
+
 class Castly extends React.Component {
 
   render(){
+    console.log(this.props.pageAnimations.showLoader)
     let display = <div></div>
-    let displayCanvas = <DisplayCanvas/>
+    let loader = <div></div>
+    if(this.props.pageAnimations.showLoader){
+      loader = <Loader><img src={images.loading()}/></Loader>  
+    }
+    
+    let displayCanvas = <DisplayCanvas style={{display:"none"}}/>
+
     let displayVideo = <Video />
     if(this.props.castly.images.length === 0){
       display =  <HowTo/>
@@ -46,8 +58,8 @@ class Castly extends React.Component {
       <Wrapper>
         {display}             
         <DisplayImages/>
-   
         <HiddenCanvas  width="1920" height="1080" id="canvas"/>   
+        {loader}
         {displayCanvas}
         {displayVideo}
         {/*<img src={loading.loading()} />*/}

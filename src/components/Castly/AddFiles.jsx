@@ -4,9 +4,10 @@ import styled from "styled-components";
 import Dropzone from 'react-dropzone';
 import {NotificationManager} from 'react-notifications';
 
-
+import * as images from '../images/images.js';
 import * as castlyActions from '../../actions/castlyActions';
 import * as canvasRecordingActions from '../../actions/canvasRecordingActions';
+import * as pageAnimationActions from '../../actions/pageAnimations';
 
 
 
@@ -44,36 +45,52 @@ const dropzone = {
 
 class AddFiles extends React.Component {
 
-  handleOnDrop(files, rejectedFiles){
-   // show loader 
-  //  console.log(files)
-   files.forEach(file =>{
-    var image = new Image();
-    image.src = file.preview;
-    image.onload = function() {
-      file['width'] = this.width; 
-      file['height'] = this.height;    
-   }
-  })
-   this.props.addImages(files);   
-   const currentCanvasObjects = this.props.castly.currentCanvasObjects
-   if(this.props.canvasRecording.initialized === false){
-     this.props.initializeUserMedia(currentCanvasObjects)
-    }
+  handleRejectedFiles(files){    
+    files.forEach(file => {
+        NotificationManager.warning(`${file.name} is too large. Max file size is 5 mb`, 'Opps!', 10000)
+    })
+  }
+
+  handleOnClick(files, rejectedFiles){
+    this.props.showLoader(true);
+    if(rejectedFiles) this.handleRejectedFiles(rejectedFiles)
+    let filteredFiles =  files.reduce((arc,file,index) =>{
+      if(index === 0 && file.type === 'application/pdf'){
+        NotificationManager.info('PDF processing started', 'Info', 2000)
+        file.preview = images.loading();
+        arc.push(file);
+      }
+      if(index >= 1 && file.type === 'application/pdf'){
+        NotificationManager.warning('Castly can only process one PDF document by itself.', 'Opps!', 2000)
+      } 
+      else if(file.type.indexOf('image') >= 0) {
+        var image = new Image();
+        image.src = file.preview;
+        image.onload = function() {
+          file['width'] = this.width; 
+          file['height'] = this.height; 
+        }
+        arc.push(file)
+      }
+      return arc
+    }, [])
+    this.props.addImages(filteredFiles);  
+    const currentCanvasObjects = this.props.castly.currentCanvasObjects
+    if(this.props.canvasRecording.initialized === false){
+      this.props.initializeUserMedia(currentCanvasObjects)
+    } 
   }  
   render(){
     return (         
         <Dropzone 
           inputProps={{'id':"droppedzone", "style":{width: "1px"}}} 
           style={dropzone} 
-          onDrop={this.handleOnDrop.bind(this)} 
+          onDrop={this.handleOnClick.bind(this)} 
           maxSize={5000000}
           accept={['application/pdf', 'image/*']}
         >
         <Span><i className="material-icons">add</i></Span>
-        {/* <label htmlFor="droppedzone" >   
-          
-        </label>*/}
+        {/* <label htmlFor="droppedzone"></label>*/}
         </Dropzone>
     );
   }
@@ -87,7 +104,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addImages: (images) => { dispatch(castlyActions.addImages(images)) },
-    initializeUserMedia:(currentCanvasObjects) => {dispatch(canvasRecordingActions.initializeUserMedia(currentCanvasObjects))}
+    initializeUserMedia:(currentCanvasObjects) => {dispatch(canvasRecordingActions.initializeUserMedia(currentCanvasObjects))},
+    showLoader:(loader) => {dispatch(pageAnimationActions.showLoader(loader))}
   };
 };
 
