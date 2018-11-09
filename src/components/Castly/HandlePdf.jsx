@@ -3,65 +3,91 @@ import {connect} from "react-redux";
 import styled from "styled-components";
 import { Document, Page } from 'react-pdf/dist/entry.parcel';
 import {NotificationManager} from 'react-notifications';
+import "babel-polyfill";
 
 import AddFiles from './AddFiles';
 import * as castlyActions from '../../actions/castlyActions';
 import * as pageAnimations from '../../actions/pageAnimations';
-
+import * as canvasRecordingActions from '../../actions/canvasRecordingActions';
 
 const HiddenCanvas = styled.div`
   display: none;
 `
+
+const Loader = styled.div`
+  display: grid;
+  max-width: 700px; 
+  background: lightgrey;
+` 
+
+const LoaderSegment = styled.div`
+  background: #aa00ff;
+  height: 5px;
+` 
 
 
 class HandlePdf extends React.Component {
   constructor(props){
     super(props)
     this.state = {
+      pageNumber: 1,
       numPages: 0,
-      imgArr: [], 
-      completedImages: [],      
+      images: [],
+      width: 0,
+      loaderSegmentWidth: 0
     }
   }
 
   documentData(e){
+    console.log('Loaded')
     this.setState({numPages: e.numPages})
-    this.setState({imgArr: [...Array(e.numPages).keys()]})
   }
-  
-  createImages(index){
+
+  createImages(count){
 
     return new Promise((resolve, reject) => {
-      const canvas = document.querySelectorAll(`.pdfCanvas-${index} canvas`)[0];
+      const canvas = document.querySelectorAll(`.pdfCanvas canvas`)[0];
       canvas.toBlob(function(blob) {
         const image = new Image();
         const url = URL.createObjectURL(blob);
         image.src = url;
         image.preview = url;
-        image.name = `pdf: p${index+1}`
+        image.name = `slide: ${count} `
         resolve(image)
       });
     })
   }
 
-  initiateCreateImagesFromPDF(){
-    this.props.showLoader(false)
-    let proms = this.state.imgArr.map((item, index) =>{
-      return this.createImages(index)
-    })
-    Promise.all(proms).then(values => {
-      this.props.addImages(values)
-      this.setState({ numPages: 0, imgArr: [], completedImages: []})
-    })
-  }
-
-  imageRendered(e){
-    const completedImages = this.state.completedImages;
-    completedImages.push(e.pageIndex);
-    this.setState({completedImages})
-    if(this.state.completedImages.length === this.state.imgArr.length){
-      this.initiateCreateImagesFromPDF();
+    componentDidMount() {
+      this.updateWindowDimensions();
     }
+
+    updateWindowDimensions() {
+      let width = window.innerWidth
+      let loaderSegmentWidth = 700
+      if(width < 700){
+        loaderSegmentWidth = width
+      }
+      this.setState({ width, loaderSegmentWidth});
+    }
+
+  async imageRendered(){
+    if(this.state.pageNumber <= this.state.numPages){
+    let count = this.state.pageNumber + 1
+    const images = this.state.images
+    const image = await this.createImages(count -1);
+    images.push(image)
+    this.setState({images})
+    this.setState({pageNumber: count})
+    }
+    if(this.state.pageNumber === this.state.numPages){
+      this.props.addImages(this.state.images)
+      this.setState({
+        pageNumber: 1,
+        numPages: 0,
+        images: [],  
+      }) 
+    } 
   }
   render(){
     let page = <div></div>
@@ -72,35 +98,39 @@ class HandlePdf extends React.Component {
             file={this.props.castly.images[0]} 
             onLoadSuccess = {(e) => this.documentData(e)}
             onLoadError={(e) => console.log(e)}
-          >  
-          { this.state.imgArr.map((item,index)=>{
-              return(            
-                <Page 
-                  key = {`page-${index}`}
-                  onRenderSuccess ={(e)=> this.imageRendered(e)}
-                  className = {`pdfCanvas-${index}`}
-                  pageNumber={index+1} 
-                  renderAnnotations ={false}
-                />              
-              )
-            })
-          }
+          >          
+          <Page 
+            onRenderSuccess ={(e)=> this.imageRendered(e)}
+            className = {`pdfCanvas`}
+            pageNumber= {this.state.pageNumber+1} 
+            renderAnnotations = {false}
+          />              
           </Document>
           ) 
       }
     }
-  return (<HiddenCanvas>{page}</HiddenCanvas>);
+  return (
+    <div>
+    <Loader style={{ "gridTemplateColumns": `repeat(${this.state.numPages}, ${this.state.loaderSegmentWidth/this.state.numPages}px)` }}>
+    {this.state.images.map((item, index)=>{
+      return <LoaderSegment key={`loadersegment-${index}`}></LoaderSegment>
+    })}
+    </Loader>
+    <HiddenCanvas>{page}</HiddenCanvas>
+    </div>
+    );
   }
 }
 
 const mapStateToProps = (state) => {
-  return { castly: state.castly};
+  return { castly: state.castly,  canvasRecording: state.canvasRecording};
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     addImages: (images) => { dispatch(castlyActions.addImages(images)) },      
-    showLoader: (loader) => { dispatch(pageAnimations.showLoader(loader)) },      
+    showLoader: (loader) => { dispatch(pageAnimations.showLoader(loader)) },
+    initializeUserMedia:(currentCanvasObjects) => {dispatch(canvasRecordingActions.initializeUserMedia(currentCanvasObjects))} 
   };
 };
 

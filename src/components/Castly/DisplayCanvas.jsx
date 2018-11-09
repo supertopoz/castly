@@ -7,27 +7,15 @@ import * as canvasRecordingActions from '../../actions/canvasRecordingActions';
 import * as castlyActions from '../../actions/castlyActions';
 
 const Wrapper = styled.div`
-
     display:grid;
     border-radius: 10px;
     grid-gap: 10px;
     cursor:pointer;
     margin:0 auto;
     padding-top: 10px;
-    @media only screen and (min-width: 320px)  { 
-
-    }
-    @media only screen and (min-width: 768px)  {   
-
-    } 
-    @media only screen and (min-width: 1024px) { 
-
-    }
 `
 
-const Canvas = styled.canvas`
-   box-shadow: 2px 2px 5px 1px #9E9E9E;
-`
+const Canvas = styled.canvas``
 
 class DisplayCanvas extends React.Component {
   constructor(){
@@ -153,6 +141,7 @@ class DisplayCanvas extends React.Component {
     return (
       <Wrapper>        
       <Canvas
+        style = {{display:'none'}}
         onMouseDown = {(e) => this.onMouseDown(e)}
         onMouseMove = { this.debounceEvent(this.onMouseMove, 50)}
         onMouseUp = {(e) => this.onMouseUp(e)}

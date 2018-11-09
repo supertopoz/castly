@@ -113,11 +113,16 @@ class DisplayImages extends React.Component {
   }
 
   render(){
-   
+    let button = ()=><div></div>
+    if(this.props.castly.images.length){
+      if(this.props.castly.images[0].type !== 'application/pdf'){
+        button = (image)=><Button onClick={() =>this.addCanvasImage(image)}>Cast</Button>
+      }
+    }
+
     const style = {gridTemplateColumns: `repeat(${this.props.castly.images.length}, auto)`}
     return (
-      <Wrapper> 
-      
+      <Wrapper>      
         <Gallary style={style}> 
         {this.props.castly.images.map((image, index)=> {
           return(
@@ -125,9 +130,7 @@ class DisplayImages extends React.Component {
               <ImgName>{image.name}</ImgName>
               <Img src={image.preview} alt="Uploaded Image Preview"/>
               <Controls>
-                <Button 
-                  onClick={() =>this.addCanvasImage(image)}
-                >Cast</Button>
+                {button(image)}
               </Controls>
             </ImageWrapper>
           )

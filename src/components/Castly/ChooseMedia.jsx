@@ -19,7 +19,7 @@ const Media = styled.div`
   position: absolute; 
   top: 0px;
   left: 0px; 
-  background: rgba(0, 0, 0, 0.5);
+  background: white;
 `
 
 const InfoPanel = styled.div`
@@ -43,10 +43,10 @@ const Loader = styled.div`
     text-align: center;
 `
 
-const Error = styled.div`
+const NotificationBlock = styled.div`
   display: grid;
   text-align: center;
-  color: #6b6b6b;
+  grid-gap: 10px;
 `
 
 
@@ -71,17 +71,24 @@ const Span = styled.span`
     text-align: center;
     cursor: pointer;
 `
+const HeadingBlock = styled.div`
+  display: grid;
+  grid-template-columns: 20fr 1fr;
+  color: #6b6b6b;
+`
 
-const Warning = styled.div`
-  background: #FFB6C1;
+const Header = styled.div`
+  color: #6b6b6b;
+  font-size: 2em;
+`
+
+const InfoBody = styled.div`
+  font-size: 1.3em;
+  color: #6b6b6b;
   padding: 20px;
   color: #6b6b6b;
-
-`
-const ErrorHeading = styled.div`
-  display: grid;
-  grid-template-columns: 10fr 1fr;
-  color: #6b6b6b;
+  border: solid 1px lightgrey;
+  border-radius: 10px;
 `
 
 class ChooseMedia extends React.Component {
@@ -107,37 +114,43 @@ class ChooseMedia extends React.Component {
   handlePlusButtonClick(){
     this.setState({display:true})
     const currentCanvasObjects = this.props.castly.currentCanvasObjects
-    this.props.initializeUserMedia(currentCanvasObjects);
-   // Show loader until media options are captures
+    if(!(this.props.canvasRecording.initialized)){
+      console.log('INITIATED MEDIA')
+      this.props.initializeUserMedia(currentCanvasObjects); 
+    }
   }
-
-  
 
   render(){
     let loader =  <Loader><Img src={images.loading()}/>{this.state.mediaMessage}</Loader>
     let error = '';
     let sucess = ''
-    if(this.props.canvasRecording.initialized ){
+    {/*if(this.props.canvasRecording.initialized ){*/}
+    if(true ){
       loader = ''
-      sucess = <div>
-      Your camera and mircophone are now working. Please select files to add to your castly.
+      sucess = 
+      <NotificationBlock>
+       <HeadingBlock>
+      <Header>Ready!</Header>
+      <i onClick={this.handleModelClose} className="material-icons">close</i>
+       </HeadingBlock>
+      <InfoBody>Camera and mircophone working. Upload one PDF document or image files.</InfoBody>
       <AddFilesSquare/>
-      </div>
+      </NotificationBlock>
     }
     let dataStream = this.props.canvasRecording.dataStream;
     if(dataStream === null) dataStream = 0;
     if(typeof dataStream === 'string'){
       sucess = '';
       error = 
-      <Error>
-        <ErrorHeading>
-        <h1>Opps! That's an error</h1>
+      <NotificationBlock>
+        <HeadingBlock>
+        <Header>Opps! That's an error</Header>
         <i onClick={this.handleModelClose} className="material-icons">close</i>
-        </ErrorHeading>
-        <Warning>
+        </HeadingBlock>
+        <InfoBody>
           {this.props.canvasRecording.dataStream}
-        </Warning>
-      </Error>
+        </InfoBody>
+      </NotificationBlock>
     }
     
     let mainContent = <div></div>

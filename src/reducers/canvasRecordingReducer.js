@@ -36,6 +36,10 @@ const exportVideo = (state, action) => {
   return { ...state, videoData: action.payload}
 }
 
+const reset = (state, action) => {
+  return { ...initialState }
+}
+
 const canvasRecording = (state = initialState , action) => {
     switch (action.type) {
         case "INITILIZE_USER_MEDIA": return intilizeUserMedia(state, action);
@@ -44,6 +48,7 @@ const canvasRecording = (state = initialState , action) => {
         case "ADD_CANVAS_IMAGE": return addCanvasImage(state, action);                            
         case "UPDATE_RECORD_BUTTONS": return updateRecordButtons(state, action);                            
         case "VIDEO_DATA": return exportVideo(state, action);                                                    
+        case "RESET": return reset();                                                    
         break;
     }
     return state;

@@ -5,6 +5,13 @@ export function showLoadingBar(display = false) {
     };
 }
 
+export function reset() {
+    return {
+        type: "RESET",
+        payload: ''
+    };
+}
+
 export function showSideMenu(display = false) {
     return {
         type: "SHOW_SIDE_MENU",

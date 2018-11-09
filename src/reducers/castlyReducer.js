@@ -32,12 +32,17 @@ const resize = (state, action) => {
   return { ...state, resize: action.payload}
 }
 
+const reset = (state, action) => {
+  return { ...initialState }
+}
+
 const castly = (state = initialState , action) => {
     switch (action.type) {
         case "ADD_IMAGES": return addImages(state, action);       
         case "CURRENT_IMAGE": return currentImage(state, action);       
         case "IMAGE_STAGE_DETAILS": return imageStageDetails(state, action);       
-        case "RESIZE": return resize(state, action);               
+        case "RESIZE": return resize(state, action);  
+        case "RESET": return reset();                 
         break;
     }
     return state;

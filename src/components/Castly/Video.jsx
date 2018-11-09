@@ -72,7 +72,7 @@ class Video extends React.Component {
       } 
      return (
       <Wrapper>  
-      <Buttons>
+      <Buttons style = {{display:'none'}}>
       {    
        icon.map((item, index)=>{
          return <Button key={`record${index}`} onClick={()=> this.handleButtonClick(item)}><i className="material-icons">{item}</i></Button>
@@ -94,7 +94,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     setAudioContext:(context) => { dispatch(canvasRecordingActions.setAudioContext(context))},
-    initializeUserMedia:() => {dispatch(canvasRecordingActions.initializeUserMedia())},
     startRecordingStream:(stream) => { dispatch(canvasRecordingActions.startRecordingStream(stream))},
     exportVideo:(event) => { dispatch(canvasRecordingActions.exportVideo(event))},
     addCanvasImage:(image) => { dispatch(canvasRecordingActions.addCanvasImage(image))},

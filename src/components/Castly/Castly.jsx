@@ -12,6 +12,8 @@ import DisplayCanvas from './DisplayCanvas';
 
 import * as images from '../images/images.js';
 import * as castlyActions from '../../actions/castlyActions';
+import * as canvasRecordingActions from '../../actions/canvasRecordingActions';
+import * as pageAnimations from '../../actions/pageAnimations';
 import * as loading from '../images/images';
 
 const Wrapper = styled.div`
@@ -29,6 +31,19 @@ const HiddenCanvas = styled.canvas`
 `
 
 class Castly extends React.Component {
+
+  componentWillUnmount(){
+    this.props.resetCastlyActions();
+    this.props.resetRecordingActions();
+    this.props.resetPageAnimationActions();
+    // Destroy Canvas 2
+    try{
+    document.getElementById("canvas2").outerHTML = "";
+    } catch(e){
+      console.log(e)
+    }
+    // Turn off stream. 
+  }
 
   render(){
     let displayHowTo = ''   
@@ -63,6 +78,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    resetCastlyActions:() => { dispatch(castlyActions.reset())},
+    resetRecordingActions:() => { dispatch(canvasRecordingActions.reset())},
+    resetPageAnimationActions:() => { dispatch(pageAnimations.reset())},
   };
 };
 

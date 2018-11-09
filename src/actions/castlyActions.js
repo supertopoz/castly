@@ -5,6 +5,13 @@ export function addImages(images = []) {
     };
 }
 
+export function reset() {
+    return {
+        type: "RESET",
+        payload: ''
+    };
+}
+
 export function currentImage(image) { 
     return {
         type: "CURRENT_IMAGE",

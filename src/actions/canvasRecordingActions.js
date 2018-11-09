@@ -5,6 +5,13 @@ export const setAudioContext = context => {
     };
 }
 
+export function reset() {
+    return {
+        type: "RESET",
+        payload: ''
+    };
+}
+
   const cloneCanvas = (oldCanvas, newCanvas, context) => {
     context.drawImage(oldCanvas, 0, 0, newCanvas.width, newCanvas.height);
   }
@@ -37,8 +44,6 @@ export const canvasVideoAnimation = (current) => {
       const context = visibleCanvas.getContext('2d');
       const newCanvas = setVisibleCanvasSize(visibleCanvas);
       var toggle = false;
-  // var newImageHeight = imageStage.height;
-  // var newImageWidth = image.width * (imageStage.height/image.height)
       (function loop() {
         toggle = !toggle;
 
@@ -74,8 +79,11 @@ export const canvasVideoAnimation = (current) => {
             ctx.drawImage(current.resizeCorner, (current.video.details.x + current.video.details.width), (current.video.details.y + current.video.details.height), 80, 80)
           }
       }
-      window.requestAnimationFrame(loop);    
+      if(current.running){
+        window.requestAnimationFrame(loop);    
         cloneCanvas(canvas, newCanvas, context)
+      }
+
     })();
   }
 
@@ -142,7 +150,7 @@ const createVideo = (stream) => {
         reject(`${err}`)
     } else if (err.name=="NotAllowedError" || err.name == "PermissionDeniedError" ){
         console.log('permission denied in browser')
-        reject(`You have denied Castly access to use the camera and mic. Please allow access, and if needed reload this page.`)
+        reject(`Camera and microphone denied access. Please allow access. Reload page if needed.`)
     } else if (err.name=="TypeError" || err.name == "TypeError" ){
         console.log('empty constraints')
         reject(`${err}`)
@@ -183,7 +191,8 @@ const createCorner =() =>{
           }
 
           current.video = video;
-          current.resizeCorner = corner
+          current.resizeCorner = corner;
+          current.running = true;
           canvasVideoAnimation(current)
 
           dispatch({

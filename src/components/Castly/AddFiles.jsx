@@ -75,10 +75,6 @@ class AddFiles extends React.Component {
       return arc
     }, [])
     this.props.addImages(filteredFiles);  
-    // const currentCanvasObjects = this.props.castly.currentCanvasObjects
-    // if(this.props.canvasRecording.initialized === false){
-    //   this.props.initializeUserMedia(currentCanvasObjects)
-    // } 
   }  
   render(){
     return (         
@@ -103,8 +99,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addImages: (images) => { dispatch(castlyActions.addImages(images)) },
-    initializeUserMedia:(currentCanvasObjects) => {dispatch(canvasRecordingActions.initializeUserMedia(currentCanvasObjects))},
+    addImages: (images) => { dispatch(castlyActions.addImages(images)) },    
     showLoader:(loader) => {dispatch(pageAnimationActions.showLoader(loader))}
   };
 };

@@ -19,15 +19,19 @@ const Span = styled.span`
 `
 
 const dropzone = {
-    display: "grid",
+    display: "flex",
+    width: "25%",
+    margin: "0 auto",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#b818ff",
-    width: "56px",
-    height: "56px",
+    border: "1px solid",
+    background: "#aa00ff",
+    padding: "10px",
     color: "white",
-    cursor: "pointer"
-}
+    borderRadius: "10px",
+    textAlign: "center",
+    maxHeight: "25px"
+    }
 
 class AddFiles extends React.Component {
 
