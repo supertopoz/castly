@@ -109,6 +109,9 @@ class ChooseMedia extends React.Component {
 
   handleModelClose(){
       this.setState({display: false})
+
+
+
     }
 
   handlePlusButtonClick(){
@@ -129,11 +132,7 @@ class ChooseMedia extends React.Component {
       loader = ''
       sucess = 
       <NotificationBlock>
-       <HeadingBlock>
-      <Header>Ready!</Header>
-      <i onClick={this.handleModelClose} className="material-icons">close</i>
-       </HeadingBlock>
-      <InfoBody>Camera and mircophone working. Upload one PDF document or image files.</InfoBody>
+      <InfoBody>Great! Your camera and microphone should be good. Now upload a PDF document or image files.</InfoBody>
       <AddFilesSquare/>
       </NotificationBlock>
     }

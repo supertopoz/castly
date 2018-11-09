@@ -23,7 +23,6 @@ const Wrapper = styled.div`
 `
 
 const Banner = styled.div`
-		background: ghostwhite;
 		border: 1px solid lightgrey;
     padding: 5%;
 		border-radius: 10px;
@@ -31,7 +30,7 @@ const Banner = styled.div`
 `
 
 const Header = styled.div`
-  color:#aa00ff;
+  color:#6b6b6b;
   font-size: 2.5em; 
 `
 
@@ -97,14 +96,7 @@ const Info = styled.div`
 export const Home = (props) => {
     return (
         <Wrapper>
-        	<Banner>
-        	 <Header>
-           CASTLY
-           <p style={ {fontSize: "1rem"}}>
-             Castly is a simple video with PDF or image recording application. 
-           </p> 
-          
-           </Header>
+        	<Banner>        
            <Link to="/castly" ><Button >GET STARTED</Button></Link>
            </Banner>
           <InfoBlock>
