@@ -53,6 +53,7 @@ class AddFiles extends React.Component {
 
   handleOnClick(files, rejectedFiles){
     this.props.showLoader(true);
+
     if(rejectedFiles) this.handleRejectedFiles(rejectedFiles)
     let filteredFiles =  files.reduce((arc,file,index) =>{
       if(index === 0 && file.type === 'application/pdf'){
@@ -75,6 +76,7 @@ class AddFiles extends React.Component {
       return arc
     }, [])
     this.props.addImages(filteredFiles);  
+   
   }  
   render(){
     return (         
@@ -100,7 +102,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addImages: (images) => { dispatch(castlyActions.addImages(images)) },    
-    showLoader:(loader) => {dispatch(pageAnimationActions.showLoader(loader))}
+    showLoader:(loader) => {dispatch(pageAnimationActions.showLoader(loader))},
+    displayCanvas:(display) => {dispatch(pageAnimations.displayCanvas(display))} 
   };
 };
 

@@ -15,8 +15,9 @@ const HiddenCanvas = styled.div`
 `
 
 const Loader = styled.div`
+  margin: 0 auto;
   display: grid;
-  max-width: 700px; 
+  max-width: 200px; 
   background: lightgrey;
 ` 
 
@@ -39,6 +40,7 @@ class HandlePdf extends React.Component {
   }
 
   documentData(e){
+    this.props.displayCanvas('none');
     console.log('Loaded')
     this.setState({numPages: e.numPages})
   }
@@ -86,7 +88,8 @@ class HandlePdf extends React.Component {
         pageNumber: 1,
         numPages: 0,
         images: [],  
-      }) 
+      })
+      this.props.displayCanvas('grid');
     } 
   }
   render(){
@@ -111,7 +114,7 @@ class HandlePdf extends React.Component {
     }
   return (
     <div>
-    <Loader style={{ "gridTemplateColumns": `repeat(${this.state.numPages}, ${this.state.loaderSegmentWidth/this.state.numPages}px)` }}>
+    <Loader style={{ "gridTemplateColumns": `repeat(${this.state.numPages}, ${200/this.state.numPages}px)` }}>
     {this.state.images.map((item, index)=>{
       return <LoaderSegment key={`loadersegment-${index}`}></LoaderSegment>
     })}
@@ -130,7 +133,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addImages: (images) => { dispatch(castlyActions.addImages(images)) },      
     showLoader: (loader) => { dispatch(pageAnimations.showLoader(loader)) },
-    initializeUserMedia:(currentCanvasObjects) => {dispatch(canvasRecordingActions.initializeUserMedia(currentCanvasObjects))} 
+    initializeUserMedia:(currentCanvasObjects) => {dispatch(canvasRecordingActions.initializeUserMedia(currentCanvasObjects))},
+    displayCanvas:(display) => {dispatch(pageAnimations.displayCanvas(display))} 
   };
 };
 

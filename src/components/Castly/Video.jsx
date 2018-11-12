@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import styled from "styled-components";
 import {NotificationManager} from 'react-notifications';
 import * as canvasRecordingActions from '../../actions/canvasRecordingActions';
+import * as pageAnimations from '../../actions/pageAnimations';
 
 const Wrapper = styled.div`
 
@@ -37,8 +38,8 @@ class Video extends React.Component {
 
   startRecording(){
     this.props.canvasRecording.audioCtx.resume();
-    const stream = this.props.canvasRecording.dataStream
-    this.props.startRecordingStream(stream);
+    const audioStream = this.props.canvasRecording.dataStream
+    this.props.startRecordingStream(audioStream);
   }
 
   review(){
@@ -54,6 +55,7 @@ class Video extends React.Component {
       this.props.canvasRecording.recorder.resume();
     }
     if(clickedButton === 'stop') { 
+      this.props.displayCanvas('none')
       this.props.canvasRecording.recorder.stop();
       setTimeout(() => {
         this.review();
@@ -72,7 +74,8 @@ class Video extends React.Component {
       } 
      return (
       <Wrapper>  
-      <Buttons style = {{display:'none'}}>
+      <div id="vid-holder" style={{width: '250px'}} controls></div>
+      <Buttons style = {{display: this.props.pageAnimations.displayCanvas}}>
       {    
        icon.map((item, index)=>{
          return <Button key={`record${index}`} onClick={()=> this.handleButtonClick(item)}><i className="material-icons">{item}</i></Button>
@@ -80,7 +83,7 @@ class Video extends React.Component {
       }  
            
       </Buttons>  
-      <div id="vid-holder" style={{maxWidth: '300px'}} controls></div>
+
       </Wrapper>
     );
   }
@@ -88,7 +91,7 @@ class Video extends React.Component {
 
 
 const mapStateToProps = (state) => {
-  return { canvasRecording: state.canvasRecording };
+  return { canvasRecording: state.canvasRecording, pageAnimations: state.pageAnimations };
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -97,7 +100,8 @@ const mapDispatchToProps = (dispatch) => {
     startRecordingStream:(stream) => { dispatch(canvasRecordingActions.startRecordingStream(stream))},
     exportVideo:(event) => { dispatch(canvasRecordingActions.exportVideo(event))},
     addCanvasImage:(image) => { dispatch(canvasRecordingActions.addCanvasImage(image))},
-    changeRecordButton:(clickedButton) => { dispatch(canvasRecordingActions.changeRecordButton(clickedButton))}
+    changeRecordButton:(clickedButton) => { dispatch(canvasRecordingActions.changeRecordButton(clickedButton))},
+    displayCanvas:(display) => { dispatch(pageAnimations.displayCanvas(display))}
   };
 }
 

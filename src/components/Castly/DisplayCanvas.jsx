@@ -5,6 +5,7 @@ import throttle from 'lodash.throttle';
 import {NotificationManager} from 'react-notifications';
 import * as canvasRecordingActions from '../../actions/canvasRecordingActions';
 import * as castlyActions from '../../actions/castlyActions';
+import * as pageAnimations from '../../actions/pageAnimations';
 
 const Wrapper = styled.div`
     display:grid;
@@ -105,8 +106,8 @@ class DisplayCanvas extends React.Component {
     }
     moveVideo(mouseX, mouseY){
       const video = this.props.canvasRecording.video;
-      video.details.x += Number(mouseX) - Number(this.state.mouse[0])
-      video.details.y += Number(mouseY) - Number(this.state.mouse[1])    
+      video.details.x += Math.floor(Number(mouseX) - Number(this.state.mouse[0]))
+      video.details.y += Math.floor(Number(mouseY) - Number(this.state.mouse[1]))    
       this.setState({mouse: [mouseX,mouseY]})
     }
     resizeStage(mouseX, mouseY){
@@ -117,8 +118,8 @@ class DisplayCanvas extends React.Component {
     }    
     resizeVideo(mouseX, mouseY){
         const video = this.props.canvasRecording.video     
-        video.details.width = Math.abs(Number(video.details.x) - 1 - Number(mouseX));
-        video.details.height = video.details.width * (video.details.originalHeight/video.details.originalWidth)
+        video.details.width = Math.floor(Math.abs(Number(video.details.x) - 1 - Number(mouseX)));
+        video.details.height = Math.floor(video.details.width * (video.details.originalHeight/video.details.originalWidth))
         this.setState({mouse: [mouseX,mouseY]})
     }
     onMouseMove(e){ 
@@ -141,7 +142,7 @@ class DisplayCanvas extends React.Component {
     return (
       <Wrapper>        
       <Canvas
-        style = {{display:'none'}}
+        style = {{display: this.props.pageAnimations.displayCanvas}}
         onMouseDown = {(e) => this.onMouseDown(e)}
         onMouseMove = { this.debounceEvent(this.onMouseMove, 50)}
         onMouseUp = {(e) => this.onMouseUp(e)}
@@ -159,7 +160,7 @@ class DisplayCanvas extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return { canvasRecording: state.canvasRecording, castly: state.castly };
+  return { canvasRecording: state.canvasRecording, castly: state.castly, pageAnimations: state.pageAnimations};
 };
 
 const mapDispatchToProps = (dispatch) => {

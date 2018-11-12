@@ -24,7 +24,6 @@ const Gallary = styled.div`
   display: grid;
   grid-gap: 10px;
   overflow: auto;
-  max-width: 700px;
 `
 const ImageWrapper = styled.div`
   align-items: center;
@@ -72,12 +71,6 @@ const Button = styled.div`
 class DisplayImages extends React.Component {
   constructor(props){
     super(props)
-    this.state = {
-      images: {},
-      numPages: 0,
-      imgArr: [], 
-      completedImages: [],      
-    }
   }
 
   createNewImage(image){
@@ -109,7 +102,7 @@ class DisplayImages extends React.Component {
         const imageStage = this.props.castly.imageStage         
         this.props.addCanvasImage(image.img, imageStage, corner);        
       })
-    })    
+    })   
   }
 
   render(){

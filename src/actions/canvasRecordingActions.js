@@ -57,8 +57,7 @@ export const canvasVideoAnimation = (current) => {
               if(current.imageStageHighlight){
                ctx.drawImage(current.resizeCorner, (current.imageStage.x + current.imageStage.width), (current.imageStage.y + current.imageStage.height), 80, 80)
              }
-            }  
-       
+            }         
           ctx.stroke();
            if(current.currentImage && current.imageStageHighlight){
             ctx.beginPath();
@@ -105,7 +104,7 @@ export function initializeUserMedia(current) {
 
   const injectNewAudio = (video, stream) => {
     return new Promise((resolve, reject) => {
-      const options = { audioBitsPerSecond : 128000, videoBitsPerSecond : 2500000, mimeType : 'video/mp4', video: video }
+  //    const options = { audioBitsPerSecond : 128000, videoBitsPerSecond : 2500000, mimeType : 'video/mp4', video: video }
         if(audioCtx){
           const sourceNode = audioCtx.createMediaStreamSource(stream);
           const destination = audioCtx.createMediaStreamDestination();
@@ -134,7 +133,23 @@ const createVideo = (stream) => {
 
   let getUserStream = () => {
     return new Promise((resolve, reject) => {
-      navigator.mediaDevices.getUserMedia({ audio: true,video: true}).then(function(stream) {
+
+     navigator.getUserMedia = ( navigator.getUserMedia ||
+                   navigator.webkitGetUserMedia ||
+                   navigator.mozGetUserMedia ||
+                   navigator.msGetUserMedia); 
+
+
+      navigator.mediaDevices.getUserMedia({ 
+
+        audio: true,
+        video: true
+        // {
+        //   width: { min: 128, ideal: 384, max: 768 },
+        //   height: { min: 72, ideal: 216, max: 432 },
+        // }
+
+      }).then(function(stream) {
        console.log('Stream Came online');
       resolve(stream)
     }).catch(function(err) {
@@ -218,21 +233,33 @@ const createCorner =() =>{
 
 }
 
-export const startRecordingStream =(stream) => {
+export const startRecordingStream =(audioStream) => {
   return (dispatch) => {
     const canvas = window.document.getElementById('canvas');
-    const recordStream = canvas.captureStream(30);  
-    recordStream.addTrack(stream.getAudioTracks()[0]);
-    let recorder = null
+    let recordStream;
+
+    if ('captureStream' in canvas) {
+        recordStream = canvas.captureStream(15);
+    } else if ('mozCaptureStream' in canvas) {
+        recordStream = canvas.mozCaptureStream();
+    } else if (!options.disableLogs) {
+        console.error('Upgrade to latest Chrome or otherwise enable this flag: chrome://flags/#enable-experimental-web-platform-features');
+    }
+
+    recordStream.addTrack(audioStream.getAudioTracks()[0]);
+    let recorder = null;
+    //const options = {mimeType: 'video/webm;codecs=h264'};
     try {
      recorder = new MediaRecorder(recordStream);
     } catch (e){
-      console.error('Exception while createing MediaRecorder', + e)
+      console.error('Exception while creating MediaRecorder', + e)
     }
-    
-    recorder.ondataavailable = (e) => event.data.size &&  event.currentTarget.chunks.push(event.data)
     recorder.start();
     recorder.chunks = [];
+    recorder.ondataavailable = () => {
+      console.log('DATA IN BECAME AVAILABLE')
+      event.data.size && event.currentTarget.chunks.push(event.data)
+    }
     recorder.onpause = event => {
       console.log('paused', event)
     }
@@ -240,17 +267,16 @@ export const startRecordingStream =(stream) => {
       console.log('resume', event)
     }
     recorder.onstop = function(event) {
-      console.log('Stopped', event) 
       dispatch({
           type: "STOP_RECORDING",
           payload: event
         });
     }
-    dispatch({
-          type: "START_RECORDING",
-          payload: recorder
-        });   
-  }
+      dispatch({
+            type: "START_RECORDING",
+            payload: recorder
+          });   
+   }
   }
 
 
@@ -278,9 +304,8 @@ export const addVidToDom =(vidURL) => {
 export const exportStream = (event = {}) => {
     return new Promise((resolve, reject)=>{
       if (event.currentTarget && event.currentTarget.chunks.length) {
-        const blob = new Blob(event.currentTarget.chunks)
+        const blob = new Blob(event.currentTarget.chunks, {type: 'video/mp4'})
         const vidURL = URL.createObjectURL(blob);
-
         resolve(vidURL);
       } else {
         reject('failed');

@@ -3,6 +3,7 @@ const initialState = {
     sideMenu: false,
     isMobile: false,
     showLoader: false,
+    displayCanvas: 'grid'
 }
 
 
@@ -35,6 +36,12 @@ const pageAnimations = (state = initialState, action) => {
         case "RESET":
         state = {
             ...initialState
+        }
+        break;          
+        case "DISPLAY_CANVAS":
+        state = {
+             ...state, 
+            displayCanvas: action.payload,
         }
         break;     
     }

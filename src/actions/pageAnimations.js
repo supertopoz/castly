@@ -47,6 +47,13 @@ export function isPDF(pdf = false) {
     };
 }
 
+export function displayCanvas(display = 'none') {
+    return {
+        type: "DISPLAY_CANVAS",
+        payload: display
+    };
+}
+
 
 
 

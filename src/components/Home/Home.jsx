@@ -8,16 +8,22 @@ const Wrapper = styled.div`
 
 		display: grid;
 		margin: 0 auto;
-		grid-gap:10px;
+
     margin-top: 10px;
     @media only screen and (min-width: 320px)  { 
-      width: 90%;
+      width: 95%;
+      grid-gap:5px;
+      margin-top: 10px;
     }
     @media only screen and (min-width: 768px)  {  
       width: 70%;
+      grid-gap: 20px;
+      margin-top: 20px;
     } 
     @media only screen and (min-width: 1024px) { 
       width: 70%;
+      grid-gap: 20px;
+      margin-top: 20px;
     }
 
 `
@@ -74,7 +80,8 @@ const Image = styled.img`
   border: 1px solid lightgrey;
   padding: 10px;
   @media only screen and (min-width: 320px)  { 
-    grid-template-columns: 1fr;     
+    grid-template-columns: 1fr;    
+    padding: 2px; 
   }
   @media only screen and (min-width: 768px)  {  
     grid-template-columns: 1fr 1fr; 
@@ -96,9 +103,6 @@ const Info = styled.div`
 export const Home = (props) => {
     return (
         <Wrapper>
-        	<Banner>        
-           <Link to="/castly" ><Button >GET STARTED</Button></Link>
-           </Banner>
           <InfoBlock>
             <div>
             <Header2>Good for homework</Header2>
@@ -111,9 +115,11 @@ export const Home = (props) => {
             <div>
             <Header2>Great for presentations</Header2>
             <Info>No more blurry projected screen.</Info>
-            </div>
-            
+            </div>            
           </InfoBlock>
+          <Banner>        
+           <Link to="/castly" ><Button >GET STARTED</Button></Link>
+           </Banner>
         </Wrapper>
     );
 };
