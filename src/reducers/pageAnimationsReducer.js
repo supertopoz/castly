@@ -3,7 +3,8 @@ const initialState = {
     sideMenu: false,
     isMobile: false,
     showLoader: false,
-    displayCanvas: 'grid'
+    displayCanvas: 'grid',
+    displayRecordButtons: 'grid'
 }
 
 
@@ -42,6 +43,12 @@ const pageAnimations = (state = initialState, action) => {
         state = {
              ...state, 
             displayCanvas: action.payload,
+        }
+        break;          
+        case "DISPLAY_RECORD_BUTTONS":
+        state = {
+             ...state, 
+            displayRecordButtons: action.payload,
         }
         break;     
     }

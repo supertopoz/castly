@@ -51,6 +51,15 @@ class DisplayCanvas extends React.Component {
     }
   }
 
+  disableScrolling(){
+    var x=window.scrollX;
+    var y=window.scrollY;
+    window.onscroll=function(){window.scrollTo(x, y);};
+  }
+
+  enableScrolling(){
+    window.onscroll=function(){};
+   }
 
   onMouseDown(e, touch){
     if(!touch){
@@ -70,12 +79,14 @@ class DisplayCanvas extends React.Component {
       if (Math.abs(mouseX - (imageStage.x + imageStage.width)) <80 && 
         Math.abs(mouseY - (imageStage.y + imageStage.height)) <80)  {
         this.props.castly.currentCanvasObjects.imageStageHighlight = true;
+        this.disableScrolling();
         this.setState({resizeImage: true})
         this.setState({mouse: [mouseX,mouseY]})
       }
       if((mouseX > imageStage.x && mouseX < imageStage.x + imageStage.width)&&
         (mouseY > imageStage.y && mouseY < imageStage.y + imageStage.height)){
           // highlight Image
+          this.disableScrolling();
           this.props.castly.currentCanvasObjects.imageStageHighlight = true;
           this.setState({imageDragging: true})
           this.setState({mouse: [mouseX,mouseY]})
@@ -87,6 +98,7 @@ class DisplayCanvas extends React.Component {
         (mouseY > vidToMove.y && mouseY < vidToMove.y + vidToMove.height)){
         // highlight video
       this.props.castly.currentCanvasObjects.videoHighlight = true;
+        this.disableScrolling();
         this.setState({videoDragging: true})
         this.setState({mouse: [mouseX,mouseY]})
       }
@@ -94,6 +106,7 @@ class DisplayCanvas extends React.Component {
       if (Math.abs(mouseX - (vidToMove.x + vidToMove.width)) <80 && 
         Math.abs(mouseY - (vidToMove.y + vidToMove.height)) <80)  {
         this.props.castly.currentCanvasObjects.videoHighlight = true;
+        this.disableScrolling();
         this.setState({resizeVideo: true})
         this.setState({mouse: [mouseX,mouseY]})
       }
@@ -103,6 +116,7 @@ class DisplayCanvas extends React.Component {
       imageStage.x += Math.floor(Number(mouseX) - Number(this.state.mouse[0]))
       imageStage.y += Math.floor(Number(mouseY) - Number(this.state.mouse[1]))
       this.setState({mouse: [mouseX,mouseY]})
+
     }
     moveVideo(mouseX, mouseY){
       const video = this.props.canvasRecording.video;
@@ -136,6 +150,7 @@ class DisplayCanvas extends React.Component {
     this.setState({resizeVideo: false})
     this.setState({imageDragging: false})
     this.setState({videoDragging: false})
+    this.enableScrolling();
   }
 
   render(){

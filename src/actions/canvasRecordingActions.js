@@ -12,6 +12,13 @@ export function reset() {
     };
 }
 
+export function uninitialize() {
+    return {
+        type: "UNINITIALIZE",
+        payload: ""
+    };
+}
+
   const cloneCanvas = (oldCanvas, newCanvas, context) => {
     context.drawImage(oldCanvas, 0, 0, newCanvas.width, newCanvas.height);
   }
@@ -42,12 +49,13 @@ export const canvasVideoAnimation = (current) => {
       const ctx = canvas.getContext('2d'); 
       const visibleCanvas = window.document.getElementById('canvas2');
       const context = visibleCanvas.getContext('2d');
-      const newCanvas = setVisibleCanvasSize(visibleCanvas);
+      let newCanvas = setVisibleCanvasSize(visibleCanvas);
       var toggle = false;
       (function loop() {
         toggle = !toggle;
 
         if (toggle) { 
+          newCanvas = setVisibleCanvasSize(visibleCanvas);
           ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); 
           ctx.beginPath();
             if(current.currentImage){
@@ -150,7 +158,10 @@ const createVideo = (stream) => {
         // }
 
       }).then(function(stream) {
+      window.localStream = stream;
        console.log('Stream Came online');
+
+
       resolve(stream)
     }).catch(function(err) {
     /* handle the error */
@@ -291,15 +302,12 @@ export const addVidToDom =(vidURL) => {
       //vid.controlsList = "nodownload";
       vid.className = 'recordedVid'
       vid.src = vidURL;
-      vid.style.width = '300px';
+      vid.style.width = '100%';
       vid.onend = function() { URL.revokeObjectURL(vidURL)}
       videoHolder.appendChild(vid);
       resolve(vid)
       })
     }
-
-
-
 
 export const exportStream = (event = {}) => {
     return new Promise((resolve, reject)=>{
@@ -333,12 +341,10 @@ export const exportVideo =(event) =>{
 export const changeRecordButton = (clickedButton = 'begin') => {
     let newStart = false;
     let icons = []
-    if(clickedButton === 'fiber_manual_record') icons = ['pause','stop']
-    if(clickedButton === 'pause') icons = ['fiber_manual_record','stop']
+    if(clickedButton === 'fiber_manual_record') icons = ['stop']
     if(clickedButton === 'stop') icons = ['refresh','cloud_download']
     if(clickedButton === 'refresh') { 
-      newStart = true;
-      icons = ['fiber_manual_record'] 
+      icons = ['fiber_manual_record']
     }
     return {
       type: "UPDATE_RECORD_BUTTONS",

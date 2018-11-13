@@ -5,7 +5,6 @@ const initialState = {
   recordingData: null,
   canvasImage: null,
   recordButtons: ['fiber_manual_record'],
-  newStart: false,
   videoData: null, 
   initialized: false
 }
@@ -19,7 +18,7 @@ const startRecording = (state, action) => {
 }
 
 const stopRecording = (state, action) => {
-  return { ...state, recordingData: action.payload}
+  return { ...state, recordingData: action.payload, recorder: null}
 }
 
 const addCanvasImage = (state, action) => {
@@ -27,18 +26,20 @@ const addCanvasImage = (state, action) => {
 }
 
 const updateRecordButtons = (state, action) => {
-  if(action.payload.newStart){
-    return { ...initialState}
-  }
   return { ...state, recordButtons: action.payload.icons}
 }
 const exportVideo = (state, action) => {
   return { ...state, videoData: action.payload}
 }
 
+const uninitialize = (state, action) => {
+  return { ...state, initialized: false}
+}
+
 const reset = (state, action) => {
   return { ...initialState }
 }
+
 
 const canvasRecording = (state = initialState , action) => {
     switch (action.type) {
@@ -48,7 +49,8 @@ const canvasRecording = (state = initialState , action) => {
         case "ADD_CANVAS_IMAGE": return addCanvasImage(state, action);                            
         case "UPDATE_RECORD_BUTTONS": return updateRecordButtons(state, action);                            
         case "VIDEO_DATA": return exportVideo(state, action);                                                    
-        case "RESET": return reset();                                                    
+        case "UNINITIALIZE": return uninitialize();                                                    
+        case "RESET": return reset();                                                                                                     
         break;
     }
     return state;

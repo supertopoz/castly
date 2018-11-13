@@ -2,6 +2,8 @@ import React from "react";
 import {connect} from "react-redux";
 import styled from "styled-components";
 import {NotificationManager} from 'react-notifications';
+
+import * as castlyActions from '../../actions/castlyActions';
 import * as canvasRecordingActions from '../../actions/canvasRecordingActions';
 import * as pageAnimations from '../../actions/pageAnimations';
 
@@ -31,7 +33,10 @@ const Buttons = styled.div`
   align-items: center;
   justify-content: center;
   grid-template-columns: 1fr 1fr;
+`
 
+const VideoHolder = styled.div`
+  
 `
 
 class Video extends React.Component {
@@ -49,22 +54,33 @@ class Video extends React.Component {
 
   handleButtonClick(clickedButton){
     const state = this.props.canvasRecording;
-    if(this.props.canvasRecording.recordingData === null && clickedButton === 'fiber_manual_record'){
+    if(clickedButton === 'fiber_manual_record'){
       this.startRecording();
-    } else if (this.props.canvasRecording.recordingData !== null && clickedButton === 'fiber_manual_record'){
-      this.props.canvasRecording.recorder.resume();
     }
     if(clickedButton === 'stop') { 
       this.props.displayCanvas('none')
       this.props.canvasRecording.recorder.stop();
+      window.localStream.getTracks().forEach( (track) => {
+        track.stop();
+      })
       setTimeout(() => {
         this.review();
-        console.log('DATA', this.props.canvasRecording.recordingData)
-      },1000)
-      
+      },500)      
     };
     if(clickedButton === 'pause') this.props.canvasRecording.recorder.pause();
+    if(clickedButton === 'refresh'){
+      document.getElementById('vid-holder').innerHTML = '';
+      const currentCanvasObjects = this.props.castly.currentCanvasObjects
+      this.props.initializeUserMedia(currentCanvasObjects); 
+      this.props.displayCanvas('grid')
+      this.props.displayRecordButtons('grid')
+      {/*this.props.resetCastlyActions();
+      this.props.resetRecordingActions();*/}
+    } 
+    
+
     this.props.changeRecordButton(clickedButton);
+
   }
 
   render(){
@@ -74,8 +90,8 @@ class Video extends React.Component {
       } 
      return (
       <Wrapper>  
-      <div id="vid-holder" style={{width: '250px'}} controls></div>
-      <Buttons style = {{display: this.props.pageAnimations.displayCanvas}}>
+      <VideoHolder id="vid-holder" controls></VideoHolder>
+      <Buttons style = {{display: this.props.pageAnimations.displayRecordButtons}}>
       {    
        icon.map((item, index)=>{
          return <Button key={`record${index}`} onClick={()=> this.handleButtonClick(item)}><i className="material-icons">{item}</i></Button>
@@ -91,7 +107,11 @@ class Video extends React.Component {
 
 
 const mapStateToProps = (state) => {
-  return { canvasRecording: state.canvasRecording, pageAnimations: state.pageAnimations };
+  return { 
+    canvasRecording: state.canvasRecording, 
+    pageAnimations: state.pageAnimations,
+    castly: state.castly
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -100,8 +120,14 @@ const mapDispatchToProps = (dispatch) => {
     startRecordingStream:(stream) => { dispatch(canvasRecordingActions.startRecordingStream(stream))},
     exportVideo:(event) => { dispatch(canvasRecordingActions.exportVideo(event))},
     addCanvasImage:(image) => { dispatch(canvasRecordingActions.addCanvasImage(image))},
+    uninitialize:() => { dispatch(canvasRecordingActions.uninitialize())},
     changeRecordButton:(clickedButton) => { dispatch(canvasRecordingActions.changeRecordButton(clickedButton))},
-    displayCanvas:(display) => { dispatch(pageAnimations.displayCanvas(display))}
+    displayCanvas:(display) => { dispatch(pageAnimations.displayCanvas(display))},
+    displayRecordButtons:(display) => { dispatch(pageAnimations.displayRecordButtons(display))},
+    initializeUserMedia:(currentCanvasObjects) => {dispatch(canvasRecordingActions.initializeUserMedia(currentCanvasObjects))},
+    resetCastlyActions:() => { dispatch(castlyActions.reset())},
+    resetRecordingActions:() => { dispatch(canvasRecordingActions.reset())},
+    resetRecorder:() => { dispatch(canvasRecordingActions.resetRecorder())},
   };
 }
 

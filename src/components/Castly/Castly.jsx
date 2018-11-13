@@ -10,11 +10,10 @@ import Video from './Video';
 import HowTo from './HowTo';
 import DisplayCanvas from './DisplayCanvas';
 
-import * as images from '../images/images.js';
 import * as castlyActions from '../../actions/castlyActions';
 import * as canvasRecordingActions from '../../actions/canvasRecordingActions';
 import * as pageAnimations from '../../actions/pageAnimations';
-import * as loading from '../images/images';
+
 
 const Wrapper = styled.div`
     display:grid;
@@ -36,25 +35,18 @@ class Castly extends React.Component {
     this.props.resetCastlyActions();
     this.props.resetRecordingActions();
     this.props.resetPageAnimationActions();
-    // Destroy Canvas 2
+    this.props.castly.currentCanvasObjects.running = false; // Stop canvas Loop
     try{
-    document.getElementById("canvas2").outerHTML = "";
-    } catch(e){
-      console.log(e)
-    }
-    // Turn off stream. 
+      window.localStream.getTracks().forEach( (track) => track.stop())
+    } catch(e){}
   }
 
   render(){
-    let displayHowTo = ''   
-    let displayVideo = ''
-    if(this.props.castly.images.length === 0) displayHowTo =  <HowTo/>
+    let displayHowTo = <HowTo/>   
     let plusButton = <ChooseMedia/>
     if(this.props.canvasRecording.initialized && typeof this.props.canvasRecording.dataStream === 'object') displayHowTo = ''
-    if(this.props.canvasRecording.initialized && this.props.castly.images.length > 0) {
-      plusButton = <AddFiles/>
-      displayVideo = <Video/>
-    } 
+    if(this.props.canvasRecording.initialized && this.props.castly.images.length > 0) plusButton = <AddFiles/>
+
     return (
       <Wrapper>
         {plusButton}
@@ -62,7 +54,7 @@ class Castly extends React.Component {
         <DisplayImages/>
         <HiddenCanvas  width="1920" height="1080" id="canvas"/>   
         <DisplayCanvas/>
-        {displayVideo}
+        <Video/>
       </Wrapper>
     );
   }

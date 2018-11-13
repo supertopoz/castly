@@ -54,6 +54,13 @@ export function displayCanvas(display = 'none') {
     };
 }
 
+export function displayRecordButtons(display = 'none') {
+    return {
+        type: "DISPLAY_RECORD_BUTTONS",
+        payload: display
+    };
+}
+
 
 
 
