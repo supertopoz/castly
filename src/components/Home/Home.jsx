@@ -100,7 +100,7 @@ const Info = styled.div`
 
 `
 
-export const Home = (props) => {
+export default function(){
     return (
         <Wrapper>
           <InfoBlock>

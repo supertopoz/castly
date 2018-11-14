@@ -15,7 +15,7 @@ const Section = styled.div`
     padding: 2%;
     border-radius: 10px;
 `
-export const Disclaimer = (props) => {
+export default function(){
 
  return (
       <MainWrapper>

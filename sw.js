@@ -19,12 +19,28 @@ workbox.clientsClaim();
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute([
   {
-    "url": "castly.7cdb91de.js",
-    "revision": "3753ecb1a6f64536475e2c6d1f587423"
+    "url": "castly.67288452.js",
+    "revision": "d03c33f7c7516b51442829fd34f108e1"
+  },
+  {
+    "url": "Castly.eebf1402.js",
+    "revision": "c1703a3166ea576884c6ba07081bb35d"
   },
   {
     "url": "castly.f4a8b73d.css",
     "revision": "0fea66c17ad473096b8176e7f20c9cef"
+  },
+  {
+    "url": "Disclaimer.63022f42.js",
+    "revision": "a07739038e6df577be907bf392b929e0"
+  },
+  {
+    "url": "entry.parcel.375b4744.js",
+    "revision": "03e5edc16ddcfac2060dccd1b7c1e5cb"
+  },
+  {
+    "url": "Home.2d5b607d.js",
+    "revision": "81e2086be62b0cc1224287b1e760f7e8"
   },
   {
     "url": "icon-128x128.890a2daa.png",
@@ -60,7 +76,7 @@ workbox.precaching.precacheAndRoute([
   },
   {
     "url": "index.html",
-    "revision": "a33184c0b311479f248086aee78215b8"
+    "revision": "518b0cab64a22d522d5a29d0b5f00704"
   },
   {
     "url": "MaterialIcons-Regular.042e3246.woff2",

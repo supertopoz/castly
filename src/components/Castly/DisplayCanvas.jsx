@@ -52,8 +52,8 @@ class DisplayCanvas extends React.Component {
   }
 
   disableScrolling(){
-    var x=window.scrollX;
-    var y=window.scrollY;
+    var x = window.scrollX || window.pageXOffset || document.body.scrollLeft;
+    var y = window.scrollY || window.pageYOffset || document.body.scrollTop;
     window.onscroll=function(){window.scrollTo(x, y);};
   }
 

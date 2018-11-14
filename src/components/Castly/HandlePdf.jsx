@@ -1,9 +1,18 @@
 import React from "react";
 import {connect} from "react-redux";
 import styled from "styled-components";
-import { Document, Page } from 'react-pdf/dist/entry.parcel';
+
+let Document;
+let Page;
+import('react-pdf/dist/entry.parcel').then(code => {
+  Document = code.Document
+  Page = code.Page
+
+}).catch(e => console.log(e))
 import {NotificationManager} from 'react-notifications';
 import "babel-polyfill";
+
+
 
 import AddFiles from './AddFiles';
 import * as castlyActions from '../../actions/castlyActions';
@@ -96,6 +105,9 @@ class HandlePdf extends React.Component {
     let page = <div></div>
     if(this.props.castly.images[0]){
       if(this.props.castly.images[0].type === 'application/pdf'){
+
+
+
         page = (
           <Document
             file={this.props.castly.images[0]} 
@@ -109,6 +121,9 @@ class HandlePdf extends React.Component {
             renderAnnotations = {false}
           />              
           </Document>
+
+
+
           ) 
       }
     }

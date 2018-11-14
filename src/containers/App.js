@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense, lazy } from 'react';
 import {connect} from "react-redux";
 import {NotificationContainer} from 'react-notifications';
 import {
@@ -8,14 +8,12 @@ import {
 import 'react-notifications/lib/notifications.css';
 import * as actions from "../actions/pageAnimations";
 
-import { Home } from "../components/Home/Home";
-import { Disclaimer } from "../components/Disclaimer/Disclaimer";
-import Castly from "../components/Castly/Castly";
+const Disclaimer = lazy(() => import("../components/Disclaimer/Disclaimer"));
+const Home = lazy(() => import("../components/Home/Home"));
+const Castly = lazy(() => import("../components/Castly/Castly"));
+
 import SideMenu from "../components/SideMenu/SideMenu";
 import Header from "../components/Header/Header";
-import LoadingBar from "../components/LoadingBar/LoadingBar";
-
-
 
 class App extends React.Component {
 
@@ -30,12 +28,13 @@ class App extends React.Component {
 		<div>
 		<SideMenu menu={true}/>
 		<Header/>
-		<LoadingBar/>
+		<Suspense fallback={<div>Loading...</div>}>
 		<main>   
-	    <Route path="/Castly" component={Castly}></Route>
-	    <Route path="/disclaimer" component={Disclaimer}></Route>
-	    <Route exact path="/" component={Home}></Route>
+	    <Route path="/Castly" component={props => <Castly {...props} />}></Route>
+	    <Route path="/disclaimer" component={props => <Disclaimer {...props} />}></Route>
+	    <Route exact path="/" component={props=> <Home {...props}/>}></Route>
 	    </main>
+	    </Suspense>
 		<NotificationContainer/>
 		</div>
 	);

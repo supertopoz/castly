@@ -4,10 +4,9 @@ import styled from "styled-components";
 import Dropzone from 'react-dropzone';
 import {NotificationManager} from 'react-notifications';
 
-import * as images from '../images/images.js';
-import * as castlyActions from '../../actions/castlyActions';
-import * as canvasRecordingActions from '../../actions/canvasRecordingActions';
-import * as pageAnimationActions from '../../actions/pageAnimations';
+import { loading } from '../images/images.js';
+import { addImages } from '../../actions/castlyActions';
+import { showLoader, displayCanvas} from '../../actions/pageAnimations';
 
 
 
@@ -38,7 +37,7 @@ const dropzone = {
     fontSize: "36px",
     position: "absolute",
     top: "25px",
-    right: "30px",
+    right: "40px",
     color: "white",
     cursor: "pointer"
 }
@@ -58,7 +57,7 @@ class AddFiles extends React.Component {
     let filteredFiles =  files.reduce((arc,file,index) =>{
       if(index === 0 && file.type === 'application/pdf'){
         NotificationManager.info('PDF processing started', 'Info', 2000)
-        file.preview = images.loading();
+        file.preview = loading();
         arc.push(file);
       }
       if(index >= 1 && file.type === 'application/pdf'){
@@ -101,9 +100,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addImages: (images) => { dispatch(castlyActions.addImages(images)) },    
-    showLoader:(loader) => {dispatch(pageAnimationActions.showLoader(loader))},
-    displayCanvas:(display) => {dispatch(pageAnimations.displayCanvas(display))} 
+    addImages: (images) => { dispatch(addImages(images)) },    
+    showLoader:(loader) => {dispatch(showLoader(loader))},
+    displayCanvas:(display) => {dispatch(displayCanvas(display))} 
   };
 };
 
