@@ -12,11 +12,13 @@ export function reset() {
     };
 }
 
-export function currentImage(image) { 
-    return {
-        type: "CURRENT_IMAGE",
-        payload: image
-    };
+export const addCanvasImage = (image) => {
+  return (dispatch) => {
+  dispatch({
+          type: "CURRENT_IMAGE",
+          payload: image
+        });
+  }
 }
 
 export function imageStageDetails(details) { 
@@ -44,12 +46,4 @@ export function resize(resize) {
 //1152:648
 //1280:720
 
-export const addCanvasImage = (image) => {
-  return (dispatch) => {
-  dispatch({
-          type: "CURRENT_IMAGE",
-          payload: image
-        });
-  }
- 
-}
+

@@ -118,7 +118,6 @@ class ChooseMedia extends React.Component {
     this.setState({display:true})
     const currentCanvasObjects = this.props.castly.currentCanvasObjects
     if(!(this.props.canvasRecording.initialized)){
-      console.log('INITIATED MEDIA')
       this.props.initializeUserMedia(currentCanvasObjects); 
     }
   }

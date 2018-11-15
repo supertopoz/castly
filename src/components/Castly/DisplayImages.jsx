@@ -93,14 +93,11 @@ class DisplayImages extends React.Component {
     }).catch(e => reject(e))
   }
   addCanvasImage(image){
-
     this.createNewImage(image).then(img => {
       this.createCorner().then( corner =>{
         image['img'] = img;
-        this.props.currentImage(image);   
-        this.props.resize(corner) 
-        const imageStage = this.props.castly.imageStage         
-        this.props.addCanvasImage(image.img, imageStage, corner);        
+        this.props.resize(corner)        
+        this.props.addCanvasImage(image.img);        
       })
     })   
   }
@@ -151,7 +148,7 @@ const mapDispatchToProps = (dispatch) => {
     imageStageDetails: (details) => { dispatch(castlyActions.imageStageDetails(details)) },
     currentImage: (image) => { dispatch(castlyActions.currentImage(image)) },
     resize: (corner) => { dispatch(castlyActions.resize(corner)) },
-    addCanvasImage:(image, imageStage, corner) => { dispatch(castlyActions.addCanvasImage(image, imageStage, corner))},
+    addCanvasImage:(image) => { dispatch(castlyActions.addCanvasImage(image))},
     showLoader: (loader) => { dispatch(pageAnimations.showLoader(loader)) },     
   };
 };

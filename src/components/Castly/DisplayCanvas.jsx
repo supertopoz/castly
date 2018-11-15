@@ -74,7 +74,7 @@ class DisplayCanvas extends React.Component {
     const vidToMove = this.props.canvasRecording.video.details
     this.props.castly.currentCanvasObjects.imageStageHighlight = false;
     this.props.castly.currentCanvasObjects.videoHighlight = false;
-    if(this.props.castly.currentImage !== null){
+    if(this.props.castly.currentCanvasObjects.currentImage !== null){
 
       if (Math.abs(mouseX - (imageStage.x + imageStage.width)) <80 && 
         Math.abs(mouseY - (imageStage.y + imageStage.height)) <80)  {

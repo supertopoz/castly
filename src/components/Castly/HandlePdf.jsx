@@ -50,7 +50,6 @@ class HandlePdf extends React.Component {
 
   documentData(e){
     this.props.displayCanvas('none');
-    console.log('Loaded')
     this.setState({numPages: e.numPages})
   }
 

@@ -55,7 +55,7 @@ export const canvasVideoAnimation = (current) => {
         toggle = !toggle;
 
         if (toggle) { 
-          newCanvas = setVisibleCanvasSize(visibleCanvas);
+          //newCanvas = setVisibleCanvasSize(visibleCanvas);
           ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); 
           ctx.beginPath();
             if(current.currentImage){
@@ -159,23 +159,17 @@ const createVideo = (stream) => {
 
       }).then(function(stream) {
       window.localStream = stream;
-       console.log('Stream Came online');
-
-
       resolve(stream)
     }).catch(function(err) {
     /* handle the error */
     if (err.name=="NotFoundError" || err.name == "DevicesNotFoundError" ){
-        console.log('required track is missing')
         reject(`We didn't find both a mic and a camera. You need both a camera and a mic to for castly to work.`)
     } else if (err.name=="NotReadableError" || err.name == "TrackStartError" ){
-          console.log('webcam or mic are already in use')
           reject(`webcam or mic are already in use. Please close them in other tabs or browsers, and reload this page.`)
     } else if (err.name=="OverconstrainedError" || err.name == "ConstraintNotSatisfiedError" ){
         console.log('constraints can not be satisfied by avb. devices')
         reject(`${err}`)
     } else if (err.name=="NotAllowedError" || err.name == "PermissionDeniedError" ){
-        console.log('permission denied in browser')
         reject(`Camera and microphone denied access. Please allow access. Reload page if needed.`)
     } else if (err.name=="TypeError" || err.name == "TypeError" ){
         console.log('empty constraints')
@@ -268,7 +262,6 @@ export const startRecordingStream =(audioStream) => {
     recorder.start();
     recorder.chunks = [];
     recorder.ondataavailable = () => {
-      console.log('DATA IN BECAME AVAILABLE')
       event.data.size && event.currentTarget.chunks.push(event.data)
     }
     recorder.onpause = event => {
@@ -303,7 +296,9 @@ export const addVidToDom =(vidURL) => {
       vid.className = 'recordedVid'
       vid.src = vidURL;
       vid.style.width = '100%';
-      vid.onend = function() { URL.revokeObjectURL(vidURL)}
+      vid.onend = function() { 
+        URL.revokeObjectURL(vidURL)
+      }
       videoHolder.appendChild(vid);
       resolve(vid)
       })

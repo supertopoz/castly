@@ -6,7 +6,8 @@ const initialState = {
   canvasImage: null,
   recordButtons: ['fiber_manual_record'],
   videoData: null, 
-  initialized: false
+  initialized: false,
+  video: null
 }
 
 const intilizeUserMedia = (state, action) => {

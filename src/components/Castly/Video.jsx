@@ -70,8 +70,11 @@ class Video extends React.Component {
     if(clickedButton === 'pause') this.props.canvasRecording.recorder.pause();
     if(clickedButton === 'refresh'){
       document.getElementById('vid-holder').innerHTML = '';
+      
       const currentCanvasObjects = this.props.castly.currentCanvasObjects
       this.props.initializeUserMedia(currentCanvasObjects); 
+
+
       this.props.displayCanvas('grid')
       this.props.displayRecordButtons('grid')
       {/*this.props.resetCastlyActions();
