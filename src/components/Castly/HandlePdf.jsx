@@ -1,3 +1,4 @@
+'use strict';
 import React from "react";
 import {connect} from "react-redux";
 import styled from "styled-components";
@@ -12,16 +13,12 @@ import('react-pdf/dist/entry.parcel').then(code => {
 import {NotificationManager} from 'react-notifications';
 import "babel-polyfill";
 
-
-
 import AddFiles from './AddFiles';
 import * as castlyActions from '../../actions/castlyActions';
 import * as pageAnimations from '../../actions/pageAnimations';
 import * as canvasRecordingActions from '../../actions/canvasRecordingActions';
 
-const HiddenCanvas = styled.div`
-  display: none;
-`
+const HiddenCanvas = styled.div``
 
 const Loader = styled.div`
   margin: 0 auto;
@@ -60,7 +57,7 @@ class HandlePdf extends React.Component {
       canvas.toBlob(function(blob) {
         const image = new Image();
         const url = URL.createObjectURL(blob);
-        image.src = url;
+        {/*image.src = url;*/}
         image.preview = url;
         image.name = `slide: ${count} `
         resolve(image)
@@ -69,7 +66,7 @@ class HandlePdf extends React.Component {
   }
 
     componentDidMount() {
-      this.updateWindowDimensions();
+      {/*this.updateWindowDimensions();*/}
     }
 
     updateWindowDimensions() {
@@ -86,6 +83,8 @@ class HandlePdf extends React.Component {
     let count = this.state.pageNumber + 1
     const images = this.state.images
     const image = await this.createImages(count -1);
+    // destroy canvas 
+    
     images.push(image)
     this.setState({images})
     this.setState({pageNumber: count})
@@ -97,18 +96,23 @@ class HandlePdf extends React.Component {
         numPages: 0,
         images: [],  
       })
+      console.log('finished')
+
       this.props.displayCanvas('grid');
     } 
   }
   render(){
-    let page = <div></div>
+    let page;
     if(this.props.castly.images[0]){
       if(this.props.castly.images[0].type === 'application/pdf'){
 
 
 
         page = (
+          <div>
+          Still here
           <Document
+
             file={this.props.castly.images[0]} 
             onLoadSuccess = {(e) => this.documentData(e)}
             onLoadError={(e) => console.log(e)}
@@ -120,7 +124,7 @@ class HandlePdf extends React.Component {
             renderAnnotations = {false}
           />              
           </Document>
-
+          </div>
 
 
           ) 
@@ -146,7 +150,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addImages: (images) => { dispatch(castlyActions.addImages(images)) },      
-    showLoader: (loader) => { dispatch(pageAnimations.showLoader(loader)) },
     initializeUserMedia:(currentCanvasObjects) => {dispatch(canvasRecordingActions.initializeUserMedia(currentCanvasObjects))},
     displayCanvas:(display) => {dispatch(pageAnimations.displayCanvas(display))} 
   };

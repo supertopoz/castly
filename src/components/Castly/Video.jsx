@@ -1,3 +1,4 @@
+'use strict';
 import React from "react";
 import {connect} from "react-redux";
 import styled from "styled-components";
@@ -77,8 +78,6 @@ class Video extends React.Component {
 
       this.props.displayCanvas('grid')
       this.props.displayRecordButtons('grid')
-      {/*this.props.resetCastlyActions();
-      this.props.resetRecordingActions();*/}
     } 
     
 
@@ -119,18 +118,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setAudioContext:(context) => { dispatch(canvasRecordingActions.setAudioContext(context))},
     startRecordingStream:(stream) => { dispatch(canvasRecordingActions.startRecordingStream(stream))},
     exportVideo:(event) => { dispatch(canvasRecordingActions.exportVideo(event))},
-    addCanvasImage:(image) => { dispatch(canvasRecordingActions.addCanvasImage(image))},
-    uninitialize:() => { dispatch(canvasRecordingActions.uninitialize())},
     changeRecordButton:(clickedButton) => { dispatch(canvasRecordingActions.changeRecordButton(clickedButton))},
     displayCanvas:(display) => { dispatch(pageAnimations.displayCanvas(display))},
     displayRecordButtons:(display) => { dispatch(pageAnimations.displayRecordButtons(display))},
     initializeUserMedia:(currentCanvasObjects) => {dispatch(canvasRecordingActions.initializeUserMedia(currentCanvasObjects))},
-    resetCastlyActions:() => { dispatch(castlyActions.reset())},
-    resetRecordingActions:() => { dispatch(canvasRecordingActions.reset())},
-    resetRecorder:() => { dispatch(canvasRecordingActions.resetRecorder())},
   };
 }
 

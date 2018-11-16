@@ -1,3 +1,4 @@
+'use strict';
 import React from "react";
 import {connect} from "react-redux";
 import styled from "styled-components";
@@ -180,11 +181,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addCanvasImage:(image, imageStage, resize) => { dispatch(castlyActions.addCanvasImage(image, imageStage, resize))},
-    imageStageDetails: (details) => { dispatch(castlyActions.imageStageDetails(details)) },
-    setMouse:(mouse) => { dispatch(castlyActions.setMouse(mouse))},
     currentImage: (image) => { dispatch(castlyActions.currentImage(image)) },
-    setDragging:(dragging) => { dispatch(castlyActions.setDragging(dragging))},
   };
 }
 

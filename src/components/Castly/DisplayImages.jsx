@@ -1,3 +1,4 @@
+'use strict';
 import React from "react";
 import {connect} from "react-redux";
 import styled from "styled-components";
@@ -144,12 +145,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addImages: (images) => { dispatch(castlyActions.addImages(images)) },
-    imageStageDetails: (details) => { dispatch(castlyActions.imageStageDetails(details)) },
-    currentImage: (image) => { dispatch(castlyActions.currentImage(image)) },
+    addImages: (images) => { dispatch(castlyActions.addImages(images)) },    
     resize: (corner) => { dispatch(castlyActions.resize(corner)) },
-    addCanvasImage:(image) => { dispatch(castlyActions.addCanvasImage(image))},
-    showLoader: (loader) => { dispatch(pageAnimations.showLoader(loader)) },     
+    addCanvasImage:(image) => { dispatch(castlyActions.addCanvasImage(image))},    
   };
 };
 
