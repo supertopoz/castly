@@ -50,16 +50,19 @@ class HandlePdf extends React.Component {
     this.setState({numPages: e.numPages})
   }
 
-  createImages(count){
+  createImage(count){
 
     return new Promise((resolve, reject) => {
       const canvas = document.querySelectorAll(`.pdfCanvas canvas`)[0];
+      
       canvas.toBlob(function(blob) {
         const image = new Image();
         const url = URL.createObjectURL(blob);
-        {/*image.src = url;*/}
         image.preview = url;
         image.name = `slide: ${count} `
+        image.addEventListener('load', function(){
+          URL.revokeObjectURL(url)
+        })
         resolve(image)
       });
     })
@@ -68,6 +71,9 @@ class HandlePdf extends React.Component {
     componentDidMount() {
       {/*this.updateWindowDimensions();*/}
     }
+
+
+
 
     updateWindowDimensions() {
       let width = window.innerWidth
@@ -82,7 +88,7 @@ class HandlePdf extends React.Component {
     if(this.state.pageNumber <= this.state.numPages){
     let count = this.state.pageNumber + 1
     const images = this.state.images
-    const image = await this.createImages(count -1);
+    const image = await this.createImage(count -1);
     // destroy canvas 
     
     images.push(image)

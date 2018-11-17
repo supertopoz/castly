@@ -79,6 +79,8 @@ class DisplayImages extends React.Component {
         const img = new Image();
         img.src = image.preview;
         img.addEventListener('load', function(){
+          console.log('revoking image urls')
+          URL.revokeObjectURL(image.preview)
           resolve(img);
         })
     })

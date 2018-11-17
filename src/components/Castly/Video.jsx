@@ -61,6 +61,7 @@ class Video extends React.Component {
     if(clickedButton === 'stop') { 
       this.props.displayCanvas('none')
       this.props.canvasRecording.recorder.stop();
+      this.props.castly.currentCanvasObjects.running = false;
       window.localStream.getTracks().forEach( (track) => {
         track.stop();
       })

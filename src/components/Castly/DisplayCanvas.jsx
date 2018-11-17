@@ -73,13 +73,13 @@ class DisplayCanvas extends React.Component {
     const mouseY = this.offset(e).y; // Scaled from hidden canvas
     const imageStage = this.props.castly.currentCanvasObjects.imageStage;
     const vidToMove = this.props.canvasRecording.video.details
-    this.props.castly.currentCanvasObjects.imageStageHighlight = false;
-    this.props.castly.currentCanvasObjects.videoHighlight = false;
+    this.props.castly.currentCanvasObjects.hldrLight = false;
+    this.props.castly.currentCanvasObjects.vLight = false;
     if(this.props.castly.currentCanvasObjects.currentImage !== null){
 
       if (Math.abs(mouseX - (imageStage.x + imageStage.width)) <80 && 
         Math.abs(mouseY - (imageStage.y + imageStage.height)) <80)  {
-        this.props.castly.currentCanvasObjects.imageStageHighlight = true;
+        this.props.castly.currentCanvasObjects.hldrLight = true;
         this.disableScrolling();
         this.setState({resizeImage: true})
         this.setState({mouse: [mouseX,mouseY]})
@@ -88,7 +88,7 @@ class DisplayCanvas extends React.Component {
         (mouseY > imageStage.y && mouseY < imageStage.y + imageStage.height)){
           // highlight Image
           this.disableScrolling();
-          this.props.castly.currentCanvasObjects.imageStageHighlight = true;
+          this.props.castly.currentCanvasObjects.hldrLight = true;
           this.setState({imageDragging: true})
           this.setState({mouse: [mouseX,mouseY]})
         }
@@ -98,7 +98,7 @@ class DisplayCanvas extends React.Component {
       if((mouseX > vidToMove.x && mouseX < vidToMove.x + vidToMove.width)&&
         (mouseY > vidToMove.y && mouseY < vidToMove.y + vidToMove.height)){
         // highlight video
-      this.props.castly.currentCanvasObjects.videoHighlight = true;
+      this.props.castly.currentCanvasObjects.vLight = true;
         this.disableScrolling();
         this.setState({videoDragging: true})
         this.setState({mouse: [mouseX,mouseY]})
@@ -106,7 +106,7 @@ class DisplayCanvas extends React.Component {
 
       if (Math.abs(mouseX - (vidToMove.x + vidToMove.width)) <80 && 
         Math.abs(mouseY - (vidToMove.y + vidToMove.height)) <80)  {
-        this.props.castly.currentCanvasObjects.videoHighlight = true;
+        this.props.castly.currentCanvasObjects.vLight = true;
         this.disableScrolling();
         this.setState({resizeVideo: true})
         this.setState({mouse: [mouseX,mouseY]})

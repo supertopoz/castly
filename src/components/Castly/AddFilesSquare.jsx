@@ -55,12 +55,6 @@ class AddFiles extends React.Component {
         NotificationManager.warning('Castly can only process one PDF document by itself.', 'Opps!', 2000)
       } 
       else if(file.type.indexOf('image') >= 0) {
-        var image = new Image();
-        image.src = file.preview;
-        image.onload = function() {
-          file['width'] = this.width; 
-          file['height'] = this.height; 
-        }
         arc.push(file)
       }
       return arc
