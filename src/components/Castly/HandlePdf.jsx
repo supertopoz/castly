@@ -18,7 +18,9 @@ import * as castlyActions from '../../actions/castlyActions';
 import * as pageAnimations from '../../actions/pageAnimations';
 import * as canvasRecordingActions from '../../actions/canvasRecordingActions';
 
-const HiddenCanvas = styled.div``
+const HiddenCanvas = styled.div`
+  display: none;
+`
 
 const Loader = styled.div`
   margin: 0 auto;

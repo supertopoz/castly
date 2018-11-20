@@ -1,3 +1,4 @@
+'use strict';
 const initialState = {
     loadingBar: false,
     sideMenu: false,

@@ -1,3 +1,4 @@
+'use strict';
 export function showLoadingBar(display = false) {
     return {
         type: "SHOW_LOADING_BAR",

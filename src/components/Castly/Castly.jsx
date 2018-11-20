@@ -27,10 +27,16 @@ const Wrapper = styled.div`
 
 const HiddenCanvas = styled.canvas`
    background: #03A9F4;
-   display: none;
+   margin-left: -3000px;
+   margin-top: -3000px;
 `
 
 class Castly extends React.Component {
+  constructor(){
+    super();
+    this.captureCanvas = React.createRef()
+    this.record = this.record.bind(this)
+  }
 
   componentWillUnmount(){
     this.props.resetCastlyActions();
@@ -42,6 +48,26 @@ class Castly extends React.Component {
     } catch(e){}
   }
 
+    record(){
+    const canvas = this.captureCanvas.current;
+    let recordStream;
+    if ('captureStream' in canvas) {
+        recordStream = canvas.captureStream(25);
+        console.log(recordStream)
+    } else if ('mozCaptureStream' in canvas) {
+        recordStream = canvas.mozCaptureStream();
+    } else if (!options.disableLogs) {
+        console.error('Upgrade to latest Chrome or otherwise enable this flag: chrome://flags/#enable-experimental-web-platform-features');
+    }
+    this.props.canvasRecording.audioCtx.resume();
+    const audioStream = this.props.canvasRecording.dataStream
+    recordStream.addTrack(audioStream.getAudioTracks()[0]);
+  }
+
+  componentDidMount(){
+    console.log("Found Canvas 2", this.captureCanvas.current)
+  }
+
   render(){
     let displayHowTo = <HowTo/>   
     let plusButton = <ChooseMedia/>
@@ -50,10 +76,17 @@ class Castly extends React.Component {
 
     return (
       <Wrapper>
+        <div onClick={this.record}>Record</div>
         {plusButton}
         {displayHowTo}          
         <DisplayImages/>
-        <HiddenCanvas  width="1920" height="1080" id="canvas"/>   
+        <canvas style={{
+          display: "none"
+        }} 
+        ref={this.captureCanvas}  
+        width="1920" 
+        height="1080" 
+        id="canvas"/>   
         <DisplayCanvas/>
         <Video/>
       </Wrapper>

@@ -42,6 +42,9 @@ const VideoHolder = styled.div`
 
 class Video extends React.Component {
 
+
+
+
   startRecording(){
     this.props.canvasRecording.audioCtx.resume();
     const audioStream = this.props.canvasRecording.dataStream

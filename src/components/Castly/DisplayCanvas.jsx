@@ -17,8 +17,6 @@ const Wrapper = styled.div`
     padding-top: 10px;
 `
 
-const Canvas = styled.canvas``
-
 class DisplayCanvas extends React.Component {
   constructor(){
     super();
@@ -30,6 +28,8 @@ class DisplayCanvas extends React.Component {
       resizeVideo: false,
     };
   }
+
+
 
   offset(e){
    const rect = document.getElementById("canvas2").getBoundingClientRect();
@@ -157,7 +157,7 @@ class DisplayCanvas extends React.Component {
   render(){
     return (
       <Wrapper>        
-      <Canvas
+      <canvas
         style = {{display: this.props.pageAnimations.displayCanvas}}
         onMouseDown = {(e) => this.onMouseDown(e)}
         onMouseMove = { this.debounceEvent(this.onMouseMove, 50)}

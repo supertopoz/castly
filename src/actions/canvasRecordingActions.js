@@ -1,3 +1,4 @@
+'use strict';
 export const setAudioContext = context => {	
     return {
         type: "SET_AUDIO_CONTEXT",
@@ -9,13 +10,6 @@ export function reset() {
     return {
         type: "RESET",
         payload: ''
-    };
-}
-
-export function uninitialize() {
-    return {
-        type: "UNINITIALIZE",
-        payload: ""
     };
 }
 
@@ -43,54 +37,64 @@ export function uninitialize() {
     return visibleCanvas;
   }
 
-export const canvasVideoAnimation = (current) => {  
+export const canvasVideoAnimation = (o) => {  
 
       const canvas = window.document.getElementById('canvas');
-      const ctx = canvas.getContext('2d'); 
+      const ctx = canvas.getContext('2d',{ alpha: false }); 
       const visibleCanvas = window.document.getElementById('canvas2');
-      const context = visibleCanvas.getContext('2d');
+      const context = visibleCanvas.getContext('2d',{ alpha: false });
       let newCanvas = setVisibleCanvasSize(visibleCanvas);
       var toggle = false;
+
       (function loop() {
         toggle = !toggle;
 
         if (toggle) { 
           //newCanvas = setVisibleCanvasSize(visibleCanvas);
+          let s = o.imageStage;
+          let sw = s.width;
+          let sh = s.height;
+          let v = o.video;
+          let d = v.details;
+          let dw = d.width;
+          let dh = d.height;
           ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height); 
           ctx.beginPath();
-            if(current.currentImage){
-               ctx.fillRect(current.imageStage.x, current.imageStage.y, current.imageStage.width, current.imageStage.height)
-               //ctx.drawImage(current.currentImage, currenCanvasObjects.imageStage.x+ currenCanvasObjects.imageStage.width/2 - newImageWidth/2, currenCanvasObjects.imageStage.y, (newImageWidth), newImageHeight)
-               ctx.drawImage(current.currentImage, current.imageStage.x, current.imageStage.y, (current.currentImage.width *(current.imageStage.height/current.currentImage.height)), current.imageStage.height )
-              if(current.imageStageHighlight){
-               ctx.drawImage(current.resizeCorner, (current.imageStage.x + current.imageStage.width), (current.imageStage.y + current.imageStage.height), 80, 80)
+            if(o.currentImage){
+               ctx.fillRect(s.x, s.y, sw, sh)               
+               ctx.drawImage(o.currentImage, s.x, s.y, (o.currentImage.width *(sh/o.currentImage.height)), sh )
+              if(o.hldrLight){
+               ctx.drawImage(o.resizeCorner, (s.x + sw), (s.y + sh), 80, 80)
              }
             }         
           ctx.stroke();
-           if(current.currentImage && current.imageStageHighlight){
+           if(o.currentImage && o.hldrLight){
             ctx.beginPath();
               ctx.lineWidth = 10;
               ctx.strokeStyle ="white"; 
               ctx.setLineDash([10, 10]);
-              ctx.strokeRect(current.imageStage.x, current.imageStage.y, current.imageStage.width, current.imageStage.height);  
+              ctx.strokeRect(s.x, s.y, sw, sh);  
             ctx.stroke();  
           }
-          ctx.drawImage(current.video, current.video.details.x, current.video.details.y, current.video.details.width, current.video.details.height); 
-          if(current.videoHighlight){
+          ctx.drawImage(v, d.x, d.y, dw, dh); 
+          if(o.vLight){
             ctx.beginPath();
               ctx.lineWidth = 10;
               ctx.strokeStyle ="white"; 
               ctx.setLineDash([10, 10]);
-              ctx.strokeRect(current.video.details.x, current.video.details.y, current.video.details.width, current.video.details.height);  
+              ctx.strokeRect(d.x, d.y, dw, dh);  
             ctx.stroke();  
-            ctx.drawImage(current.resizeCorner, (current.video.details.x + current.video.details.width), (current.video.details.y + current.video.details.height), 80, 80)
+            ctx.drawImage(o.resizeCorner, (d.x + dw), (d.y + dh), 80, 80)
           }
       }
-      if(current.running){
+      if(!o.running){
+        console.log('request animation STOPPED')
+        window.cancelAnimationFrame(loop) 
+      }
+      if(o.running){
         window.requestAnimationFrame(loop);    
         cloneCanvas(canvas, newCanvas, context)
       }
-
     })();
   }
 
@@ -102,14 +106,11 @@ export function initializeUserMedia(current) {
   const showVideo = (video, stream) => {
     return new Promise((resolve,reject)=>{
       video.addEventListener('loadedmetadata', () => {     
-        video.play();
-        resolve(video)
+      video.play();
+      resolve(video)
       });
     })
   }
-
-
-
   const injectNewAudio = (video, stream) => {
     return new Promise((resolve, reject) => {
   //    const options = { audioBitsPerSecond : 128000, videoBitsPerSecond : 2500000, mimeType : 'video/mp4', video: video }
@@ -125,9 +126,12 @@ export function initializeUserMedia(current) {
   }
 
 const createVideo = (stream) => {
+
+//   var elem = document.querySelector('#some-element');
+// elem.parentNode.removeChild(elem);
   return new Promise((resolve,reject)=>{
+    
     const video = window.document.createElement('video');
-    video.srcObject = stream;
       try {
         video.srcObject = stream;
      } catch (error) {
@@ -135,6 +139,7 @@ const createVideo = (stream) => {
         video.src = URL.createObjectURL(stream);
      }
     video.muted = true; 
+    video.setAttribute("id", "userVideoElement")
     resolve(video)
   })
 }
@@ -146,16 +151,10 @@ const createVideo = (stream) => {
                    navigator.webkitGetUserMedia ||
                    navigator.mozGetUserMedia ||
                    navigator.msGetUserMedia); 
-
-
       navigator.mediaDevices.getUserMedia({ 
-
         audio: true,
         video: true
-        // {
-        //   width: { min: 128, ideal: 384, max: 768 },
-        //   height: { min: 72, ideal: 216, max: 432 },
-        // }
+
 
       }).then(function(stream) {
       window.localStream = stream;
@@ -194,8 +193,7 @@ const createCorner =() =>{
 
 
 
-   getUserStream().then(stream => {
-    
+   getUserStream().then(stream => { 
     createVideo(stream).then((video) =>{
       showVideo(video, stream).then((video) => {
         injectNewAudio(video, stream).then(dataStream => {
@@ -209,7 +207,9 @@ const createCorner =() =>{
             x: 0,
             y: 0
           }
-
+          if(document.querySelector('#userVideoElement')){
+            console.log('found')
+          }
           current.video = video;
           current.resizeCorner = corner;
           current.running = true;
@@ -242,9 +242,8 @@ export const startRecordingStream =(audioStream) => {
   return (dispatch) => {
     const canvas = window.document.getElementById('canvas');
     let recordStream;
-
     if ('captureStream' in canvas) {
-        recordStream = canvas.captureStream(15);
+        recordStream = canvas.captureStream(25);
     } else if ('mozCaptureStream' in canvas) {
         recordStream = canvas.mozCaptureStream();
     } else if (!options.disableLogs) {
@@ -254,6 +253,7 @@ export const startRecordingStream =(audioStream) => {
     recordStream.addTrack(audioStream.getAudioTracks()[0]);
     let recorder = null;
     //const options = {mimeType: 'video/webm;codecs=h264'};
+
     try {
      recorder = new MediaRecorder(recordStream);
     } catch (e){
@@ -261,6 +261,7 @@ export const startRecordingStream =(audioStream) => {
     }
     recorder.start();
     recorder.chunks = [];
+
     recorder.ondataavailable = () => {
       event.data.size && event.currentTarget.chunks.push(event.data)
     }
@@ -275,12 +276,18 @@ export const startRecordingStream =(audioStream) => {
           type: "STOP_RECORDING",
           payload: event
         });
+      // setTimeout(()=>{
+      // audioStream = null;
+      // recordStream = null;
+      // recorder = null;
+      // }, 3000)
     }
       dispatch({
             type: "START_RECORDING",
             payload: recorder
           });   
    }
+
   }
 
 
@@ -290,7 +297,8 @@ export const addVidToDom =(vidURL) => {
         reject('NO VIDEO CREATED')
       }
       const vid = window.document.createElement('video');
-      let videoHolder = window.document.getElementById('vid-holder')
+      let videoHolder = window.document.getElementById('vid-holder');
+      videoHolder.innerHTML = '';
       vid.controls = true;
       //vid.controlsList = "nodownload";
       vid.className = 'recordedVid'
@@ -307,9 +315,10 @@ export const addVidToDom =(vidURL) => {
 export const exportStream = (event = {}) => {
     return new Promise((resolve, reject)=>{
       if (event.currentTarget && event.currentTarget.chunks.length) {
-        const blob = new Blob(event.currentTarget.chunks, {type: 'video/mp4'})
+        let blob = null;
+        blob = new Blob(event.currentTarget.chunks, {type: 'video/mp4'})
         const vidURL = URL.createObjectURL(blob);
-        resolve(vidURL);
+        resolve(vidURL, blob);
       } else {
         reject('failed');
       }
@@ -319,9 +328,11 @@ export const exportStream = (event = {}) => {
 export const exportVideo =(event) =>{
   
   return (dispatch) => {
-    exportStream(event).then(vidURL => {
+    exportStream(event).then((vidURL, blob) => {
       addVidToDom(vidURL).then(result => {
-        dispatch({ type: "VIDEO_DATA", payload: result });       
+        dispatch({ type: "VIDEO_DATA", payload: result }); 
+        console.log('gonna revoke video URL', vidURL) 
+        vidURL.revokeObjectURL()         
       }).catch(e => {
         dispatch({ type: "VIDEO_DATA", payload: e});         
       })

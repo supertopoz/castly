@@ -1,3 +1,4 @@
+'use strict';
 const initialState = {
   audioCtx: null,
   dataStream: null,
@@ -49,8 +50,7 @@ const canvasRecording = (state = initialState , action) => {
         case "STOP_RECORDING": return stopRecording(state, action);                            
         case "ADD_CANVAS_IMAGE": return addCanvasImage(state, action);                            
         case "UPDATE_RECORD_BUTTONS": return updateRecordButtons(state, action);                            
-        case "VIDEO_DATA": return exportVideo(state, action);                                                    
-        case "UNINITIALIZE": return uninitialize();                                                    
+        case "VIDEO_DATA": return exportVideo(state, action);                                                                                                      
         case "RESET": return reset();                                                                                                     
         break;
     }

@@ -1,14 +1,8 @@
+'use strict';
 export function addImages(images = []) {	
     return {
         type: "ADD_IMAGES",
         payload: images
-    };
-}
-
-export function reset() {
-    return {
-        type: "RESET",
-        payload: ''
     };
 }
 
@@ -21,17 +15,17 @@ export const addCanvasImage = (image) => {
   }
 }
 
-export function imageStageDetails(details) { 
-    return {
-        type: "IMAGE_STAGE_DETAILS",
-        payload: details
-    };
-}
-
 export function resize(resize) {	
     return {
         type: "RESIZE",
         payload: resize
+    };
+}
+
+export function reset() {
+    return {
+        type: "RESET",
+        payload: ''
     };
 }
 
