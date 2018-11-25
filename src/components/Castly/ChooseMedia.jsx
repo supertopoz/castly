@@ -110,10 +110,11 @@ class ChooseMedia extends React.Component {
 
   handleModelClose(){
       this.setState({display: false})
-
-
-
     }
+
+  componentDidMount(){
+    console.log(this.props)
+  }
 
   handlePlusButtonClick(){
     this.setState({display:true})

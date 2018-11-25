@@ -9,7 +9,7 @@
     }
   },
   "scripts": {
-    "start": "parcel index.html",
+    "start": "set node_env=dev&& parcel index.html",
     "build": "parcel build index.html --public-url ./ --out-dir public workbox injectManifest",
     "test": "jest --watch"
   },

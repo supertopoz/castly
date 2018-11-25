@@ -19,12 +19,12 @@ workbox.clientsClaim();
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute([
   {
-    "url": "Castly.00b37b93.js",
-    "revision": "7f0ab5fb2cd56de2ef303972806cd3ff"
+    "url": "castly.1eab0c30.js",
+    "revision": "d99a4783a8737991a7fd8d8771286554"
   },
   {
-    "url": "castly.8e5dd746.js",
-    "revision": "d5786e5d7b51fd4c44ba40a2d52ce01b"
+    "url": "Castly.bca3706f.js",
+    "revision": "b42dcd6735d480fd713b0f6f6c6c967f"
   },
   {
     "url": "castly.f4a8b73d.css",
@@ -76,7 +76,7 @@ workbox.precaching.precacheAndRoute([
   },
   {
     "url": "index.html",
-    "revision": "d09d06d7ec3eb148e0e2ba1da8f5b589"
+    "revision": "800a67584b7f73e27d3bd8973ac4ea69"
   },
   {
     "url": "MaterialIcons-Regular.042e3246.woff2",

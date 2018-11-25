@@ -8,7 +8,8 @@ const initialState = {
   recordButtons: ['fiber_manual_record'],
   videoData: null, 
   initialized: false,
-  video: null
+  video: null,
+  userVideo: null
 }
 
 const intilizeUserMedia = (state, action) => {
@@ -17,6 +18,10 @@ const intilizeUserMedia = (state, action) => {
 
 const startRecording = (state, action) => {
   return { ...state, recorder: action.payload}
+}
+
+const setUserVideo = (state, action) => {
+  return { ...state, userVideo: action.payload}
 }
 
 const stopRecording = (state, action) => {
@@ -46,6 +51,7 @@ const reset = (state, action) => {
 const canvasRecording = (state = initialState , action) => {
     switch (action.type) {
         case "INITILIZE_USER_MEDIA": return intilizeUserMedia(state, action);
+        case "SET_USER_VIDEO": return setUserVideo(state, action);                            
         case "START_RECORDING": return startRecording(state, action);                            
         case "STOP_RECORDING": return stopRecording(state, action);                            
         case "ADD_CANVAS_IMAGE": return addCanvasImage(state, action);                            

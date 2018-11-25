@@ -1,8 +1,15 @@
 'use strict';
-export const setAudioContext = context => {	
+export const setAudioContext = context => { 
     return {
         type: "SET_AUDIO_CONTEXT",
         payload: context
+    };
+}
+
+export const setUserVideo = video => {	
+    return {
+        type: "SET_USER_VIDEO",
+        payload: video
     };
 }
 
@@ -98,98 +105,96 @@ export const canvasVideoAnimation = (o) => {
     })();
   }
 
-export function initializeUserMedia(current) {	
+export function initializeUserMedia(current, userVideo) {	
   return (dispatch) => {
-  const AudioContext = window.AudioContext || window.webkitAudioContext;
-  const audioCtx = new AudioContext();
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    const audioCtx = new AudioContext();
 
-  const showVideo = (video, stream) => {
-    return new Promise((resolve,reject)=>{
-      video.addEventListener('loadedmetadata', () => {     
-      video.play();
-      resolve(video)
-      });
-    })
-  }
-  const injectNewAudio = (video, stream) => {
-    return new Promise((resolve, reject) => {
-  //    const options = { audioBitsPerSecond : 128000, videoBitsPerSecond : 2500000, mimeType : 'video/mp4', video: video }
-        if(audioCtx){
-          const sourceNode = audioCtx.createMediaStreamSource(stream);
-          const destination = audioCtx.createMediaStreamDestination();
-          sourceNode.connect(destination);
-          resolve(destination.stream); // Goes to dataStream in state
-        } else {
-          reject({});
-        }
+    const showVideo = (video, stream) => {
+      return new Promise((resolve,reject)=>{
+        video.addEventListener('loadedmetadata', () => {     
+        video.play();
+        resolve(video)
+        });
       })
-  }
-
-const createVideo = (stream) => {
-
-//   var elem = document.querySelector('#some-element');
-// elem.parentNode.removeChild(elem);
-  return new Promise((resolve,reject)=>{
-    
-    const video = window.document.createElement('video');
-      try {
-        video.srcObject = stream;
-     } catch (error) {
-        console.log(error)
-        video.src = URL.createObjectURL(stream);
-     }
-    video.muted = true; 
-    video.setAttribute("id", "userVideoElement")
-    resolve(video)
-  })
-}
-
-  let getUserStream = () => {
-    return new Promise((resolve, reject) => {
-
-     navigator.getUserMedia = ( navigator.getUserMedia ||
-                   navigator.webkitGetUserMedia ||
-                   navigator.mozGetUserMedia ||
-                   navigator.msGetUserMedia); 
-      navigator.mediaDevices.getUserMedia({ 
-        audio: true,
-        video: true
-
-
-      }).then(function(stream) {
-      window.localStream = stream;
-      resolve(stream)
-    }).catch(function(err) {
-    /* handle the error */
-    if (err.name=="NotFoundError" || err.name == "DevicesNotFoundError" ){
-        reject(`We didn't find both a mic and a camera. You need both a camera and a mic to for castly to work.`)
-    } else if (err.name=="NotReadableError" || err.name == "TrackStartError" ){
-          reject(`webcam or mic are already in use. Please close them in other tabs or browsers, and reload this page.`)
-    } else if (err.name=="OverconstrainedError" || err.name == "ConstraintNotSatisfiedError" ){
-        console.log('constraints can not be satisfied by avb. devices')
-        reject(`${err}`)
-    } else if (err.name=="NotAllowedError" || err.name == "PermissionDeniedError" ){
-        reject(`Camera and microphone denied access. Please allow access. Reload page if needed.`)
-    } else if (err.name=="TypeError" || err.name == "TypeError" ){
-        console.log('empty constraints')
-        reject(`${err}`)
-    } else {
-         console.log('other errors')
-         reject(`${err}`)
     }
-    })
-   })
-}
 
-const createCorner =() =>{
-    return new Promise((resolve, reject) => {
-      const corner = new Image()
-      corner.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAACiSURBVDiN5dQxCsMwDIXhpNcSOkfIZHLi4CwxOYVHTf47mzppLTIU8sYH+kAgNAIMN+Z1J/Z/YEppCCHUJc4cx4Gqsq5r1bvAM8wFXmHdYAsrpfjAFhZjZJqmfrCFbduGiLDvex/Yg30Fe7FL0IOdgl6sCf6KlVLIOZNzrk5n8GAAZoaIICKYWRtcloUYYzU4zzMppY/VzAxVRVUrcISnPdg3D5nIVm+mB9cAAAAASUVORK5CYII=';
-      corner.addEventListener('load', function(){
-        resolve(corner)
-      })
-    }).catch(e => reject(e))
-  }
+      const injectNewAudio = (video, stream) => {
+        return new Promise((resolve, reject) => {
+      //    const options = { audioBitsPerSecond : 128000, videoBitsPerSecond : 2500000, mimeType : 'video/mp4', video: video }
+            if(audioCtx){
+              const sourceNode = audioCtx.createMediaStreamSource(stream);
+              const destination = audioCtx.createMediaStreamDestination();
+              sourceNode.connect(destination);
+              resolve(destination.stream); // Goes to dataStream in state
+            } else {
+              reject({});
+            }
+          })
+      }
+
+    const createVideo = (stream) => {
+
+      return new Promise((resolve,reject)=>{    
+         //  const video = window.document.createElement('video'); // Removed during optimization
+        const video = document.getElementById('userVideoElement')
+        try {
+          video.srcObject = stream;
+        } catch (error) {
+          console.log(error)
+          video.src = URL.createObjectURL(stream);
+        }
+          video.muted = true; 
+          resolve(video)
+        })
+    }
+
+    const getUserStream = () => {
+      return new Promise((resolve, reject) => {
+
+        navigator.getUserMedia = ( 
+          navigator.getUserMedia ||
+          navigator.webkitGetUserMedia ||
+          navigator.mozGetUserMedia ||
+          navigator.msGetUserMedia); 
+        
+        navigator.mediaDevices.getUserMedia({ 
+          audio: true,
+          video: true
+        }).then(function(stream) {
+          window.localStream = stream;
+          resolve(stream)
+        }).catch(function(err) {
+
+          if (err.name=="NotFoundError" || err.name == "DevicesNotFoundError" ){
+              reject(`We didn't find both a mic and a camera. You need both a camera and a mic to for castly to work.`)
+          } else if (err.name=="NotReadableError" || err.name == "TrackStartError" ){
+                reject(`webcam or mic are already in use. Please close them in other tabs or browsers, and reload this page.`)
+          } else if (err.name=="OverconstrainedError" || err.name == "ConstraintNotSatisfiedError" ){
+              console.log('constraints can not be satisfied by avb. devices')
+              reject(`${err}`)
+          } else if (err.name=="NotAllowedError" || err.name == "PermissionDeniedError" ){
+              reject(`Camera and microphone denied access. Please allow access. Reload page if needed.`)
+          } else if (err.name=="TypeError" || err.name == "TypeError" ){
+              console.log('empty constraints')
+              reject(`${err}`)
+          } else {
+               console.log('other errors')
+               reject(`${err}`)
+          }
+        })
+     })
+    }
+
+    const createCorner =() =>{
+        return new Promise((resolve, reject) => {
+          const corner = new Image()
+          corner.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAACiSURBVDiN5dQxCsMwDIXhpNcSOkfIZHLi4CwxOYVHTf47mzppLTIU8sYH+kAgNAIMN+Z1J/Z/YEppCCHUJc4cx4Gqsq5r1bvAM8wFXmHdYAsrpfjAFhZjZJqmfrCFbduGiLDvex/Yg30Fe7FL0IOdgl6sCf6KlVLIOZNzrk5n8GAAZoaIICKYWRtcloUYYzU4zzMppY/VzAxVRVUrcISnPdg3D5nIVm+mB9cAAAAASUVORK5CYII=';
+          corner.addEventListener('load', function(){
+            resolve(corner)
+          })
+        }).catch(e => reject(e))
+    }
 
 
 
@@ -239,8 +244,9 @@ const createCorner =() =>{
 }
 
 export const startRecordingStream =(audioStream) => {
+
   return (dispatch) => {
-    const canvas = window.document.getElementById('canvas');
+    const canvas = document.getElementById('canvas')
     let recordStream;
     if ('captureStream' in canvas) {
         recordStream = canvas.captureStream(25);
@@ -276,11 +282,6 @@ export const startRecordingStream =(audioStream) => {
           type: "STOP_RECORDING",
           payload: event
         });
-      // setTimeout(()=>{
-      // audioStream = null;
-      // recordStream = null;
-      // recorder = null;
-      // }, 3000)
     }
       dispatch({
             type: "START_RECORDING",

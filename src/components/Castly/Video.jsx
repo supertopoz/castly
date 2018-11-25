@@ -123,6 +123,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     startRecordingStream:(stream) => { dispatch(canvasRecordingActions.startRecordingStream(stream))},
+    stopRecordStream:(event) => { dispatch(canvasRecordingActions.stopRecordStream(event))},
     exportVideo:(event) => { dispatch(canvasRecordingActions.exportVideo(event))},
     changeRecordButton:(clickedButton) => { dispatch(canvasRecordingActions.changeRecordButton(clickedButton))},
     displayCanvas:(display) => { dispatch(pageAnimations.displayCanvas(display))},
